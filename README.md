@@ -14,8 +14,7 @@
 
 ### 教室
 
-演習室（工学部Ⅰ号館4階），多目的ホール（総合教育研究棟）
-
+文教スカイホール
 
 [2022psp2@LACS]: https://lacs.nagasaki-u.ac.jp/webapps/blackboard/execute/modulepage/view?course_id=_89355 <-2021psp2
 
