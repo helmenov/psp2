@@ -1,23 +1,5 @@
 # day01: 開発環境
 
-## 目次
-<!-- TOC -->
-
-- [day01: 開発環境](#day01-%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83)
-    - [目次](#%E7%9B%AE%E6%AC%A1)
-    - [Python](#python)
-        - [pythonコマンドの種類](#python%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%AE%E7%A8%AE%E9%A1%9E)
-        - [pythonコマンドのインストール](#python%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
-    - [vscode](#vscode)
-        - [vscodeの使い方](#vscode%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9)
-    - [poetry](#poetry)
-        - [poetry の使い方](#poetry-%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9)
-    - [早速やってみよう](#%E6%97%A9%E9%80%9F%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86)
-    - [それでは今日の課題をやっていきましょう．](#%E3%81%9D%E3%82%8C%E3%81%A7%E3%81%AF%E4%BB%8A%E6%97%A5%E3%81%AE%E8%AA%B2%E9%A1%8C%E3%82%92%E3%82%84%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8D%E3%81%BE%E3%81%97%E3%82%87%E3%81%86%EF%BC%8E)
-    - [便利なvscode用コメントアウト　「# %%」](#%E4%BE%BF%E5%88%A9%E3%81%AAvscode%E7%94%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%82%A2%E3%82%A6%E3%83%88%E3%80%80-%25%25)
-
-<!-- /TOC -->
-
 プログラミングの一番の基盤は，IDE（開発環境）．IDEとは
 
 1. Code Editor
@@ -145,6 +127,14 @@ vscodeでは，ファイルを一つ一つ開くのではなく，この「プ�
 
 フォルダを開いたあと，そのフォルダルート（根っこ）を起点として，その下にあるソースコードを編集したり，ファイルを加えたり削除したりの整理をしたりします．
 
+### 2.2. vscodeの拡張機能
+
+以下の拡張機能をインストールしてください．
+
+[日本語パック拡張機能](https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-ja)
+
+[Python用拡張機能](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+
 ## 3. poetry
 
 演習ⅠやWeb上のいろんなサイトで，numpyその他のパッケージをインストールする際に`pip`や`conda`を使っているかもしれませんが，この演習Ⅱでは`poetry`を使います．
@@ -162,9 +152,11 @@ PATHについて「新規」で上記の「〜」の部分を追加してくだ�
 
 poetryは単なるパッケージインストーラではなく，むしろ「プロジェクト」フォルダのマネージャです．
 
-何はともあれ，最初に次のようにしてください．
+何はともあれ，最初に次のようにしてください．どのフォルダでもいいです．
 
-`poetry config virtualenvs.in-project true`
+```{.sh}
+> poetry config virtualenvs.in-project true
+```
 
 **プロジェクトを始めるときには，**
 
@@ -229,8 +221,8 @@ python, vscode, poetryのインストールが終わったら, 「プログラ�
 > poetry init
 ```
 
-いろいろ聞かれます．よく読んで答えましょう．基本的にはすべて提示されたままでいいですが，Authorについては，`Kotaro Sonoda <aa83988848@ms.nagasaki-u.ac.jp>`などと，「自分の名前 スペース 三角カッコ
- メールアドレス 三角カッコ閉じ」にしましょう．
+いろいろ聞かれます．よく読んで答えましょう．基本的にはすべて提示されたままでいいですが，Authorについては，`Kotaro Sonoda <aa83988848@ms.nagasaki-u.ac.jp>`などと，「`自分の名前 スペース 三角カッコ
+ メールアドレス 三角カッコ閉じ`」にしましょう．
 
 続けて，vscodeでのプログラミングを便利にするために，`ipykernel`というpythonモデュールをインストールします．
 
