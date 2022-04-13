@@ -46,13 +46,13 @@ windowsで，`python`　とコマンドラインで打ったときに呼び出�
 
 > **0. MS Pyton（ダミー）**
 > - exeファイルの場所は
-> > %LOCALAPPDATA%\Microsoft\WindowsApp\python.exe
+> > %LOCALAPPDATA%\Microsoft\WindowsApps\python.exe
 > - これはアプリケーション本体ではありません．ただのショートカットです．この`python`を呼ぶと，Microsoft StoreのPythonのページが立ち上がります．「入手」を押すと，1のMS Pythonを入手することになります．
 > - 1のMS Pythonをインストールしたあとは，このショートカットの先は「Microsoft StoreのPythonページ」から「1のMS Python」に変わります．
 
 > **1. MS Python本体**
 > - exeファイルの場所は 
-> > %LOCALAPPDATA%\Microsoft\WindowsApp\PythonSoftwareFoundation.Python(Version)***\python.exe
+> > %LOCALAPPDATA%\Microsoft\WindowsApps\PythonSoftwareFoundation.Python(Version)***\python.exe
 > - MicosoftStore版python （↓のCの不完全版）
 > - 端末で何の気なしに `python` と打つと連れていかれるMicrosoftStoreのPython売り場で手に入れるPython本体
 
