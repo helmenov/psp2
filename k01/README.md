@@ -148,6 +148,10 @@ macやlinuxの人は，`python -m pip install poetry`
 インストールの最後に，「PATHに〜を追加せよ」と表示されるので，「虫眼鏡」アイコンから「環境変数」を検索し，「環境変数を編集」から
 PATHについて「新規」で上記の「〜」の部分を追加してください．
 
+```
+C:\Users\kotaro\AppData\Local\Programs\Python\Python310\Scripts\
+```
+
 ### 3.1. poetry の使い方
 
 poetryは単なるパッケージインストーラではなく，むしろ「プロジェクト」フォルダのマネージャです．
