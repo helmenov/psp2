@@ -46,13 +46,13 @@ windowsで，`python`　とコマンドラインで打ったときに呼び出�
 
 > **0. MS Pyton（ダミー）**
 > - exeファイルの場所は
-> > %LOCALAPPDATA%\Microsoft\WindowsApp\python.exe
+> > %LOCALAPPDATA%\Microsoft\WindowsApps\python.exe
 > - これはアプリケーション本体ではありません．ただのショートカットです．この`python`を呼ぶと，Microsoft StoreのPythonのページが立ち上がります．「入手」を押すと，1のMS Pythonを入手することになります．
 > - 1のMS Pythonをインストールしたあとは，このショートカットの先は「Microsoft StoreのPythonページ」から「1のMS Python」に変わります．
 
 > **1. MS Python本体**
 > - exeファイルの場所は 
-> > %LOCALAPPDATA%\Microsoft\WindowsApp\PythonSoftwareFoundation.Python(Version)***\python.exe
+> > %LOCALAPPDATA%\Microsoft\WindowsApps\PythonSoftwareFoundation.Python(Version)***\python.exe
 > - MicosoftStore版python （↓のCの不完全版）
 > - 端末で何の気なしに `python` と打つと連れていかれるMicrosoftStoreのPython売り場で手に入れるPython本体
 
@@ -148,6 +148,10 @@ macやlinuxの人は，`python -m pip install poetry`
 インストールの最後に，「PATHに〜を追加せよ」と表示されるので，「虫眼鏡」アイコンから「環境変数」を検索し，「環境変数を編集」から
 PATHについて「新規」で上記の「〜」の部分を追加してください．
 
+```
+C:\Users\kotaro\AppData\Local\Programs\Python\Python310\Scripts\
+```
+
 ### 3.1. poetry の使い方
 
 poetryは単なるパッケージインストーラではなく，むしろ「プロジェクト」フォルダのマネージャです．
@@ -211,7 +215,7 @@ python, vscode, poetryのインストールが終わったら, 「プログラ�
 2. その`psp2`というフォルダの下に移動します．
 
 ```{.sh}
-> cd ~/psp2
+> cd c:\Users\kotaro\Documents\psp2
 ```
 
 3. そこで，pythonプログラミングの準備をします．
@@ -356,7 +360,7 @@ turtle.exitonclick()
 vscodeとは別に，コマンドプロンプトを立ち上げて，
 
 ```{.sh}
-> cd ~/psp2
+> cd c:\Users\kotaro\Documents\psp2
 ```
 
 で`psp2`フォルダに移動し，
@@ -389,8 +393,8 @@ vscodeとは別に，コマンドプロンプトを立ち上げて，
 課題は，
 
 - LACSの課題から，ソースコードと正六角形が描画されたウィンドウのスクリーンショットを提出してください．
-- 初めての提出作業は4月20日正午までに必ず行ってください．**この期限以降は再提出以外は受け付けません．** 課題提出があると，TAや私がそれを採点し，改善点があればコメントを残します．
-- コメントを踏まえて再度提出し，10点満点を目指し何度でも提出を受付ます．課題k00の最終期限は4月27日正午までとします．**この期限以降は再提出はできません．**
+- 初めての提出作業は4月27日正午までに必ず行ってください．**この期限以降は再提出以外は受け付けません．** 課題提出があると，TAや私がそれを採点し，改善点があればコメントを残します．
+- コメントを踏まえて再度提出し，10点満点を目指し何度でも提出を受付ます．課題k00の最終期限は5月11日正午までとします．**この期限以降は再提出はできません．**
 - 今後の課題も，基本的には，初めての提出の期限を1週間後，最終期限を2週間後とします．
 
 ## 6. 便利なvscode用コメントアウト　「`# %%`」
