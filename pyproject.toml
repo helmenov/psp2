@@ -6,6 +6,7 @@ authors = ["Kotaro Sonoda <kotaro1976@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+ipykernel = "^6.13.0"
 
 [tool.poetry.dev-dependencies]
 

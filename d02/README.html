@@ -1,0 +1,303 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css">
+<link rel="stylesheet" href="file:////Users/kotaro/.vscode/extensions/goessner.mdmath-2.7.4/themes/default/style.css">
+
+</head>
+<body class="markdown-body">
+<h1 dir="auto" id="day02-vscode%E3%81%A7%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0">day02: vscodeでプログラミング</h1>
+<h2 dir="auto" id="1-%E6%97%A9%E9%80%9F%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">1. 早速やってみよう</h2>
+<p dir="auto">python, vscode, poetryのインストールが終わったら, 「プログラミング演習Ⅱ」用の準備をします．</p>
+<ol dir="auto">
+<li dir="auto">「ドキュメント」の下に，<code>psp2</code>というフォルダを作ります．今後は，このフォルダの下にいろいろ課題に対するソースコードやいろいろを置いていきます．</li>
+<li dir="auto">その<code>psp2</code>というフォルダの下に移動します．</li>
+</ol>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>&gt; cd c:\Users\kotaro\Documents\psp2
+</div></code></code></pre>
+<ol start="3" dir="auto">
+<li dir="auto">そこで，pythonプログラミングの準備をします．</li>
+</ol>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>&gt; poetry config virtualenvs.in-project true
+&gt; poetry init
+</div></code></code></pre>
+<p dir="auto">いろいろ聞かれます．よく読んで答えましょう．基本的にはすべて提示されたままでいいですが，Authorについては，<code>Kotaro Sonoda &lt;aa83988848@ms.nagasaki-u.ac.jp&gt;</code>などと，「<code>自分の名前 スペース 三角カッコ  メールアドレス 三角カッコ閉じ</code>」にしましょう．</p>
+<p dir="auto">続けて，vscodeでのプログラミングを便利にするために，<code>ipykernel</code>というpythonモデュールをインストールします．</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>&gt; poetry add ipykernel
+</div></code></code></pre>
+<p dir="auto">続けて，</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>&gt; poetry shell
+</div></code></code></pre>
+<p dir="auto">と打つと，「仮想環境」という独立した環境が構成されます．<code>&gt;</code>という「プロンプト」が<code>(.venv)&gt;</code>に変わります．とりあえず今は仮想環境から脱出しておきます．</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>(.venv)&gt; exit
+</div></code></code></pre>
+<h2 dir="auto" id="2-%E3%81%9D%E3%82%8C%E3%81%A7%E3%81%AF%E4%BB%8A%E6%97%A5%E3%81%AE%E8%AA%B2%E9%A1%8C%E3%82%92%E3%82%84%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8D%E3%81%BE%E3%81%97%E3%82%87%E3%81%86">2. それでは今日の課題をやっていきましょう．</h2>
+<p dir="auto">vscodeを起動します．</p>
+<p dir="auto"><img src="vscode01.png" alt="起動直後" class="loading" id="image-hash--797107825" data-src="vscode01.png"></p>
+<p dir="auto">左端にあるアイコンは，メニューです．一番下にある帯には，現在開いているファイルに関する「状態」が表示されています．</p>
+<p dir="auto">ウィンドウのほとんどの部分は，エディタです．「ファイル名　x」という感じで，最近のウェブブラウザのように「タブ」が並びます．</p>
+<p dir="auto">初期起動時には，「Get Started」というタブが立ち上がっています．使わないので「x」を押して消してください．</p>
+<p dir="auto">一番上にあるアイコンを押してください．これは「エクスプローラ」と呼ばれています．</p>
+<p dir="auto"><img src="vscode02.png" alt="エクスプローラ" class="loading" id="image-hash--796184304" data-src="vscode02.png"></p>
+<p dir="auto"><code>OPEN EDITORS</code>には，現在開いているエディタで編集しているファイル名が並びます．先ほどタブを閉じたので何もありません．</p>
+<p dir="auto">その下には<code>NO FOLDER OPENED</code>と表示され，何やら青いボタンが並んでいます．</p>
+<p dir="auto">説明したように，「ファイルを開く」のではなく，「フォルダを開く」というボタンです．ちなみに下のボタン「Clone Repository」は「レポジトリ」と呼ばれる特殊なフォルダを開くボタンです．</p>
+<p dir="auto">さきほど作った<code>psp2</code>フォルダを開きます．</p>
+<p dir="auto"><img src="vscode03.png" alt="psp2フォルダを開いた" class="loading" id="image-hash--795260783" data-src="vscode03.png"></p>
+<p dir="auto">「<code>NO FOLDER OPENED</code>」の表示が「<code>psp2</code>」に変わり，</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>v PSP2
+  &gt; .venv
+  pyproject.toml
+</div></code></code></pre>
+<p dir="auto">と表示されていると思います．</p>
+<p dir="auto">「<code>PSP2</code>」のあたりにマウスを移動させると，その帯の右側に4つのアイコンが並びます．それぞれのアイコンにマウスを移動させると説明が表示されますが，左から，「ファイルを追加」「フォルダを追加」「更新」「表示を縮める」です．</p>
+<p dir="auto">なにかプログラミングしてみましょう．</p>
+<p dir="auto">「ファイル追加」アイコンを押して，「<code>k00.py</code>」という名前のファイルを新しく作ってみます．</p>
+<p dir="auto"><img src="vscode04.png" alt="ファイル追加" class="loading" id="image-hash--794337262" data-src="vscode04.png"></p>
+<p dir="auto">「OPENED EDITORS」に<code>k00.py</code>が列挙され，<code>k00.py</code>というタブが開きます．</p>
+<p dir="auto">そこに以下のようなコードを書きましょう．</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div># coding:utf-8
+
+# %%
+# 使うモジュールの指定
+# turtleというモジュールを使う
+import turtle
+
+# %%
+turtle.setup(width=300, height=300)
+
+# %%
+# kame1, kame2は，turtleモジュールに定義されているTurtle型
+# kame1の形は矢印，kame2の形はカメ
+kame1 = turtle.Turtle(shape='arrow')
+kame2 = turtle.Turtle(shape='turtle')
+
+# %%
+kame1.pencolor('red')
+kame2.pencolor('blue')
+
+# %%
+kame1.penup()
+kame1.goto(50,50)
+
+kame2.penup()
+kame2.goto(-50,50)
+
+kame1.pendown()
+kame2.pendown()
+
+# %%
+kame1.left(60)
+kame2.left(120)
+
+# %%
+kame1.forward(100)
+kame2.backward(200)
+
+# %%
+turtle.exitonclick()
+
+# %%
+</div></code></code></pre>
+<ul dir="auto">
+<li dir="auto">「<code>#</code>」記号のある行はいわゆるコメントアウトで，pythonの実行コードから無視されます．</li>
+<li dir="auto">コメントアウト，文字列，など色分けされていますね．</li>
+<li dir="auto">最初の行のコメントアウト「<code># coding:utf-8</code>」は，このソースコードの日本語が文字コード「<code>utf-8</code>」で書かれていることをIDEに教えています．Windowsの場合は文字コードが「<code>shift-jis</code>」かもしれません．</li>
+</ul>
+<p dir="auto">また，このソースコードをvscodeで書くと，
+「<code># %%</code>」と書かれた部分の上に，</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>「Run Cell | Run Below | Debug Cell」
+------------------------------------------
+# %%
+</div></code></code></pre>
+<p dir="auto">という表示が見えます．この部分は実際のソースコードを勝手にいじったわけではありません．vscodeがただ見せているだけです．
+これについては，あとで説明します．</p>
+<p dir="auto">では，この<code>k00.py</code>を実行しましょう．</p>
+<p dir="auto">vscodeとは別に，コマンドプロンプトを立ち上げて，</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>&gt; cd c:\Users\kotaro\Documents\psp2
+</div></code></code></pre>
+<p dir="auto">で<code>psp2</code>フォルダに移動し，</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>&gt; python k00.py
+</div></code></code></pre>
+<p dir="auto">とすればプログラムが動きます．</p>
+<p dir="auto">これでもいいのですが，vscodeはウィンドウの中でコマンドプロンプトを起動できます．上部メニューに「ターミナル」があり，そこに「新しいターミナルを開く」というのがあります．</p>
+<p dir="auto"><img src="vscode05.png" alt="ターミナル" class="loading" id="image-hash--793413741" data-src="vscode05.png"></p>
+<p dir="auto">「(.venv)」プロンプトのコマンドプロンプトがエディタの下の領域に立ち上がります．フォルダも現在作業中の場所に移動しています．ここで</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>(.venv) &gt; python k00.py
+</div></code></code></pre>
+<p dir="auto">でよいでしょう．</p>
+<p dir="auto"><strong>で，このソースコードは，どんなプログラムでしょうか？</strong></p>
+<p dir="auto">ざっくり言うと，新しくウインドウが立ち上がって，矢印とカメがそれぞれ線を描きながら動いて停止します．ちなみに，ウインドウが立ち上がったままですが，ウインドウ内のどこかでクリックすると，ウインドウが閉じます．</p>
+<p dir="auto">というわけで，今日の課題</p>
+<blockquote dir="auto">
+<p dir="auto">(1)<code>k00.py</code>のそれぞれの行で行われていることを調べて，ソースコードにそれぞれの行で行われていることをコメントアウトに追記せよ．</p>
+</blockquote>
+<blockquote dir="auto">
+<p dir="auto">(2)正六角形を描画するソースコード<code>k00_hexagon.py</code>を作成せよ．ただし，左半分は矢印で赤，右半分はカメで青で描くこと．for文もしくはwhile文などの繰り返し処理を用いること．自分で編集したソースコードのそれぞれの行で行われていることをコメントアウトに追加せよ．</p>
+</blockquote>
+<blockquote dir="auto">
+<p dir="auto">(3)<code>k00_pentagon.py</code>に正N角形を描画する関数<code>NsidePolygon(n)</code>を作成し，<code>NsidePolygon</code>関数を利用して正五角形を描け．ただし，関数<code>NsidePolygon(n)</code>は<code>n</code>匹のカメを発生させ，それぞれのカメが一つの辺のみを描画することとする．繰り返し処理を利用してできるだけ行数を短くせよ．</p>
+</blockquote>
+<blockquote dir="auto">
+<p dir="auto">(4)<code>k00_pentagon.py</code>を<code>k00_invalid.py</code>にコピーし，正三角形未満，nが2以下のときでもワーニングやエラーでプログラムが半端に止まらないよう例外処理を加えよ．</p>
+</blockquote>
+<blockquote dir="auto">
+<p dir="auto">(5) フォルダ<code>k00funcs</code>を作り，その下に<code>k00_func.py</code>を作成せよ．(4)の関数<code>NsidePolygon</code>関数を<code>k00_func.py</code>に書き，<code>k00_octagon.py</code>で<code>from k00funcs import k00_func</code>として読み込んだ上で，<code>NsidePolygon</code>関数を利用して，正八角形を描け．</p>
+</blockquote>
+<p dir="auto">課題は，</p>
+<ul dir="auto">
+<li dir="auto">LACSの課題から，ソースコードと正六角形が描画されたウィンドウのスクリーンショットを提出してください．</li>
+<li dir="auto">初めての提出作業は4月27日正午までに必ず行ってください．<strong>この期限以降は再提出以外は受け付けません．</strong> 課題提出があると，TAや私がそれを採点し，改善点があればコメントを残します．</li>
+<li dir="auto">コメントを踏まえて再度提出し，10点満点を目指し何度でも提出を受付ます．課題k00の最終期限は5月11日正午までとします．<strong>この期限以降は再提出はできません．</strong></li>
+<li dir="auto">今後の課題も，基本的には，初めての提出の期限を1週間後，最終期限を2週間後とします．</li>
+</ul>
+<h2 dir="auto" id="3-%E4%BE%BF%E5%88%A9%E3%81%AAvscode%E7%94%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%82%A2%E3%82%A6%E3%83%88">3. 便利なvscode用コメントアウト　「<code># %%</code>」</h2>
+<p dir="auto">ソースコードは基本的には，<code>python k00.py</code>だと最初の行から最後の行まですべての工程を行います．</p>
+<p dir="auto">コードのそれぞれの行で何を行っているか調べるなら，もしくは新しく文を書いて，その動きを確かめたいのなら，pythonだとIPythonが有名です．IPythonは，JupyterやGoogle Colabを動かしているプログラムです．</p>
+<p dir="auto">ターミナルやコマンドプロンプトで，<code>ipython</code>と打つと，</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>(.venv) kotaro@calvados psp2 % ARM❯ ipython                                [04/12 21:31]
+Python 3.10.0 (default, Jan 13 2022, 14:22:16) [Clang 13.0.0 (clang-1300.0.29.30)]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.2.0 -- An enhanced Interactive Python. Type '?' for help.
+Unable to automatically import mitosheet
+
+In [1]: 
+</div></code></code></pre>
+<p dir="auto">のように，インタラクティブモードが立ち上がります．</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>In [1]: x = 10
+
+In [2]: print(x)
+10
+</div></code></code></pre>
+<p dir="auto">のように，JupyterやGoogle Colabと何ら変わりません．</p>
+<p dir="auto">ただ，問題なのは，このインタラクティブモードで書いたソースコードは保存されないということ．JupyterやGoogle Colabで書いたものも，基本的には「jupyter notebook」（拡張子は <code>.ipynb</code>）であり，pythonのソースコード(<code>.py</code>)ではないということです．</p>
+<p dir="auto">JupyterやGoogle Colabではメニューから，JupyterNotebook(<code>.ipynb</code>)からpythonソースコード(<code>.py</code>)に変換することは可能ですが，</p>
+<p dir="auto">僕らが今欲しいのは，書いているpythonソースコードをブロック毎に動きを確かめたい．そこで，vscodeの「<code># %%</code>」です．</p>
+<p dir="auto">実は，</p>
+<pre><code class="code-line language-{.sh}" dir="auto"><code><div>「Run Cell | Run Below | Debug Cell」
+------------------------------------------
+# %%
+</div></code></code></pre>
+<p dir="auto">は，vscode上で，pythonソースコードを簡単にインタラクティブモードで動かすコメントアウトになっているのです．凄い便利！！</p>
+<p dir="auto">「<code># %%</code>」から次の「<code># %%</code>」までが，IPythonの「セル」です．</p>
+<ul dir="auto">
+<li dir="auto">「Run Cell」は，セルを実行する</li>
+<li dir="auto">「Run Below」は，以下のすべてのセルを実行する</li>
+<li dir="auto">「Debug Cell」は，セルをデバグする．（デバグについては後日）</li>
+</ul>
+<p dir="auto">また，このように書かれたpythonソースコード<code>.py</code>は，<code>Run Cell</code>や<code>Run Below</code>で隣に立ち上がったJupyterみたいなタブで<code>save</code>をすることでJupyter Notebook <code>.ipynb</code>に保存できます．ターミナルで<code>jupyter notebook</code>と打つとウェブブラウザが立ち上がり，</p>
+<p dir="auto"><img src="jupyternotebook00.png" alt="Jupyter Notebook" class="loading" id="image-hash--579979494" data-src="jupyternotebook00.png"></p>
+<p dir="auto">ここで，<code>.ipynb</code>を選択すると，jupyter Notebookを実行できます．</p>
+<p dir="auto"><img src="jupyternotebook01.png" alt="Jupter Notebookで開く" class="loading" id="image-hash--579055973" data-src="jupyternotebook01.png"></p>
+<p dir="auto">ちなみに，Jupyter notebookでの編集は，<code>.ipynb</code>には反映されますが，元の<code>.py</code>には反映されないので注意．</p>
+<h2 dir="auto" id="4-%E7%B9%B0%E3%82%8A%E8%BF%94%E3%81%97%E5%87%A6%E7%90%86">4.　繰り返し処理</h2>
+<p dir="auto">python言語の繰り返し処理は，</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>処理文A
+for 仮変数X in コンテナP:
+    仮変数Xを利用できる処理文B
+    仮変数Xを利用できる処理文C
+処理文D
+</div></code></code></pre>
+<p dir="auto">の形で処理文Bと処理文Cの繰り返しを実現します．</p>
+<p dir="auto">仮変数Xは繰り返しのたびに，コンテナPの先頭から1つだけ要素が代入されます．コンテナPの最後の要素が代入されたら最後の繰り返しとなり，繰り返しブロックを抜けます．</p>
+<p dir="auto">コンテナPがリストの場合，</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>L = [1, 10, 'blue', 3.14]
+for i in L:
+    print(i)
+for j in L:
+    print('i')
+</div></code></code></pre>
+<p dir="auto">は，どのように出力されるでしょうか？やってみましょう．</p>
+<p dir="auto">コンテナPが文字列の場合は，どうなるでしょう？</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>S = 'Programing'
+for i in S:
+    print(i)
+</div></code></code></pre>
+<p dir="auto">コンテナPが辞書の場合は，どうなるでしょう？</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>D = {'a':1, 'b':10, 'c':'blue', 'd':3.14}
+for i in D:
+    print(i)
+for j in D:
+    print(D[j])
+</div></code></code></pre>
+<p dir="auto">コンテナPは，スライスでも構いません．</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>S = 'Programing'
+for i in S[1:]:
+    print(i)
+</div></code></code></pre>
+<p dir="auto">コンテナPは，その場で<code>range</code>を利用することもできます．</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>for i in range(5):
+    print(i)
+</div></code></code></pre>
+<p dir="auto"><code>enumerate</code>も覚えておくとよいでしょう．何が行われるか試してみてください．</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>S = 'Programing'
+for i,j in enumerate(S):
+    print(f'{i}:{j}')
+</div></code></code></pre>
+<h2 dir="auto" id="5-%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%8A%E3%82%88%E3%81%B3%E9%96%A2%E6%95%B0">5.　モジュールおよび関数</h2>
+<p dir="auto">関数は，次のような書き方で宣言でき，同一のファイル内であれば，宣言したあとに呼び出せます．</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>def 関数名(仮引数...):
+    仮引数を利用できる処理文
+    return 出力変数
+
+y = 関数名(x)
+</div></code></code></pre>
+<p dir="auto">別のファイルに関数が書かれている場合，呼び出し側のファイルでimportします．関数が書かれた<code>.py</code>ファイル，またはそのファイル名の<code>.py</code>を除いた文字列をモジュールと呼びます．</p>
+<p dir="auto">importの基本形は，以下の形式です．</p>
+<pre><code dir="auto"><code><div>from フォルダA.フォルダB import モジュールC as モジュールCの別名
+</div></code></code></pre>
+<p dir="auto">や</p>
+<pre><code dir="auto"><code><div>from フォルダA.フォルダB import モジュールC, モジュールD
+</div></code></code></pre>
+<p dir="auto">これは，下の木構造のように，呼び出し側のソースコードから見て，同じフォルダにあるフォルダAの下のフォルダBの下にあるモジュール.pyを import することを表します．</p>
+<pre><code dir="auto"><code><div>フォルダＸ ━┳━ 呼び出し側のソースコード.py
+　　　　　  ┗━ フォルダＡ ━━━ フォルダＢ ━┳━ モジュールC.py
+　　　　　 　　 　　　　　 　　 　　　　   ┗━ モジュールD.py
+</div></code></code></pre>
+<p dir="auto">注意は，</p>
+<ul dir="auto">
+<li dir="auto">「フォルダA/フォルダB」ではなく，「フォルダA.フォルダB」であること．</li>
+<li dir="auto">importにフォルダの切れ目の「.」は使えない</li>
+</ul>
+<p dir="auto">呼び出し側で，関数を呼び出すときは，以下のようにします．</p>
+<pre><code class="code-line language-{.py}" dir="auto"><code><div>from forder1.forder2 import module
+y = module.func(x)
+</div></code></code></pre>
+<p dir="auto">のように呼び出し側のファイルでは，単に<code>関数名</code>ではなく，<code>モジュール.関数名</code>で呼び出します．</p>
+<p dir="auto"><code>import module as mod</code>のように別名を指定すれば，</p>
+<pre><code dir="auto"><code><div>y = mod.func(x)
+</div></code></code></pre>
+<p dir="auto">のように別名を使うこともできます．</p>
+<p dir="auto">また，モジュールがソースコードと同じフォルダにある場合は，
+<code>from </code>を省略できます．</p>
+<p dir="auto">また，ソースコードと同じフォルダの下でなくとも，pipやpoetryやcondaで入れたパッケージやモジュールはimportできます．</p>
+<p dir="auto"><strong>混乱を生むが許されている他のimport方法</strong></p>
+<p dir="auto">実は他のimport方法があります．</p>
+<ol dir="auto">
+<li dir="auto">モジュールをfromにして，関数をimport</li>
+</ol>
+<p dir="auto">呼び出し側のソースコードでも，単に関数名になります．
+関数名が他でも使われている場合に混乱します．</p>
+<pre><code dir="auto"><code><div>from フォルダ.モジュール import func
+
+y = func(x)
+</div></code></code></pre>
+<ol start="2" dir="auto">
+<li dir="auto">1でさらにワイルドカードで関数をimport</li>
+</ol>
+<p dir="auto">importは，「,」で区切って複数のものをimportできますが，
+あるモジュール内に存在するすべての関数をimportする場合，
+以下のように書くことができます．</p>
+<pre><code dir="auto"><code><div>from モジュールA import *
+from モジュールB import *
+
+y = func(x)
+</div></code></code></pre>
+<p dir="auto">しかし，この場合，<code>func</code>という関数が，どちらのモジュールに書かれているものなのか，ソースコードから読み取れません．どちらのモジュールにも<code>func</code>が存在する場合，後ろにあるモジュールBの<code>func</code>が利用され，混乱の元になります．</p>
+
+</body>
+</html>
