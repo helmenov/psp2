@@ -207,6 +207,7 @@ vscodeとは別に，コマンドプロンプトを立ち上げて，
 > (3)`k00_pentagon.py`に正N角形を描画する関数`NsidePolygon(n)`を作成し，`NsidePolygon`関数を利用して正五角形を描け．ただし，関数`NsidePolygon(n)`は`n`匹のカメを発生させ，それぞれのカメが一つの辺のみを描画することとする．繰り返し処理を利用してできるだけ行数を短くせよ．
 
 > ~(4)`k00_pentagon.py`を`k00_invalid.py`にコピーし，正三角形未満，nが2以下のときでもワーニングやエラーでプログラムが半端に止まらないよう例外処理を加えよ．~
+
 > (4改)`k00_pentagon.py`を`k00_invalid.py`にコピーし，描く線の色名を指定して正五角形を描け．`pencolor('yellow')`で黄色に，`pencolor('blue')`で青色の線を指定できる．ただし，適当な文字列を色名とするとエラーが出てプログラムが止まるであろう．適当な色名が指定されたときには`pencolor('black')`で線を黒色に指定しなおすように，例外処理を加えよ．
 
 > (5) フォルダ`k00funcs`を作り，その下に`k00_func.py`を作成せよ．(4)の関数`NsidePolygon`関数を`k00_func.py`に書き，`k00_octagon.py`で`from k00funcs import k00_func`として読み込んだ上で，`NsidePolygon`関数を利用して，正八角形を描け．
