@@ -9,6 +9,9 @@ python = "^3.10"
 ipykernel = "^6.13.0"
 jupyterlab = "^3.3.4"
 mobilechelonian = "^0.5"
+pandas = "^1.4.2"
+matplotlib = "^3.5.2"
+japanize-matplotlib = "^1.1.3"
 
 [tool.poetry.dev-dependencies]
 
