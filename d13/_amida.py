@@ -21,7 +21,9 @@ def genroutes(now,goal):
     ex) now,goal = 1,4 なら
     [[1,2],
      [2,3],
-     [3,4]]
+     [3,4],
+     [2,3],
+     [1,2]]
     というリストを作って返す．
     """
 
@@ -29,10 +31,13 @@ def genroutes(now,goal):
     if now <= goal:
         for i in range(now+1,goal+1):
             lines.append([i-1, i])
+        for i in range(goal-1,now,-1):
+            lines.append([i-1, i])
     else:
         for i in range(now,goal,-1):
             lines.append([i-1,i])
-
+        for i in range(goal+2,now+1):
+            lines.append([i-1,i])
     return lines
 
 def plot(L,kuji):
