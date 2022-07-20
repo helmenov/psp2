@@ -46,7 +46,7 @@ def plot(L,kuji):
 
     for line in L:               # 横棒リストを読みながら，あみだくじの行を描画
         for i in range(1,len(kuji)):
-            if i == line[0]:
+            if i in line and i == min(line):
                 print('|-',end='')
             else:
                 print('| ',end='')
