@@ -1,6 +1,6 @@
 # k05_1.py
 
-import amida
+import nakamichi_amida as amida
 
 kuji = {1:4, 2:3, 3:1, 4:5, 5:2} # {ID:goal}形式のdict
 L = [] # 横棒のリスト
