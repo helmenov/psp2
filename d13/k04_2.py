@@ -1,6 +1,6 @@
-# k05_2.py
+# k04_2.py
 
-import saegusa_amida as amida
+import amida
 
 kuji = {1:4, 2:3, 3:1, 4:5, 5:2} # {ID:goal}形式のdict
 L = [] # 横棒のリスト
@@ -18,5 +18,3 @@ for ID, goal in kuji.items():
 L = amida.reduct(L) # Lの中で連続する同じ横棒を省略する
 
 amida.plot(L,kuji) # あみだくじを描画する
-
-print(L)
