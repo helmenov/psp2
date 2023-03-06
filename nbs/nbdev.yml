@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "psp2"
+  site-url: "https://helmenov.github.io/psp2"
+  description: "Programing Practice 2"
+  repo-branch: main
+  repo-url: "https://github.com/helmenov/psp2"
