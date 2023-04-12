@@ -1,5 +1,5 @@
 # お品書き
-- [はじめに](readme.md)
+- [はじめに](README.md)
 - [1日目](d01) Python開発環境
 - [2日目](d02) Turtle GraphicsによるPython Programingの基礎演習
 - [3日目](d03) 〃（補足）例外処理
