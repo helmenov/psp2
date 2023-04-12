@@ -1,4 +1,4 @@
-# day06: 表計算
+# day05: 表計算
 
 ざっくり「表計算」と言っていますが，段階ごとに表が違いますね．
 
@@ -172,8 +172,7 @@ from pandas.core.computation.api import eval
 
 pandasに，CSVファイルをデータフレームにする `read_csv`という関数があります．これを使います．
 
-`d06_01.py`
-
+[つづきはこちら](../d06)
 
 
 
