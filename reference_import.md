@@ -121,10 +121,8 @@ pythonでは階層を`\`や`/`ではなく，`.`と表現します．
 また，「絶対パス表現」も使えません．したがって，`PATH`部分には，`.`を必要に応じて使った「システムパス」のみでパスを表現します．
 
 pythonのシステムパスの環境変数には，次が定義されている．
-- 「現在地」
+- 「実行場所」
     - `import`が書かれた呼び出し元の.pyファイルの階層
-- 「プロジェクトルート」
-    - `.venv`ディレクトリと同じ階層．`.venv`が無ければ，プロジェクトルートは存在しない．
 - 「サイトパッケージ」
     - `.venv/lib/pythonX.YY/site-packages/`．`.venv`が無ければ，システムのsite-packages
 - 「PYTHONPATH」
@@ -140,6 +138,62 @@ print(sys.path)
 ```
 
 ちなみに，このリストの順にモジュールを探索するため，このリストにあるパスの下に同じ名前のファイルがある場合，先に見つけられたファイルがインポートされる．
+
+たとえば
+```
+.
+├── extention
+│   └── ext1.py
+├── myapp
+│   └── main.py
+```
+という状況で，myapp/main.pyからextention/ext1.pyをインポートしたいとする．
+
+そのためには，main.pyにおいてsys.pathの直下にextention/ext1.pyがなければならない．
+
+> myapp/main.py
+```{python}
+import sys
+print(sys.path)
+```
+
+これを動かしてみよう．
+
+vscodeのコード編集タブの実行ボタンから実行した場合，表示されるパスに`extention`の1つ上までの絶対パスは入っているだろうか？？おそらく入っておらず，`myapp/main.py`からはどうやっても`ext1.py`はインポートできない．
+
+また，仮想環境の外，つまり，vscodeの編集タブの実行ボタンからではなく，コマンドプロンプトで`py myapp/main.py`としてみよう．この場合でも`sys.path`に，今必要なパスは入っていない．
+
+よって「無理」である．どうしても`extention/ext1.py`をインポートしたいなら，`sys.path`で示されたパスの直下に`extention/ext1.py`を置く(つまり`extention`フォルダを移動する)しか方法がない．
+
+## poetryの場合，`sys.path`を少しいじることができる．
+
+```
+psp2
+├── .venv
+├── extention
+│   └── ext1.py
+├── myapp
+│   └── main.py
+├── poetry.lock
+└── pyproject.toml
+```
+という状況のとき，`pyproject.toml`の`tool.poetry`に
+```
+packages = [{include = "extention" }]
+```
+という行を追加し，psp2の直下に`Readme.md`があることを確認してから，`poetry install`してください．
+
+そうすると，vscodeのコード編集タブの実行ボタンから実行した場合（仮想環境の中），表示されるパスに`extention`の1つ上までの絶対パスである`〜\psp2`が追加されていることが確認される．
+
+ちなみに，仮想環境の外では`sys.path`に所望のパスは追加されていない．
+
+
+
+
+
+
+
+
 
 ## importをやめる
 
