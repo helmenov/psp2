@@ -232,7 +232,7 @@ Type 'copyright', 'credits' or 'license' for more information
 IPython 8.2.0 -- An enhanced Interactive Python. Type '?' for help.
 Unable to automatically import mitosheet
 
-In [1]: 
+In [1]:
 ```
 
 のように，インタラクティブモードが立ち上がります．
@@ -361,32 +361,7 @@ y = 関数名(x)
 
 別のファイルに関数が書かれている場合，呼び出し側のファイルでimportします．関数が書かれた`.py`ファイル，またはそのファイル名の`.py`を除いた文字列をモジュールと呼びます．
 
-importの基本形は，以下の形式です．
-
-```
-from フォルダA.フォルダB import モジュールC as モジュールCの別名
-```
-
-や
-
-```
-from フォルダA.フォルダB import モジュールC, モジュールD
-```
-
-これは，下の木構造のように，呼び出し側のソースコードから見て，同じフォルダにあるフォルダAの下のフォルダBの下にあるモジュール.pyを import することを表します．
-
-<pre>
-└── フォルダX
-        ├── フォルダA
-        │     └── フォルダB
-        │             ├── モジュールC.py
-        │             └── モジュールD.py
-        └── 呼び出し側のソースコード.py
-</pre>
-
-注意は，
-- 「フォルダA/フォルダB」ではなく，「フォルダA.フォルダB」であること．
-- importにフォルダの切れ目の「.」は使えない
+importについては，[こちら](https://github.com/helmenov/2023psp2/blob/main/reference_import.md)を参考にしてください．
 
 呼び出し側で，関数を呼び出すときは，以下のようにします．
 
