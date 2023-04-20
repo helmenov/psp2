@@ -179,6 +179,7 @@ vscodeのコード編集タブの実行ボタンから実行した場合，表�
 
 よって「無理」である．どうしても`extention/ext1.py`をインポートしたいなら，`sys.path`で示されたパスの直下に`extention/ext1.py`を置く(つまり`extention`フォルダを移動する)しか方法がない．手っ取り早いのは，
 
+```
 psp2
 ├── Readme.md
 ├── myapp
@@ -187,6 +188,7 @@ psp2
 │       └── ext1.py
 ├── poetry.lock
 └── pyproject.toml
+```
 
 のように`main.py`と同じ階層に`extention`を移動すれば，`from extention import ext1`とできる．
 
@@ -229,14 +231,6 @@ packages = [{include = "extention" }]
 そうすると，vscodeのコード編集タブの実行ボタンから実行した場合（仮想環境の中），表示されるパスに`extention`の1つ上までの絶対パスである`〜\psp2`が追加されていることが確認される．
 
 ちなみに，仮想環境の外では`sys.path`に所望のパスは追加されていない．
-
-
-
-
-
-
-
-
 
 ## importをやめる
 
