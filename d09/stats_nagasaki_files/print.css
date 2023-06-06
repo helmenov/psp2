@@ -1,0 +1,97 @@
+/* 印刷用 */
+h1,h3{
+    font-size:80%;
+    color:black;
+}
+h2{
+    font-size:80%;
+    color:black;
+    border-left:0.3em solid black;
+    border-bottom:0.1em solid black;
+}
+/* 表の罫線と文字を黒にする */
+
+.mtx{
+    font-size:80%
+}
+
+/* 幅の広い地上極値順位値専用 */
+.mtx2{    
+    font-size:88%
+}
+
+.data2_s td{
+    border: 1px solid black;
+    color:black;
+}
+
+.data2_s th{
+    border: 1px solid black;
+    color:black;
+}
+
+.data2_s caption{
+    color:black;
+}
+
+/* リンクの文字を黒にし、下線を消す */
+.a_print a:link{
+    text-decoration:none;
+    color:black
+}
+.a_print a:visited{
+    text-decoration:none;
+    color:black
+}
+.a_print a:hover{
+    text-decoration:none;
+    color:black
+}
+.a_print a:active{
+    text-decoration:none;
+    color:black
+}
+
+/* ロゴなどを消す */
+
+#logo{
+    display:none;
+}
+#header_area{
+    display:none;
+}
+#print{
+    display:none;
+}
+#footer_area{
+    display:none;
+}
+#foot_all{
+    display:none;
+}
+
+.print{
+    display:none;
+}
+p.totop{
+    display:none;
+}
+
+/* メインテーブル */
+/* １枚で完結する場合 */
+#tablefix1{
+    width:auto;
+    margin:0;
+}
+
+/* ２枚以上または表が２枚以上ある場合 */
+#tablefix2{
+    width:auto;
+    margin:0;
+}
+/* 記事用 */
+#kiji{
+    width:60%;
+    margin:0;
+}
+

@@ -1,0 +1,75 @@
+/* セル内の自動改行禁止 */
+th{
+    white-space:nowrap;
+}
+
+/* キャプションの自動改行禁止 */
+caption{
+    white-space:nowrap;
+}
+
+/* 統計切断の表の赤線 */
+td.data_0_0{
+    white-space:nowrap;
+}
+td.data_1t_0{
+    white-space:nowrap;
+    border-top: 3px solid #FF0000;
+}
+td.data_0_1b{
+    white-space:nowrap;
+    border-bottom: 3px solid #FF0000;
+}
+td.data_1t_1b{
+    white-space:nowrap;
+    border-top: 3px solid #FF0000;
+    border-bottom: 3px solid #FF0000;
+}
+
+td.data_0_0_0_0{
+    white-space:nowrap;
+}
+td.data_1t_0_0_0{
+    white-space:nowrap;
+    border-top:3px solid #FF0000;
+}
+td.data_0_0_1b_0{
+    white-space:nowrap;
+    border-bottom:3px solid #FF0000;
+}
+td.data_0_0_0_1l{
+    white-space:nowrap;
+    border-left:3px solid #FF0000;
+}
+td.data_1t_0_1b_0{
+    white-space:nowrap;
+    border-top:3px solid #FF0000;
+    border-bottom:3px solid #FF0000;
+}
+td.data_1t_0_0_1l{
+    white-space:nowrap;
+    border-top:3px solid #FF0000;
+    border-left:3px solid #FF0000;
+}
+td.data_1t_0_1b_1l{
+    white-space:nowrap;
+    border-top:3px solid #FF0000;
+    border-bottom:3px solid #FF0000;
+    border-left:3px solid #FF0000;
+}
+
+/* 選択項目の青背景に白字 */
+span.selected{
+    background-color:blue;
+    color:white;
+}
+
+/* 記事用 */
+#kiji{
+    width:85%;
+}
+
+#kiji img{
+    height: 17px;
+}
+
