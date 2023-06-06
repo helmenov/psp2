@@ -1,0 +1,5 @@
+/* 全ページ共通の枠組み指定 */
+@import "basic_new.css";
+
+/* フォントに関する指定 */
+@import "font_new.css";
