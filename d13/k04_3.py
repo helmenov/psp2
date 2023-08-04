@@ -13,6 +13,7 @@ amida.plot(L,kuji) # 改変されたあみだくじを描画する
 
 after = amida.fix(L, kuji) # Lの後ろに補正を加える．
 
-amida.reduct(after)
+after = amida.reduct(after)
 
 amida.plot(after,kuji) # あみだくじを再描画
+
