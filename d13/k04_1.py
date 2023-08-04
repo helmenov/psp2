@@ -16,4 +16,3 @@ for ID, goal in kuji.items():
     L.extend(lines) # 既存のリストの後ろにlineを加える
 
 amida.plot(L,kuji) # あみだくじを描画する
-
