@@ -413,7 +413,7 @@ Successfully installed poetry-1.8.2
       [sonoda@bes-ex01 k00] $ jupyter kenelspec uninstall k00
       ```
 
-[JupyterHub@演習室]:https://bes-ex〇〇.cis.nagasaki-u.ac.jp:8080
-[Eteks@演習室]:http://bes-master.cis.nagasaki-u.ac.jp/~matsuo/eteks/
+[JupyterHub@演習室]:https://bes-ex{}.cis.nagasaki-u.ac.jp:8080
+[Eteks@演習室]:https://bes-master.cis.nagasaki-u.ac.jp/~matsuo/eteks/
 [poetry]:https://python-poetry.org
 [mise]:https://mise.jdx.dev/
