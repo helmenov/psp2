@@ -99,12 +99,19 @@ windowsで，`python`　とコマンドラインで打ったときに呼び出�
 - `python -m mod` ではなく，`py -m mod`　です．
 - `python -VV`ではなく，`py -VV`です．
 
-(macの人向けのお話）
+#### macの人向けのお話
 
-```{.sh}
-> brew install mise
-> mise use -g python@latest
-```
+macの人は，最初からpythonが入っています．
+
+#### （ここは上級者向け）
+
+- システムPython（管理者権限を持つ人しかインストールやアンインストールをできない）
+- ユーザーPythonをインストールする or システムPythonをユーザーPythonとしても使う
+  - ユーザーPython（ユーザが自由にインストール/アンインストールできる）
+  - いろいろ入れて取り散らかりがちなので，管理ソフトで管理（どのPythonを使うかを設定）すると良い．
+    - [mise][mise]（MEEZ,ミーズ） がおすすめ
+- 新しくモジュールを作るときは，仮想環境Pythonを使う．
+  - 仮想環境Python（ユーザーPythonのsite-packagesを使わない）
 
 ## 2. vscode
 
@@ -162,7 +169,10 @@ poetryは単なるパッケージインストーラではなく，むしろ「�
 
 ```{.sh}
 > poetry config virtualenvs.in-project true
+> poetry config virtualenvs.options.no-pip true
+> poetry config virtualenvs.options.no-setuptools true
 ```
+
 
 （上記は，プロジェクトのライブラリ置き場を，プロジェクト内の `.venv` というフォルダに置く，という設定です．この設定をしない場合は，デフォルトで，ユーザの`Virtualenvs`というフォルダの下にプロジェクトごとのenvが置かれます）
 
@@ -270,6 +280,5 @@ kadai01
 インタプリタを聞かれます．このときには，`./.venv/bin/python.exe`を選ぶようにします．
 （たいていは，自動的にインタプリタが選ばれます）
 
-## URLs
-
 [poetry]:https://python-poetry.org
+[mise]:https://mise.jdx.dev/
