@@ -2,15 +2,16 @@
 
 プログラミングの一番の基盤は，IDE（開発環境）．IDEとは
 
-1. Code Editor
-    - ソースコードを書くソフトウェア
-2. Debugger(Linter, Formatter, Tester)
-    - ソースコードのバグを発見するソフトウェア
-    - Linter(リンター): ソースコードの文法チェック
-    - Formatter(フォーマッター): 文法に沿ったソースコードの整然化
-    - Tester(テスター): プログラムの動きを確認するためのテスト（仮のデータ入力と想定される出力）を走らせるしくみ
-3. Interpreter(Compiler,Builder)
-    - ソースコードを実行するソフトウェア
+    1. Code Editor
+        - ソースコードを書くソフトウェア
+    2. Debugger(Linter, Formatter, Tester)
+        - ソースコードのバグを発見するソフトウェア
+        - Linter(リンター): ソースコードの文法チェック
+        - Formatter(フォーマッター): 文法に沿ったソースコードの整然化
+        - Tester(テスター): プログラムの動きを確認するためのテスト（仮のデータ入力と想定される出力）を走らせるしくみ
+    3. Interpreter(Compiler,Builder)
+        - ソースコードを実行するソフトウェア
+
 の3種のソフトウェアです．
 
 ## 1.Python
@@ -26,7 +27,7 @@ Pythonコマンドもまたアプリケーションで，元はソースコー�
 
 ともあれ，自分のPCにpythonコマンドをインストールしましょう．
 
-...とその前に，プログラミング演習Ⅰで，すでにインストールしていましたね．でも，本当に今もそのままですか？
+...とその前に，すでにインストールしているかも．でも，本当に今もそのままですか？
 
 - あとでanacondaとかインストールしたりしていませんか？
 - 環境変数PATHとかをいじったりしていませんか？
@@ -45,23 +46,33 @@ windowsで，`python`　とコマンドラインで打ったときに呼び出�
 これらは，インストール先をいじっていなければ，デフォルトのインストール先が決まっています．
 
 > **0. MS Pyton（ダミー）**
+>
 > - exeファイルの場所は
+>
 > > %LOCALAPPDATA%\Microsoft\WindowsApps\python.exe
+>
 > - これはアプリケーション本体ではありません．ただのショートカットです．この`python`を呼ぶと，Microsoft StoreのPythonのページが立ち上がります．「入手」を押すと，1のMS Pythonを入手することになります．
 > - 1のMS Pythonをインストールしたあとは，このショートカットの先は「Microsoft StoreのPythonページ」から「1のMS Python」に変わります．
 
 > **1. MS Python本体**
+>
 > - exeファイルの場所は
+>
 > > %LOCALAPPDATA%\Microsoft\WindowsApps\PythonSoftwareFoundation.Python(Version)***\python.exe
+>
 > - MicosoftStore版python （↓のCの不完全版）
 > - 端末で何の気なしに `python` と打つと連れていかれるMicrosoftStoreのPython売り場で手に入れるPython本体
 
 > **2のAnaconda python**
+>
 > - exeファイルの場所は
+>
 > > %USERPROFILE%\anaconda3\Scripts\python.exe
 
 > **3の素Python**
+>
 > - exeファイルの場所は
+>
 > > %LOCALAPPDATA%\Programs\Python\Python(Version)\python.exe
 
 コマンドプロンプトで，それぞれの場所，
@@ -173,7 +184,6 @@ poetryは単なるパッケージインストーラではなく，むしろ「�
 > poetry config virtualenvs.options.no-setuptools true
 ```
 
-
 （上記は，プロジェクトのライブラリ置き場を，プロジェクト内の `.venv` というフォルダに置く，という設定です．この設定をしない場合は，デフォルトで，ユーザの`Virtualenvs`というフォルダの下にプロジェクトごとのenvが置かれます）
 
 ### 3.2. **プロジェクトを始めるときには，**
@@ -211,7 +221,7 @@ kadai01
 │   └── __init__.py
 ├── pyproject.toml
 └── tests
-└── __init__.py
+    └── __init__.py
 ```
 
 `kadai01`ディレクトリの中にさらに `kadai01` というディレクトリができています．この深い位置の方の `kadai01` が配布されるパッケージです．このディレクトリの中にあなたがモジュールを作成します．すでに`__init__.py` というものがありますが，とりあえず今は気にせずそのままに．
@@ -280,5 +290,108 @@ kadai01
 インタプリタを聞かれます．このときには，`./.venv/bin/python.exe`を選ぶようにします．
 （たいていは，自動的にインタプリタが選ばれます）
 
+## jupyterhubの利用
+
+[演習室のJupyterHub][JupyterHub@演習室] を使うこともできます．ただし，学外からは使えません．
+
+学内であれば，まず[EREK][Erek@演習室] で使う演習室PCを決めます．使うPCが起動していない場合は新たに起動してください．
+
+起動していることが確認できたら，[演習室のJupyterHub][JupyterHub@演習室]にWebBrowserでアクセスします．
+
+- 左側のディレクトリアイコンがエクスプローラです．
+- 右側にLauncherというタブが表示されています．（無ければ`+`ボタンでLauncherが表示されます）
+
+ディレクトリの移動は，エクスプローラでおこないます．
+
+ファイルリストの上に `■ / … / k00 / tests /` のような表示があると思いますが，その`■`が所謂ホームディレクトリで，演習室PCのあなたのディレクトリの根っこです．`■`をクリックすると，その根っこに移動します．
+
+ファイルリストから移動したいディレクトリをクリックすれば，そのディレクトリに移動します．
+
+移動先のディレクトリの下のファイルリストが表示されている状態で，右側のLauncherで操作します．
+
+- Notebookのpython3を選べば，そのディレクトリに，python3をカーネルとするnotebookが作成されます．
+- OtherのTerminalは，そのディレクトリに移動した状態で，コマンドプロンプトのような端末操作(CUI操作)
+- OtherのPython Fileは，そのディレクトリに，新しいモジュールを作ります．
+
+poetry をインストールしてみましょう．現在開いているディレクトリがどこでも構いません．
+
+LauncherのOtherのTerminalを開きます．
+
+```{.sh}
+[sonoda@bes-ex01 ~] $ □
+```
+
+のようになっています．ここで，
+
+```{.sh}
+[sonoda@bes-ex01 ~] $ python -m pip install poetry
+```
+
+と打って実行すると，ズラーとインストール処理が行われ，最後に
+
+```{.sh}
+Successfully installed poetry-1.8.2
+[sonoda@bes-ex01 ~] $ □
+```
+
+となってインストール終了です．試しに
+
+```{.sh}
+[sonoda@bes-ex01 ~] $ poetry help
+```
+
+で poetry のヘルプが表示されます．
+
+あとはほぼ上記の自分PCでの操作と同じですが，
+
+> vscodeのときにインタプリタを聞かれたら `.venv/bin/python.exe`を選べ
+
+に対応するインタプリタ設定が必要です．
+
+1. Other/TerminalでPythonを起動する場合
+   1. まず，
+
+      ```{.sh}
+      [sonoda@bes-ex01 k00] $ poetry shell
+      ```
+
+      と打つと
+
+      ```{.sh}
+      (k00-py3.8) [sonoda@bes-ex01 k00]$
+      ```
+
+      のようになるかと思います．
+
+   2. この状況でpythonを動かせば，自分で入れたsite-packagesが反映されます．
+2. Notebookを使いたい場合
+
+   1. 初めから用意されている`python3`というカーネルには，自分で入れたsite-packagesが反映されません．よって新たにカーネルを作ります．
+   2. Other/Terminalにて
+
+      ```{.sh}
+      [sonoda@bes-ex01 k00] $ poetry add ipykernel --group=Dev
+      ```
+
+      で カーネル作成パッケージをインストールし，それを使ってカーネルを作ります．カーネル名を指定します．たとえば`k00`なら
+
+      ```{.sh}
+      [sonoda@bes-ex01 k00]$ poetry run ipython kernel install --user --name=k00
+      ```
+
+   3. Launcherを開くと，Notebookに自分で作ったカーネルが追加されています．そのカーネルでNotebookを作れば，そこでは自分の入れたsite-packagesが使えます．
+   4. ちなみに自分の作ったカーネルのリストは
+
+      ```{.sh}
+      [sonoda@bes-ex01 k00] $ jupyter kernelspec list
+      ```
+
+   5. ちなみに自分の作ったカーネルを削除するときは，
+
+      ```{.sh}
+      [sonoda@bes-ex01 k00] $ jupyter kenelspec uninstall k00
+      ```
+
+[JupyterHub@演習室]:https://bes-ex〇〇.cis.nagasaki-u.ac.jp:8080
 [poetry]:https://python-poetry.org
 [mise]:https://mise.jdx.dev/
