@@ -419,6 +419,6 @@ Successfully installed poetry-1.8.2
       ```
 
 [JupyterHub@演習室]:https://bes-ex{}.cis.nagasaki-u.ac.jp:8080
-[Eteks@演習室]:https://bes-master.cis.nagasaki-u.ac.jp/~matsuo/eteks/
+[Eteks@演習室]:http://bes-master.cis.nagasaki-u.ac.jp/~matsuo/eteks/
 [poetry]:https://python-poetry.org
 [mise]:https://mise.jdx.dev/
