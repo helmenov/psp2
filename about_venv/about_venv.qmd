@@ -1,0 +1,203 @@
+---
+title: 開発環境の独立性
+subtitle: virtual environment
+author:
+   - name: 薗田光太郎
+     affiliate: 長崎大学情報データ科学部
+   - name: helmenov
+format:
+   revealjs:
+      theme: beige
+      logo: logo.jpg
+      reference-location: document
+---
+## Python環境
+
+「Python環境」とは，
+
+- `python` : インタプリタ
+- `site-packages` : 外部パッケージ置き場
+
+の組み合わせです．
+
+- `python`の場所は`sys.executable`
+- `site-packages`の場所は`sys.path`
+
+でわかります．
+
+---
+
+- pythonインタプリタの場所
+```
+> python
+Python 3.12.3 (main, Apr 11 2024, 11:40:17) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> print(sys.executable)
+/Users/kotaro/.local/share/mise/installs/python/latest/bin/python
+```
+- 外部パッケージの場所
+```
+>>> print(sys.path)
+['', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python312.zip', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12/lib-dynload', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12/site-packages']
+```
+
+## 仮想環境
+
+あらかじめ Python環境 を一つにしてもらいました．
+
+上のソースコードを実行すると，そのPython環境が表示されます．
+
+これから，新たにpythonのアプリケーションを作っていきます．
+
+- 仮に，app1を作っていくとします．app1は，外部パッケージ pkg1 を必要としているとします．
+- また，別のapp2を作るとき，こちらは外部パッケージ pkg2 を必要としているとします．
+
+---
+
+つまり，
+
+- app1を動かすPython環境のsite-packagesにはpkg1が入っている
+- app2を動かすPython環境のsite-packagesにはpkg2が入っている
+
+という状況です．どちらも満たすには，site-packagesにpkg1とpkg2の両方がはいっていないといけませんが，app1にはpkg2は必要ないので冗長です．
+
+---
+
+そこで，Python環境をapp1用とapp2用で独立に用意します．つまりsite-packagesの場所をそれぞれについて新たに用意します．それが「仮想環境」です．
+
+仮想環境は，
+
+- インタプリタは，システムPythonのショートカット（もしくはコピー）
+- 外部パッケージ置き場は，新たに指定（システムPythonのsite-packagesとは別）
+
+---
+
+### 作り方
+
+::: {.callout-note}
+#### 準備
+
+あらかじめpoetryとpoetry-kernelをインストールしておきます．
+```{bash}
+python -m pip install poetry
+poetry config virtualenvs.in-project true
+```
+:::
+
+新たなPython環境`app1`を作ります．
+```{bash}
+poetry new app1
+```
+
+jupyterやvscodeのためのkernelを作ります．
+```{bash}
+cd app1
+poetry add --group=dev ipykernel
+poetry run ipython kernel install --user --name=app1
+```
+
+---
+
+この結果，ディレクトリ構造は以下のようになる．
+
+```
+app1
+├── .venv
+│   ├── .gitignore
+│   ├── bin
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── activate.nu
+│   │   ├── activate.ps1
+│   │   ├── activate_this.py
+│   │   ├── ipython
+│   │   ├── ipython3
+│   │   ├── jupyter
+│   │   ├── jupyter-kernel
+│   │   ├── jupyter-kernelspec
+│   │   ├── jupyter-migrate
+│   │   ├── jupyter-run
+│   │   ├── jupyter-troubleshoot
+│   │   ├── pygmentize
+│   │   ├── python -> /opt/homebrew/opt/python@3.12/bin/python3.12
+│   │   ├── python3 -> python
+│   │   └── python3.12 -> python
+│   ├── lib
+│   │   └── python3.12
+│   ├── pyvenv.cfg
+│   └── share
+│       ├── jupyter
+│       └── man
+├── README.md
+├── app1
+│   └── __init__.py
+├── poetry.lock
+├── pyproject.toml
+└── tests
+    └── __init__.py
+```
+
+---
+
+### 使い方
+
+`.venv`を含むディレクトリをvscodeで開き，terminalを開くと
+
+```
+(app1-py3.12) >
+```
+のように仮想環境に入る（丸括弧が仮想環境の名前）．
+
+```
+(app1-py3.12) > python
+```
+
+でpython端末に入り，
+
+```
+(app1-py3.12) > python
+Python 3.12.3 (main, Apr 11 2024, 11:40:17) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+---
+
+(@) ここで`sys.executable`でインタプリタのパスを確認すると，
+
+```
+>>> import sys
+>>> print(sys.executable)
+/Users/kotaro/MyRepository/MyLecture/psp2/2024psp2/about_venv/app1/.venv/bin/python
+```
+で，`.venv/bin/python`となっている．
+
+
+> 仮想環境に入る前は
+> ```
+> >>> print(sys.executable)
+> /Users/kotaro/.local/share/mise/installs/python/latest/bin/python
+> ```
+
+この`.venv/bin/python`は仮想環境に入る前の`python`へのショートカット（コピー）である．
+
+---
+
+(@) `sys.path`で外部パッケージ置き場を確認すると
+
+```
+>>> print(sys.path)
+['', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python312.zip', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12/lib-dynload', '/Users/kotaro/MyRepository/MyLecture/psp2/2024psp2/about_venv/app1/.venv/lib/python3.12/site-packages']
+```
+
+で，`site-packages`という名前は，
+`.venv/lib/python3.12/site-packages`にある．
+
+> 仮想環境に入る前は，
+> ```
+> >>> print(sys.path)
+> ['', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python312.zip', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12/lib-dynload', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12/site-packages']
+> ```
+

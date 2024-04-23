@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "k00"
+version = "0.1.2"
+description = ""
+authors = ["Kotaro SONODA <kotaro1976@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+colabturtleplus = "^2.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

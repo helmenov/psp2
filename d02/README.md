@@ -36,19 +36,34 @@
 > cd k00
 ```
 
-続けて，vscodeでのプログラミングを便利にするために，`ipykernel`というpythonパッケージをインストールします．
+仮想環境（システムの`site-packages`を用いない，独自の`site-packages`）をpoetry で作成します．独自の`site-packages`を使うことで，システムの`site-packages`に依存させないようにできます．
 
 ```{.sh}
-> poetry add --group=dev ipykernel
+> poetry env use py # `py`は仮想環境で`python`として利用するコマンドパス
 ```
 
-続けて，
+これにより，`.venv/`というディレクトリが新たに作られます．
 
 ```{.sh}
-> poetry install --sync
+> poetry env info
+
+Virtualenv
+Python:         3.12.3
+Implementation: CPython
+Path:           /Users/kotaro/MyRepository/MyLecture/psp2/k00/.venv
+Executable:     /Users/kotaro/MyRepository/MyLecture/psp2/k00/.venv/bin/python
+Valid:          True
+
+Base
+Platform:   darwin
+OS:         posix
+Python:     3.12.3
+Path:       /opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12
+Executable: /opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/bin/python3.12
 ```
 
-と打つと，「仮想環境」という独立した環境が構成されます．
+皆さんのところでは，どうなるでしょう．
+
 
 ### 1.2. `k00/.venv/`
 
@@ -110,25 +125,29 @@ vscodeを起動します．
 
 「`NO FOLDER OPENED`」の表示が「`k00`」に変わり，
 
-```{.sh}
-v K00
-  > .venv
-  k00
-  pyproject.toml
-  tests
-```
+![k00を開く](./k00_ss00.png)
 
-と表示されていると思います．
+のように表示されていると思います．
 
 「`K00`」のあたりにマウスを移動させると，その帯の右側に4つのアイコンが並びます．それぞれのアイコンにマウスを移動させると説明が表示されますが，左から，「ファイルを追加」「フォルダを追加」「更新」「表示を縮める」です．
 
+![k00の横](./k00_ss01.png)
+
 なにかプログラミングしてみましょう．`K00`の下の`k00`というディレクトリが提出するパッケージです．まずは`k00/k00`の下にファイルを追加します．
 
-「ファイル追加」アイコンを押して，「`k00_turtle.py`」という名前のファイルを新しく作ってみます．
+`v K00`の下の`> k00`をクリックすると，`k00`フォルダが選択され，中身がリストアップされます．
+
+![unfold k00/k00](./k00_ss03.png)
+
+このフォルダで「ファイル追加」アイコンを押して，「`k00_turtle.py`」という名前のファイルを新しく作ってみます．
+
+![new file k00_turtle.py](./k00_turtle_00.png)
 
 「`OPENED EDITORS`」に`k00_turtle.py`が列挙され，`k00_turtle.py`というタブが開きます．
 
 もしかしたら，インタープリタを聞かれるかもしれません．そのときは，`./.venv/bin/python`を選びましょう．
+
+![select interpreter](./k00_turtle_01.png)
 
 `k00_turtle.py` に以下のようなコードを書きましょう．
 
@@ -183,7 +202,7 @@ if __name__ == '__main__':
 ```
 
 - 「`"""`」で囲まれた部分は，一般に複数行のコメントアウトで，pythonの実行コードから無視されます．
-  - 特に`def`文直後の`"""`ブロックは「docString」と呼ばれ，`help()`関数で表示されます．
+  - 特に`def`文直後の`"""`ブロックは「**docString**」と呼ばれ，`help()`関数で表示されます．
 - 「`#`」記号のある行はいわゆるコメントアウトで，pythonの実行コードから無視されます．
 - コメントアウト，文字列，など色分けされていますね．
 - 最初の行のコメントアウト「`# coding:utf-8`」は，このソースコードの日本語が文字コード「`utf-8`」で書かれていることをIDEに教えています．Windowsの場合は文字コードが「`shift-jis`」かもしれません．
@@ -194,27 +213,31 @@ if __name__ == '__main__':
 vscodeとは別に，コマンドプロンプトを立ち上げて，
 
 ```{.sh}
-> cd c:\Users\kotaro\Documents\psp2\k00
+> cd c:\Users\kotaro\Documents\psp2\k00\k00
 ```
 
 で`k00`フォルダに移動し，
 
 ```{.sh}
-> poetry run python k00_turtle.py
+> poetry run python k00/k00_turtle.py
 ```
 
 とすればプログラムが動きます．
 
 これでもいいのですが，vscodeはウィンドウの中でコマンドプロンプトを起動できます．上部メニューに「ターミナル」があり，そこに「新しいターミナルを開く」というのがあります．
 
-![ターミナル](vscode05.png)
+![ターミナル](./vscode05.png)
 
 「`(k00-py3.12)`」というプロンプトのコマンドプロンプトがエディタの下の領域に立ち上がります．フォルダも現在作業中の場所に移動しています．つまり，vscodeでは直下に`.venv`というフォルダがあると，自動的に仮想環境に入るのです．
+
+PowerShellの場合は，プロンプトが変わらないので，仮想環境が適用されているのか否かが不明なので，「規定のプロファイルを選択」からCommand Promptを選んでおきましょう．
+
+![規定のプロファイルを選択](./k00_terminal.png)
 
 実行は，ここで
 
 ```{.sh}
-(k00-py3.12) > python k00_turtle.py
+(k00-py3.12) > python k00/k00_turtle.py
 ```
 
 でよいでしょう．
@@ -240,11 +263,48 @@ my.main()
 
 パッケージのパス（PATH,場所）は，実行するpython環境の`sys.path`に列挙されているPATHの直下に無ければいけません．
 
-あなたの`k00`開発環境（仮想環境`.venv`,`(k00-py3.12)`）の`sys.path`の`site-packages`は`.venv/lib/python3.12/site-packages`には今のところ`k00`はありませんが，`sys.path`の中に，`[...]/k00`という現在地があるので，その直下に`k00`を見つけることができます．
+```{.sh}
+(k00-py3.12) > python
+>>>> import sys
+>>>> print(sys.path)
+['', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python312.zip', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12/lib-dynload', '/Users/kotaro/MyRepository/MyLecture/psp2/k00/.venv/lib/python3.12/site-packages']
+>>>>
+```
 
-したがって，`(k00-py3.12)`の仮想環境であれば，インタフェースプログラムがどこにあっても構いません．
+あなたの`k00`開発環境（仮想環境`.venv`,`(k00-py3.12)`）の`sys.path`の`site-packages`は上記のようになると思います．
 
-たとえば，`k00/tests/`に`test_k00_turtle.py`という名前で上のインタフェースプログラムを書いておき，
+唯一の`site-packages`である，`psp2/k00/.venv/lib/python3.12/site-packages`を実際に見てみると
+
+![規定のプロファイルを選択](./k00_terminal.png)
+
+の左側のエクスプローラでわかるように，今のところ`k00`はありません．
+
+```{.sh}
+> poetry install --sync
+```
+
+をすると，現在作成中のパッケージ`k00/k00`を呼び出せるようになります．
+
+```
+(k00-py3.12) > python
+>>> import sys
+>>> print(sys.path)
+['', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python312.zip', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12/lib-dynload', '/Users/kotaro/MyRepository/MyLecture/psp2/k00/.venv/lib/python3.12/site-packages', '/Users/kotaro/MyRepository/MyLecture/psp2/k00']
+>>>
+```
+
+`sys.path`の中に，`psp2/k00`が加わりました．
+
+また，`site-packages`を見ると
+
+![install](./k00_turtle_02.png)
+
+のように，若干ファイルが増えています（だけど，k00フォルダは無い）
+
+`sys.path`に`psp2/k00`フォルダが列挙されているので，`(k00-py3.12)`の仮想環境であれば，
+`psp2/k00/k00`というフォルダをパッケージとして読み込むことができます．
+
+たとえば，`psp2/k00/tests/`に`test_k00_turtle.py`という名前で上のインタフェースプログラムを書いておき，
 
 ```{.sh}
 > poetry run python tests/test_k00_turtle.py
@@ -361,7 +421,7 @@ from ColabTurtlePlus import Turtle as turtle
 
 ## @1. 便利なvscode用コメントアウト　「`# %%`」
 
-ソースコードは基本的には，`python k00.py`だと最初の行から最後の行まですべての工程を行います．
+ソースコードは基本的には，`python **.py`だと最初の行から最後の行まですべての工程を行います．
 
 コードのそれぞれの行で何を行っているか調べるなら，もしくは新しく文を書いて，その動きを確かめたいのなら，pythonだとIPythonが有名です．IPythonは，JupyterやGoogle Colabを動かしているプログラムです．
 

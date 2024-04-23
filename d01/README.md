@@ -179,19 +179,16 @@ vscodeはエディタですが，プログラミングに特化したエディ�
 
 まず，poetry をインストールしましょう．
 
-> `py -m pip install poetry`
-
-macやlinuxの人は，`python -m pip install poetry`
-
-インストール後に，PATHにpoetryの実行ファイルを加えます．
-
-「虫眼鏡」アイコンから「環境変数」を検索し，「環境変数を編集」からユーザのPathについて「編集」　→　「新規」で下記のpathを追加してください．
-
-```{.sh}
-C:\Users\kotaro\AppData\Local\Programs\Python\Python310\Scripts\
+```{powershell}
+PS > (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | py -
+PS > [System.Environment]::SetEnvironmentVariable('path', $env:USERPROFILE + "\AppData\Roaming\Python\Scripts;" + [System.Environment]::GetEnvironmentVariable('path', "User"),"User")
 ```
 
-（上記の `kotaro` はwindowsのサインインアカウント名, `Python310`は`py -V`で表示されるバージョンに合わせてください． 3.10.＊なら`310`）
+macやlinuxの人は，
+
+```{.sh}
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
+```
 
 ### 3.1. poetry の使い方
 
