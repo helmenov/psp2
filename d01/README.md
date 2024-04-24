@@ -180,14 +180,14 @@ vscodeはエディタですが，プログラミングに特化したエディ�
 まず，poetry をインストールしましょう．
 
 ```{powershell}
-PS > (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | py -
+PS > (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 PS > [System.Environment]::SetEnvironmentVariable('path', $env:USERPROFILE + "\AppData\Roaming\Python\Scripts;" + [System.Environment]::GetEnvironmentVariable('path', "User"),"User")
 ```
 
 macやlinuxの人は，
 
 ```{.sh}
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
+> curl -sSL https://install.python-poetry.org | python3 -
 ```
 
 ### 3.1. poetry の使い方

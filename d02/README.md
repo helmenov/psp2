@@ -84,8 +84,14 @@ windows の PowerShellの場合は，
 ```{.sh}
 PS1 > .\.venv\Scripts\Activate.ps1
 ```
-
 で入ることができます．この場合プロンプトが`(k00-py3.12)`となります．
+
+PowerShellの場合，うまく行かない可能性があります．そのときは，
+
+```{sh}
+PS > Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+を入力してください．
 
 仮想環境に入ると，インタプリタの場所，および外部パッケージ置き場が変わります．
 
@@ -410,7 +416,27 @@ from ColabTurtlePlus import Turtle as turtle
 
 > (4)`k00_pentagon.py`を`k00_invalid.py`にコピーし，`NsidePolygon`関数に描く線の色名を引数`color`として指定してできるようにせよ．その上で正五角形を描け．`pencolor('yellow')`で黄色に，`pencolor('blue')`で青色の線を指定できる．ただし，適当な文字列を色名とするとエラーが出てプログラムが止まるであろう．適当な色名が指定されたときには`pencolor('black')`で線を黒色に指定しなおすように，例外処理を加えよ．
 
-> (5) パッケージ`k00`の下にさらにディレクトリ`k00funcs`を作り，その下に`k00_func.py`を作成せよ．(4)の関数`NsidePolygon`関数を`k00_func.py`に書き，`k00_octagon.py`で`from k00funcs import k00_func`として読み込んだ上で，`NsidePolygon`関数を利用して，正八角形を描け．
+> (5) パッケージ`k00`の下にさらにディレクトリ`k00funcs`を作り，その下に`k00_func.py`を作成せよ．(4)の関数`NsidePolygon`関数を`k00_func.py`に書き，`k00_octagon.py`で`from k00.k00funcs import k00_func`として読み込んだ上で，`NsidePolygon`関数を利用して，正八角形を描け．
+>
+> 最終的に今回 poetry new k00 で作成したディレクトリの構造は以下のようになる．
+>
+> ```{sh}
+> k00
+> ├── README.md
+> ├── k00
+> │   ├── __init__.py
+> │   ├── k00_hexagon.py
+> │   ├── k00_invalid.py
+> │   ├── k00_octagon.py
+> │   ├── k00_pentagon.py
+> │   ├── k00_turtle.py
+> │   └── k00funcs
+> │       └── k00_func.py
+> ├── pyproject.toml
+> └── tests
+>     └── __init__.py
+> ```
+
 
 課題は，
 
