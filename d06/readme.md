@@ -1,225 +1,142 @@
+---
+jupyter: python3
+---
+<!-- TOC -->
 
+- [まず，](#%E3%81%BE%E3%81%9A)
+    - [vscode で jupyter](#vscode-%E3%81%A7-jupyter)
+- [Pandas](#pandas)
+    - [標本の追加](#%E6%A8%99%E6%9C%AC%E3%81%AE%E8%BF%BD%E5%8A%A0)
+    - [標本セットの読み込み](#%E6%A8%99%E6%9C%AC%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF)
+    - [データを集めたら](#%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E9%9B%86%E3%82%81%E3%81%9F%E3%82%89)
+    - [データフレーム上の値は以下のように参照できます．](#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E4%B8%8A%E3%81%AE%E5%80%A4%E3%81%AF%E4%BB%A5%E4%B8%8B%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB%E5%8F%82%E7%85%A7%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%99%EF%BC%8E)
+    - [データの要約](#%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A6%81%E7%B4%84)
+    - [変数の尺度を正しく設定](#%E5%A4%89%E6%95%B0%E3%81%AE%E5%B0%BA%E5%BA%A6%E3%82%92%E6%AD%A3%E3%81%97%E3%81%8F%E8%A8%AD%E5%AE%9A)
+- [課題k02](#%E8%AA%B2%E9%A1%8Ck02)
 
+<!-- /TOC -->
 
+## 0. まず，
 
-```python
+`cmd`で
+
+```{.sh}
+> poetry new k02
+> cd k02
+> poetry env use py
+> poetry install --sync
+> poetry add ipykernel
+```
+
+により，いつものように，パッケージ開発用フォルダを作り，
+その下に，仮想環境(`.venv`)，配布するフォルダ(`k02`)などを作る．
+
+今回は，パッケージの中で，外部パッケージを使いたいので，
+
+```{.sh}
+> poetry add pandas
+> poetry add openpyxl
+> poetry add matplotlib
+> poetry add numpy
+```
+
+というように，
+
+- Pandas
+- OpenPyXL
+- MatplotLib
+- NumPy
+
+の4つの外部パッケージを仮想環境にインストールしておきます．
+
+### 0.1. vscode で jupyter
+
+vscodeで配布用フォルダ `k02` の下に，`k02_1.ipynb` という名前のファイルを作り，開きます．
+
+## 1. Pandas
+
+### 1.1 標本の追加
+
+最初のセルに，
+
+```{python}
 import pandas as pd
 
 # アジア語の文字幅をきれいに表示するおまじない
-pd.set_option('display.unicode.east_asian_width', True) 
+pd.set_option('display.unicode.east_asian_width', True)
 ```
 
+と書いて，実行します．
 
-```python
+次に，データフレームを作ります．データフレームには変数（項目名）が必要です．
+
+```{python}
+df = pd.DataFrame(columns=['名前','性別','好きな数','誕生月','セロリ好き度','身長'])
+```
+
+dfを表示するには，普通は`print(df)`としますが，jupyterでは，`display(df)`とすると，きれいに表示されます．
+
+```{python}
+display(df)
+```
+
+今はデータがありませんので，項目名のみが表示されます．
+
+では，データを入れていきましょう．
+
+というか，データが1つでもデータフレームです．
+
+```{python}
+sample_0 = {
+    '名前':'鈴木', '性別':'女', '好きな数':3,
+    '誕生月':12, 'セロリ好き度':'好き', '身長':165
+    } # dictで作ります．
+df_0 = pd.DataFrame(data=[sample_0])
+display(df_0)
+```
+
+別の標本は，
+
+```{python}
+sample_1 = {
+    '名前':'薗田', '性別':'男', '好きな数':7,
+    '誕生月':5, 'セロリ好き度':'とても嫌い', '身長':172
+    }
+df_1 = pd.DataFrame(data=[sample_1])
+display(df_1)
+```
+
+これら2つのデータフレームを合成して，新たなデータフレーム `df` を作ります．
+
+```{python}
+df = pd.concat([df_0, df_1], ignore_index=True, axis=1)
+display(df)
+```
+
+`axis=1` は，合成の方向です．標本を追加するので縦方向に合成です．縦方向は`axis=1`です．（列方向，項目を追加する場合は，`axis=0`）
+
+### 1.2. 標本セットの読み込み
+
+CSVファイルの読み込みは，`read_csv`関数です．
+
+```{python}
 df = pd.read_csv('mydata1.csv',skipinitialspace=True)
-df
+display(df)
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th># mydata1.csv</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>名前</th>
-      <th>性別</th>
-      <th>好きな数</th>
-      <th>誕生月</th>
-      <th>セロリ好き度</th>
-      <td>身長</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <th>男</th>
-      <th>7</th>
-      <th>5</th>
-      <th>とても嫌い</th>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <th>女</th>
-      <th>3</th>
-      <th>12</th>
-      <th>好き</th>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <th>男</th>
-      <th>4</th>
-      <th>10</th>
-      <th>嫌い</th>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 `skip-initial-space`はアジア語で余計な空白が入るのを防ぐので，いつもつけておくとよい．
 
-
-```python
+```{python}
 type(df)
 ```
 
+`df`は`DataFrame`というクラスに割当てられていることがわかります．
 
+`df.shape` データフレームの行数（観測数）と列数（変数数）をタプルで表示します．
 
-
-    pandas.core.frame.DataFrame
-
-
-
-`df`は`DataFrame`というクラスに割当てられています．
-
-```{.py}
-class DataFrame():
-    def __str__(self):
-```
-
-のように`__str__`メソッドがあるので，文字列にすることができ，
-
-
-```python
-df.__str__()
-```
-
-
-
-
-    '                                       # mydata1.csv\n名前 性別 好きな数 誕生月 セロリ好き度          身長\n薗田 男   7        5      とても嫌い             172\n鈴木 女   3        12     好き                   165\n斎藤 男   4        10     嫌い                   180'
-
-
-
-文字列を表示すれば
-
-
-```python
-print(df.__str__())
-```
-
-                                           # mydata1.csv
-    名前 性別 好きな数 誕生月 セロリ好き度          身長
-    薗田 男   7        5      とても嫌い             172
-    鈴木 女   3        12     好き                   165
-    斎藤 男   4        10     嫌い                   180
-
-
-のように表示されます．jupyterだともっときれいに出力できて
-
-
-```python
-df
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th># mydata1.csv</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>名前</th>
-      <th>性別</th>
-      <th>好きな数</th>
-      <th>誕生月</th>
-      <th>セロリ好き度</th>
-      <td>身長</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <th>男</th>
-      <th>7</th>
-      <th>5</th>
-      <th>とても嫌い</th>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <th>女</th>
-      <th>3</th>
-      <th>12</th>
-      <th>好き</th>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <th>男</th>
-      <th>4</th>
-      <th>10</th>
-      <th>嫌い</th>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-```{.py}
-class DataFrame():
-    def __init__(self, ...):
-        self.shape = ...
-```
-
-のようなクラス変数`shape`があり，データフレームの行数（観測数）と列数（変数数）をタプルで表示します．
-
-
-```python
+```{python}
 print(df.shape)
 ```
-
-    (4, 1)
-
 
 4つの観測，1つの変数となりました．
 
@@ -227,1044 +144,168 @@ print(df.shape)
 
 ファイルを直接見ると，1行目に`# mydata1.csv`とあり，これはメモですね．読み飛ばす行番号をリストにして`skiprows`オプションに渡します．
 
-
-
-```python
+```{python}
 df = pd.read_csv('mydata1.csv',skipinitialspace=True, skiprows=[0])
 df
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>名前</th>
-      <th>性別</th>
-      <th>好きな数</th>
-      <th>誕生月</th>
-      <th>セロリ好き度</th>
-      <th>身長</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>薗田</td>
-      <td>男</td>
-      <td>7</td>
-      <td>5</td>
-      <td>とても嫌い</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>鈴木</td>
-      <td>女</td>
-      <td>3</td>
-      <td>12</td>
-      <td>好き</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>斎藤</td>
-      <td>男</td>
-      <td>4</td>
-      <td>10</td>
-      <td>嫌い</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
+```{python}
 df.shape
 ```
-
-
-
-
-    (3, 6)
-
-
 
 きちんと，3観測6変数になりました．ちなみに読み飛ばした後の最初の行をヘッダ(header)，変数名リストとして読みます．
 クラス変数columnsに変数名が保存されています．
 
 ちなみに，ヘッダ行は観測ではないので，(4,6)ではなく(3,6)になっています．
 
-
-```python
+```{python}
 df.columns
 ```
 
-
-
-
-    Index(['名前', '性別', '好きな数', '誕生月', 'セロリ好き度', '身長'], dtype='object')
-
-
-
 変数名が並んだ行が無いCSVもあります．例えば`mydata2.csv`は`mydata1.csv`と同じ3観測6変数のデータですが，
 
-
-```python
+```{python}
 df = pd.read_csv('mydata2.csv',skipinitialspace=True)
 df
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>薗田</th>
-      <th>男</th>
-      <th>7</th>
-      <th>5</th>
-      <th>とても嫌い</th>
-      <th>172</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>鈴木</td>
-      <td>女</td>
-      <td>3</td>
-      <td>12</td>
-      <td>好き</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>斎藤</td>
-      <td>男</td>
-      <td>4</td>
-      <td>10</td>
-      <td>嫌い</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
+```{python}
 df.shape
 ```
-
-
-
-
-    (2, 6)
-
-
 
 のように，データの1観測目がヘッダと捉えられてしまいます．よって，
 `header`が無いことを教えて read_csv　します．
 
-
-```python
+```{python}
 df = pd.read_csv('mydata2.csv',skipinitialspace=True,header=None)
 df
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>薗田</td>
-      <td>男</td>
-      <td>7</td>
-      <td>5</td>
-      <td>とても嫌い</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>鈴木</td>
-      <td>女</td>
-      <td>3</td>
-      <td>12</td>
-      <td>好き</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>斎藤</td>
-      <td>男</td>
-      <td>4</td>
-      <td>10</td>
-      <td>嫌い</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
 ただし，ヘッダが無いので変数名が仮に0,....,5となっています．
 
-
-
-```python
+```{python}
 df.columns
 ```
-
-
-
-
-    Int64Index([0, 1, 2, 3, 4, 5], dtype='int64')
-
-
 
 きちんと変数名を決めるには
 このクラス変数`columns`を正しいもので上書きします．
 
-
-```python
+```{python}
 df.columns=['Name','Sex','FavoriteNumber','BirthMonth','CeleryFavor','Height']
 df
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Name</th>
-      <th>Sex</th>
-      <th>FavoriteNumber</th>
-      <th>BirthMonth</th>
-      <th>CeleryFavor</th>
-      <th>Height</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>薗田</td>
-      <td>男</td>
-      <td>7</td>
-      <td>5</td>
-      <td>とても嫌い</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>鈴木</td>
-      <td>女</td>
-      <td>3</td>
-      <td>12</td>
-      <td>好き</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>斎藤</td>
-      <td>男</td>
-      <td>4</td>
-      <td>10</td>
-      <td>嫌い</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
 変数名を変えるにはrenameメソッドを使ってもよいです．
 
-
-```python
+```{python}
 df.rename(columns={'Sex':'Gender'})
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Name</th>
-      <th>Gender</th>
-      <th>FavoriteNumber</th>
-      <th>BirthMonth</th>
-      <th>CeleryFavor</th>
-      <th>Height</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>薗田</td>
-      <td>男</td>
-      <td>7</td>
-      <td>5</td>
-      <td>とても嫌い</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>鈴木</td>
-      <td>女</td>
-      <td>3</td>
-      <td>12</td>
-      <td>好き</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>斎藤</td>
-      <td>男</td>
-      <td>4</td>
-      <td>10</td>
-      <td>嫌い</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 ところで，データフレームを表示したときに，左端に毎回0から始まる数字が書かれています．
 これは，CSVにおける観測の個体IDであり，「インデックス(index)」と読んでいます．データ本体には含まれません．
 
-
-```python
+```{python}
 print(df.index)
 ```
 
-    RangeIndex(start=0, stop=3, step=1)
-
-
 indexは0から始まって，1ずつ増えて，3の前までということみたいですね．
 
-### データを集めたら
+### 1.3. データを集めたら
 
 そんなこんなで，`mydata1.csv`を読みます．
 
-
-```python
+```{python}
 df = pd.read_csv('mydata1.csv',skipinitialspace=True,header=1)
 df
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>名前</th>
-      <th>性別</th>
-      <th>好きな数</th>
-      <th>誕生月</th>
-      <th>セロリ好き度</th>
-      <th>身長</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>薗田</td>
-      <td>男</td>
-      <td>7</td>
-      <td>5</td>
-      <td>とても嫌い</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>鈴木</td>
-      <td>女</td>
-      <td>3</td>
-      <td>12</td>
-      <td>好き</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>斎藤</td>
-      <td>男</td>
-      <td>4</td>
-      <td>10</td>
-      <td>嫌い</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
 同じデータですが，場合によっては，次のような表でまとめているかもしれません．
 
-
-```python
+```{python}
 df2 = pd.read_csv('mydata3.csv',skipinitialspace=True,skiprows=[0])
 df2
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>名前</th>
-      <th>変数名</th>
-      <th>回答</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>薗田</td>
-      <td>性別</td>
-      <td>男</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>薗田</td>
-      <td>好きな数</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>薗田</td>
-      <td>誕生月</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>薗田</td>
-      <td>セロリ好き度</td>
-      <td>とても嫌い</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>薗田</td>
-      <td>身長</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>鈴木</td>
-      <td>性別</td>
-      <td>女</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>鈴木</td>
-      <td>好きな数</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>鈴木</td>
-      <td>誕生月</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>鈴木</td>
-      <td>セロリ好き度</td>
-      <td>好き</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>鈴木</td>
-      <td>身長</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>斎藤</td>
-      <td>性別</td>
-      <td>男</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>斎藤</td>
-      <td>好きな数</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>斎藤</td>
-      <td>誕生月</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>斎藤</td>
-      <td>セロリ好き度</td>
-      <td>嫌い</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>斎藤</td>
-      <td>身長</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
 この場合，「名前」が同じ行は，1人に対する別々の変数と回答を表しています．つまり，回答者は「薗田」「鈴木」「斎藤」の3人です．よって，回答者をIDとします．
 
-
-```python
+```{python}
 df2 = df2.set_index('名前')
 df2
-
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>変数名</th>
-      <th>回答</th>
-    </tr>
-    <tr>
-      <th>名前</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>薗田</th>
-      <td>性別</td>
-      <td>男</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <td>好きな数</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <td>誕生月</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <td>セロリ好き度</td>
-      <td>とても嫌い</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <td>身長</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>性別</td>
-      <td>女</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>好きな数</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>誕生月</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>セロリ好き度</td>
-      <td>好き</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>身長</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <td>性別</td>
-      <td>男</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <td>好きな数</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <td>誕生月</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <td>セロリ好き度</td>
-      <td>嫌い</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <td>身長</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 このような縦長の表を先程のようなデータフレームに変換するには，pivot関数を使います．変数名が並ぶ列と，回答が並ぶ列を指定すると，変換できます．
 
-
-```python
+```{python}
 df3 = pd.pivot(df2,columns='変数名',values='回答')
 df3
 ```
 
 
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>変数名</th>
-      <th>セロリ好き度</th>
-      <th>好きな数</th>
-      <th>性別</th>
-      <th>誕生月</th>
-      <th>身長</th>
-    </tr>
-    <tr>
-      <th>名前</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>斎藤</th>
-      <td>嫌い</td>
-      <td>4</td>
-      <td>男</td>
-      <td>10</td>
-      <td>180</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <td>とても嫌い</td>
-      <td>7</td>
-      <td>男</td>
-      <td>5</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>好き</td>
-      <td>3</td>
-      <td>女</td>
-      <td>12</td>
-      <td>165</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-#### データフレーム上の値は以下のように参照できます．
+### 1.4. データフレーム上の値は以下のように参照できます．
 
 - 変数「好きな数」だけを全サンプル参照してみます．
 
 1. df[[変数名]]
 
-
-```python
+```{python}
 col1 = df3[['好きな数']]
 col1
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>変数名</th>
-      <th>好きな数</th>
-    </tr>
-    <tr>
-      <th>名前</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>斎藤</th>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>薗田</th>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
+```{python}
 print(type(col1), col1.shape)
 ```
 
-    <class 'pandas.core.frame.DataFrame'> (3, 1)
-
-
 2. df.変数名
 
-
-```python
+```{python}
 col2 = df3.好きな数
 col2
 ```
 
-
-
-
-    名前
-    斎藤    4
-    薗田    7
-    鈴木    3
-    Name: 好きな数, dtype: object
-
-
-
-
-```python
+```{python}
 print(type(col2), col2.shape)
 ```
 
-    <class 'pandas.core.series.Series'> (3,)
-
-
 3. df[変数名]
 
-
-```python
+```{python}
 col3 = df3['好きな数']
 col3
 ```
 
-
-
-
-    名前
-    斎藤    4
-    薗田    7
-    鈴木    3
-    Name: 好きな数, dtype: object
-
-
-
-
-```python
+```{python}
 print(type(col3),col3.shape)
 ```
 
-    <class 'pandas.core.series.Series'> (3,)
-
-
 4. df[[変数名]][範囲]
 
-
-```python
+```{python}
 col4 = df3[['好きな数']][1:3] #　スライスで行番号
 col4
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>変数名</th>
-      <th>好きな数</th>
-    </tr>
-    <tr>
-      <th>名前</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>薗田</th>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
+```{python}
 print(type(col4),col4.shape)
 ```
 
-    <class 'pandas.core.frame.DataFrame'> (2, 1)
-
-
 5. df.loc[範囲,変数名]
 
-
-```python
+```{python}
 col5 = df.loc[:1, '好きな数'] # 行スライスが`:1`に注意
 col5
 ```
 
-
-
-
-    0    7
-    1    3
-    Name: 好きな数, dtype: int64
-
-
-
-
-```python
+```{python}
 print(type(col5), col5.shape)
 ```
 
-    <class 'pandas.core.series.Series'> (2,)
-
-
 6. df.iloc[行範囲，列範囲]
 
-
-```python
+```{python}
 col6 = df3.iloc[:2, 1] # 変数の順番で指定
 col6
 ```
-
-
-
-
-    名前
-    斎藤    4
-    薗田    7
-    Name: 好きな数, dtype: object
-
-
 
 以上から，
 - `df[['var']]` : DataFrame 2階テンソル（行列）
@@ -1273,152 +314,15 @@ col6
 
 - `df[['var']][:2]` : DataFrame
 - `df.loc[:1, 'var']` : Series
-- `df.iloc[:2, 2]` : Series 
+- `df.iloc[:2, 2]` : Series
 
-
-### データの要約
+### 1.5. データの要約
 
 データの要約は describeメソッドで行います．
 
-
-```python
+```{python}
 df.describe(include='all')
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>名前</th>
-      <th>性別</th>
-      <th>好きな数</th>
-      <th>誕生月</th>
-      <th>セロリ好き度</th>
-      <th>身長</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>3</td>
-      <td>3</td>
-      <td>3.000000</td>
-      <td>3.000000</td>
-      <td>3</td>
-      <td>3.000000</td>
-    </tr>
-    <tr>
-      <th>unique</th>
-      <td>3</td>
-      <td>2</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>3</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>top</th>
-      <td>薗田</td>
-      <td>男</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>とても嫌い</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>freq</th>
-      <td>1</td>
-      <td>2</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>4.666667</td>
-      <td>9.000000</td>
-      <td>NaN</td>
-      <td>172.333333</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>2.081666</td>
-      <td>3.605551</td>
-      <td>NaN</td>
-      <td>7.505553</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>3.000000</td>
-      <td>5.000000</td>
-      <td>NaN</td>
-      <td>165.000000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>3.500000</td>
-      <td>7.500000</td>
-      <td>NaN</td>
-      <td>168.500000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>4.000000</td>
-      <td>10.000000</td>
-      <td>NaN</td>
-      <td>172.000000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>5.500000</td>
-      <td>11.000000</td>
-      <td>NaN</td>
-      <td>176.000000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>7.000000</td>
-      <td>12.000000</td>
-      <td>NaN</td>
-      <td>180.000000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 全て，各項目ごとの代表値で，
 
@@ -1432,132 +336,42 @@ df.describe(include='all')
 
 この関数の中身は，以下のDataFrameのメソッドを使っても表示されます．
 
-
-```python
+```{python}
 # 各変数のサンプルサイズ
-df.count()
+df['身長'].count()
 ```
 
-
-
-
-    名前            3
-    性別            3
-    好きな数        3
-    誕生月          3
-    セロリ好き度    3
-    身長            3
-    dtype: int64
-
-
-
-
-```python
+```{python}
 # 各変数の標本平均
-df.mean()
+df['身長'].mean()
 ```
 
-    /var/folders/99/qkvnxd5x1zv5v058py9fckk80000gn/T/ipykernel_29916/2071310889.py:2: FutureWarning: Dropping of nuisance columns in DataFrame reductions (with 'numeric_only=None') is deprecated; in a future version this will raise TypeError.  Select only valid columns before calling the reduction.
-      df.mean()
-
-
-
-
-
-    好きな数      4.666667
-    誕生月        9.000000
-    身長        172.333333
-    dtype: float64
-
-
-
-
-```python
+```{python}
 # 各変数の標本中央値
-df.median()
+df['身長'].median()
 ```
 
-    /var/folders/99/qkvnxd5x1zv5v058py9fckk80000gn/T/ipykernel_29916/3673436120.py:2: FutureWarning: Dropping of nuisance columns in DataFrame reductions (with 'numeric_only=None') is deprecated; in a future version this will raise TypeError.  Select only valid columns before calling the reduction.
-      df.median()
-
-
-
-
-
-    好きな数      4.0
-    誕生月       10.0
-    身長        172.0
-    dtype: float64
-
-
-
-
-```python
+```{python}
 # 各変数の標本標準偏差
-df.std()
+df['身長'].std(ddof=0)
 ```
 
-    /var/folders/99/qkvnxd5x1zv5v058py9fckk80000gn/T/ipykernel_29916/3194488187.py:2: FutureWarning: Dropping of nuisance columns in DataFrame reductions (with 'numeric_only=None') is deprecated; in a future version this will raise TypeError.  Select only valid columns before calling the reduction.
-      df.std()
-
-
-
-
-
-    好きな数    2.081666
-    誕生月      3.605551
-    身長        7.505553
-    dtype: float64
-
-
-
-
-```python
+```{python}
 # 第1四分位
-df.quantile(q=0.25)
+df['身長'].quantile(q=0.25)
 ```
 
-
-
-
-    好きな数      3.5
-    誕生月        7.5
-    身長        168.5
-    Name: 0.25, dtype: float64
-
-
-
-
-```python
+```{python}
 # 第2四分位（中央値）
-df.quantile(q=0.5)
+df['身長'].quantile(q=0.5)
 ```
 
-
-
-
-    好きな数      4.0
-    誕生月       10.0
-    身長        172.0
-    Name: 0.5, dtype: float64
-
-
-
-
-```python
+```{python}
 # 第3四分位
-df.quantile(q=0.75)
+df['身長'].quantile(q=0.75)
 ```
 
-
-
-
-    好きな数      5.5
-    誕生月       11.0
-    身長        176.0
-    Name: 0.75, dtype: float64
-
-
+### 1.6. 変数の尺度を正しく設定
 
 ところで，身長は平均や標準偏差に意味がありますが，「好きな数」や「誕生月」にとっての平均や標準偏差は意味不明ですね．
 
@@ -1588,7 +402,6 @@ df.quantile(q=0.75)
 |身長|比尺度|あらゆる実数|
 
 
-
 Pandasでは，それぞれの尺度に型（クラス）を割り当てています．
 - 名義尺度は，`Categorical(categories=[...],ordered=False)`クラス
 - 順序尺度は，`Categorical(categories=[...],ordered=True)`クラス
@@ -1600,108 +413,39 @@ Pandasでは，それぞれの尺度に型（クラス）を割り当ててい�
 
 - 「名前」
 
-
-```python
+```{python}
 df['名前']
 ```
 
-
-
-
-    0    薗田
-    1    鈴木
-    2    斎藤
-    Name: 名前, dtype: object
-
-
-
-
-```python
+```{python}
 df['名前'] = pd.Categorical(df['名前'])
 df['名前']
 ```
 
-
-
-
-    0    薗田
-    1    鈴木
-    2    斎藤
-    Name: 名前, dtype: category
-    Categories (3, object): ['斎藤', '薗田', '鈴木']
-
-
-
 - 「性別」
 
-
-```python
+```{python}
 df['性別']
 ```
 
-
-
-
-    0    男
-    1    女
-    2    男
-    Name: 性別, dtype: object
-
-
-
-
-```python
+```{python}
 GenderSet = {'男','女'}
 df['性別'] = pd.Categorical(df['性別'], categories=GenderSet, ordered=False)
 df['性別']
 ```
 
-
-
-
-    0    男
-    1    女
-    2    男
-    Name: 性別, dtype: category
-    Categories (2, object): ['男', '女']
-
-
-
 - 「好きな数」，「誕生月」
 
-
-```python
+```{python}
 df['好きな数']
 ```
 
-
-
-
-    0    7
-    1    3
-    2    4
-    Name: 好きな数, dtype: int64
-
-
-
-
-```python
-df['好きな数'] = df['好きな数'].astype('str') 
+```{python}
+df['好きな数'] = df['好きな数'].astype('str')
 df['好きな数']
 ```
 
-
-
-
-    0    7
-    1    3
-    2    4
-    Name: 好きな数, dtype: object
-
-
-
-
-```python
+```{python}
 # MonthSet = {'1','2','3','4','5','6','7','8','9','10','11','12'} でもいいですが
 MonthSet = set([str(n) for n in range(1,13)])
 df['好きな数'] = pd.Categorical(df['好きな数'], categories=MonthSet, ordered=False)
@@ -1709,20 +453,8 @@ df['好きな数'] = pd.Categorical(df['好きな数'], categories=MonthSet, ord
 df['好きな数']
 ```
 
-
-
-
-    0    7
-    1    3
-    2    4
-    Name: 好きな数, dtype: category
-    Categories (12, object): ['1', '3', '9', '4', ..., '11', '10', '7', '8']
-
-
-
-
-```python
-df['誕生月'] = df['誕生月'].astype('str') 
+```{python}
+df['誕生月'] = df['誕生月'].astype('str')
 df['誕生月'] = pd.Categorical(df['誕生月'], categories=MonthSet, ordered=False)
 ```
 
@@ -1730,38 +462,15 @@ df['誕生月'] = pd.Categorical(df['誕生月'], categories=MonthSet, ordered=F
 
 セロリ好き度は，強弱・大小があるので，順序尺度です．
 
-
-```python
+```{python}
 df['セロリ好き度']
 ```
 
-
-
-
-    0    とても嫌い
-    1          好き
-    2          嫌い
-    Name: セロリ好き度, dtype: object
-
-
-
-
-```python
+```{python}
 CerelyFavorLevel = ['とても嫌い','嫌い','ふつう','好き','とても好き']
 df['セロリ好き度'] = pd.Categorical(df['セロリ好き度'],categories=CerelyFavorLevel,ordered=True)
 df['セロリ好き度']
 ```
-
-
-
-
-    0    とても嫌い
-    1          好き
-    2          嫌い
-    Name: セロリ好き度, dtype: category
-    Categories (5, object): ['とても嫌い' < '嫌い' < 'ふつう' < '好き' < 'とても好き']
-
-
 
 変数が文字列のものは，数字と対応付けすることができます．
 
@@ -1776,246 +485,52 @@ df['セロリ好き度']
 
 数字だからといって大小をつけられるわけではありません．
 
-
-```python
+```{python}
 SexMap = {'男':-1, '女':+1}
 df['性別'] = df['性別'].map(SexMap)
 df['性別']
 ```
 
-
-
-
-    0   -1
-    1    1
-    2   -1
-    Name: 性別, dtype: category
-    Categories (2, int64): [-1, 1]
-
-
-
 同様に，「セロリ好き度」も数字にしましょうか．
 
 とても嫌い(-2) - 嫌い(-1) - ふつう(0) - 好き(+1) - とても好き(+2)
 
-
-```python
+```{python}
 CerelyFavorMap = {'とても嫌い':-2, '嫌い':-1, 'ふつう':0, '好き':+1, 'とても好き':+2}
 df['セロリ好き度'] = df['セロリ好き度'].map(CerelyFavorMap)
-df['セロリ好き度'] 
+df['セロリ好き度']
 ```
 
-
-
-
-    0   -2
-    1    1
-    2   -1
-    Name: セロリ好き度, dtype: category
-    Categories (5, int64): [-2 < -1 < 0 < 1 < 2]
-
-
-
-
-```python
-df['セロリ好き度'].median()
+```{python}
+#df['セロリ好き度'].median()
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    TypeError                                 Traceback (most recent call last)
-
-    Input In [53], in <cell line: 1>()
-    ----> 1 df['セロリ好き度'].median()
-
-
-    File ~/Dropbox/My Mac (sliwowica.local)/Documents/MyRepository/2022psp2/.venv/lib/python3.10/site-packages/pandas/core/generic.py:11187, in NDFrame._add_numeric_operations.<locals>.median(self, axis, skipna, level, numeric_only, **kwargs)
-      11169 @doc(
-      11170     _num_doc,
-      11171     desc="Return the median of the values over the requested axis.",
-       (...)
-      11185     **kwargs,
-      11186 ):
-    > 11187     return NDFrame.median(self, axis, skipna, level, numeric_only, **kwargs)
-
-
-    File ~/Dropbox/My Mac (sliwowica.local)/Documents/MyRepository/2022psp2/.venv/lib/python3.10/site-packages/pandas/core/generic.py:10699, in NDFrame.median(self, axis, skipna, level, numeric_only, **kwargs)
-      10691 def median(
-      10692     self,
-      10693     axis: Axis | None | lib.NoDefault = lib.no_default,
-       (...)
-      10697     **kwargs,
-      10698 ) -> Series | float:
-    > 10699     return self._stat_function(
-      10700         "median", nanops.nanmedian, axis, skipna, level, numeric_only, **kwargs
-      10701     )
-
-
-    File ~/Dropbox/My Mac (sliwowica.local)/Documents/MyRepository/2022psp2/.venv/lib/python3.10/site-packages/pandas/core/generic.py:10639, in NDFrame._stat_function(self, name, func, axis, skipna, level, numeric_only, **kwargs)
-      10629     warnings.warn(
-      10630         "Using the level keyword in DataFrame and Series aggregations is "
-      10631         "deprecated and will be removed in a future version. Use groupby "
-       (...)
-      10634         stacklevel=find_stack_level(),
-      10635     )
-      10636     return self._agg_by_level(
-      10637         name, axis=axis, level=level, skipna=skipna, numeric_only=numeric_only
-      10638     )
-    > 10639 return self._reduce(
-      10640     func, name=name, axis=axis, skipna=skipna, numeric_only=numeric_only
-      10641 )
-
-
-    File ~/Dropbox/My Mac (sliwowica.local)/Documents/MyRepository/2022psp2/.venv/lib/python3.10/site-packages/pandas/core/series.py:4459, in Series._reduce(self, op, name, axis, skipna, numeric_only, filter_type, **kwds)
-       4455     self._get_axis_number(axis)
-       4457 if isinstance(delegate, ExtensionArray):
-       4458     # dispatch to ExtensionArray interface
-    -> 4459     return delegate._reduce(name, skipna=skipna, **kwds)
-       4461 else:
-       4462     # dispatch to numpy arrays
-       4463     if numeric_only:
-
-
-    File ~/Dropbox/My Mac (sliwowica.local)/Documents/MyRepository/2022psp2/.venv/lib/python3.10/site-packages/pandas/core/arrays/base.py:1369, in ExtensionArray._reduce(self, name, skipna, **kwargs)
-       1367 meth = getattr(self, name, None)
-       1368 if meth is None:
-    -> 1369     raise TypeError(
-       1370         f"'{type(self).__name__}' with dtype {self.dtype} "
-       1371         f"does not support reduction '{name}'"
-       1372     )
-       1373 return meth(skipna=skipna, **kwargs)
-
-
-    TypeError: 'Categorical' with dtype category does not support reduction 'median'
-
 
 セロリ好き度の5段階は，等間隔ですので，数字にしたからには間隔尺度になってほしいですが，そうなっていません．
 間隔尺度にしてあげましょう．
 
-
-```python
+```{python}
 df['セロリ好き度'] = df['セロリ好き度'].cat.codes
 df['セロリ好き度']
-
 ```
 
-
-
-
-    0    0
-    1    3
-    2    1
-    Name: セロリ好き度, dtype: int8
-
-
-
-
-```python
+```{python}
 df['セロリ好き度'] = df['セロリ好き度']-2
 df['セロリ好き度']
 ```
 
-
-
-
-    0   -2
-    1    1
-    2   -1
-    Name: セロリ好き度, dtype: int8
-
-
-
-
-```python
+```{python}
 df['セロリ好き度'].median()
 ```
 
-
-
-
-    -1.0
-
-
-
 今回のデータでは，名前は単に各データのID（データを見分けるための符号）でしかありません．set_indexでIDとなる列を指定します．
 
-
-```python
+```{python}
 df = df.set_index('名前')
 ```
 
-
-```python
+```{python}
 df
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>性別</th>
-      <th>好きな数</th>
-      <th>誕生月</th>
-      <th>セロリ好き度</th>
-      <th>身長</th>
-    </tr>
-    <tr>
-      <th>名前</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>薗田</th>
-      <td>-1</td>
-      <td>7</td>
-      <td>5</td>
-      <td>-2</td>
-      <td>172</td>
-    </tr>
-    <tr>
-      <th>鈴木</th>
-      <td>1</td>
-      <td>3</td>
-      <td>12</td>
-      <td>1</td>
-      <td>165</td>
-    </tr>
-    <tr>
-      <th>斎藤</th>
-      <td>-1</td>
-      <td>4</td>
-      <td>10</td>
-      <td>-1</td>
-      <td>180</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 本当は数値なのにCategoricalや文字列に認識されてしまっている列が合った場合や
 本当は整数なのに，小数点付きに認識されてしまっている列については，
@@ -2027,81 +542,131 @@ df['列名'].astype(float) # 列の値をすべてfloat型に
 のような　astype(float) や astype(int)　などで型キャストができる
 
 
-```python
-
-```
-
 要約
 
-
-```python
+```{python}
 df.describe(include='all')
-
 ```
 
 ある変数をグループ分けして，グループごとに要約することもできます．
 
-
-```python
+```{python}
 df.groupby(['性別']).describe(include='all')
 ```
 
 クロス集計表を作ることもできます．クロスさせる2つの変数名を引数に並べます．
 
-
-```python
+```{python}
 pd.crosstab(df['性別'],df['好きな数'])
 ```
 
 ## 課題k02
 
-
-
 [これ](heights14.csv)は，身近の14人（男7人，女7人）に性別と身長を尋ねたときの回答を集めた標本データである．
 
-(1) pandasパッケージを用いて，データフレームを作成し，
-この標本集団における男性と女性それぞれの平均と標準偏差を求めよ．
+(1) pandasパッケージを用いて，csvファイルを読み込んでデータフレームを作成し，
+この標本集団における男性と女性それぞれの「平均」と「標準偏差」を表示する関数を `k02_1.py` の中で `main()` として定義せよ．
 
-(2) このデータはある特定の14人のデータなので，別な14人で回答を集めるたびに別の標本平均が求まる．
-適当な男7人，女7人で回答を集めたときにその標本平均が収まる範囲「◯±△」を推定せよ．
-これはすなわち，男性全体，女性全体の母集団平均が収まる範囲に等しい．
+開発手順は，
 
-(3) 男性全体，女性全体の母集団の標準偏差を求めよ．
+0. `k02/k02_1.ipynb` を作り，Jupyter形式で，入力セルと出力セルを確認しながらプログラミング
+1. `k02/k02_1.ipynb` を `k02/k02_1.py` にエクスポートする．入力セルのみが .py にコピーされる．
+    - jupyter形式ではないため `display()` は使えないので消す．
+    - `poetry run python k02/k02_1.py`で確認．
+2. `k02_1.py` をモジュールに書き換える．
+    - import行のあとのすべての処理を `def main():` ブロックに入れる．
+    - `k02_1.py` の末尾に，`if __name__ == '__main__': main()` という行を追加
+3. 動作確認用に`tests/test_k02_1.py`を書いて，正しく動作することを確認
 
-母集団の分散$u^2$は標本の分散$s^2$と標本サイズ$N$から「推定」できる．所謂，不偏分散と呼ばれる．
-$$ u^2 = \frac{N}{N-1}s^2 $$
+    ```{.py}
+    from k02 import k02_1
 
-母集団の平均の最良推定値（「◯±△」の「◯」）は，標本平均と等しい．また，標本誤差（「◯±△」の「△」）は，$\sqrt{\frac{u^2}{N}}$で求まる．
+    k02_1.main()
+    ```
 
-提出するファイル`k02.py`は，
+`k02_1.py`を以下のように，`def main()` に処理，`if __name__ == '__main__': main()` を末尾に設定，とすると，
+
+```{.py'}
+import pandas as pd
+
+def main():
+    # ここに処理を書く（インデントに気をつけよ）
+
+if __name__ == '__main__': main()
 ```
-python k02.py　
-```
-を実行すると，同じ階層にある`heights14.csv`を読み込み，
 
+```{.sh}
+> poetry run python k02/k02_1.py
 ```
+
+は，
+
+```{.sh}
+> poetry run python
+>>> from k02 import k02_1
+>>> k02_1.main()
+```
+
+実行結果は
+
+```{.sh}
 ==男==
-標本平均:173.90
-標本標準偏差: 5.06
-母集団平均:173.90± 1.91
-母集団標準偏差: 5.41
+平均:173.90
+標準偏差: 5.06
 
 --女--
-標本平均: ◯ cm
-標本標準偏差：　◯ cm
-母集団平均範囲： ◯ ± △ cm
-母集団標準偏差：　◯ cm
+平均: ◯ cm
+標準偏差：　◯ cm
 ```
 
 と表示されるようにせよ．（男について表示される数値は上記になるのが正解）
 
+ちなみに，標本分散は `var(ddof=0)`，標本標準偏差は， `std(ddof=0)` で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）
 
- 
- 
+```{.sh}
+df_M = df[df['性別']=='男']
+se_M_height = df_M['身長']
+M_std = se_M_height.std(ddof=0) # 標準偏差
+M_var = se_M_height.var(ddof=0) # 分散
+```
 
+(2) このデータはある特定の14人のデータなので，別な14人で回答を集めるたびに別の標本平均が求まる．
+適当な男7人，女7人で回答を集めたときにその標本平均が収まる範囲「◯±△」を推定せよ．
+`(1)`と同様に最終的には モジュール`k02/k02_2.py`を作り，`tests/test_k02_2.py`で動作確認せよ．
 
+- 母集団の平均の最良推定値（「◯±△」の「◯」）は，標本平均と等しい．
+- また，標本誤差（「◯±△」の「△」）は， $\sqrt{\frac{u^2}{N}}$ で求まる．
+  - 母集団の分散 $u^2$ は標本の分散 $s^2$ と標本サイズ $N$ から「推定」できる．所謂，不偏分散と呼ばれる．
 
+    $$
+    u^2 = \frac{N}{N-1}s^2
+    $$
 
+ちなみに，母集団の分散と標準偏差は，`var(ddof=1)`，`std(ddof=1)`で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）
 
+実行結果は，
 
+```{.sh}
+==男==
+母集団平均:173.90± 1.91
 
+--女--
+母集団平均範囲： ◯ ± △ cm
+```
+
+と表示されるようにせよ．（男について表示される数値は上記になるのが正解）
+
+(3) 男性全体，女性全体の母集団の標準偏差を求めよ．モジュール名は，`k02/k02_3.py`とする．
+母集団の標準偏差は，(2)の母集団分散の二乗根である．
+
+実行結果は，
+
+```{.sh}
+==男==
+母集団標準偏差: 5.41
+
+--女--
+母集団標準偏差：　◯ cm
+```
+
+と表示されるようにせよ．（男について表示される数値は上記になるのが正解）
