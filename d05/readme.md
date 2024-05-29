@@ -203,4 +203,4 @@ x = k01.Frac(1,10)
 
 pandasに，CSVファイルをデータフレームにする `read_csv`という関数があります．これを使います．
 
-[つづきはこちら](https://github.com/helmenov/psp2/d06)
+[つづきはこちら](https://github.com/helmenov/psp2/tree/main/d06)
