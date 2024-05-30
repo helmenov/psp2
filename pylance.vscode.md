@@ -1,4 +1,4 @@
-# pylanceのvscodeでのセッティング
+# pylance の vscode でのセッティング
 
 ```{.json}
 "python.languageServer": "Pylance",

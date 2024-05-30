@@ -1,4 +1,4 @@
-# warningをerrorとして扱う
+# warning を error として扱う
 
 `python -X dev foo.py`
 

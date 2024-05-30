@@ -1,4 +1,4 @@
-- [day02: vscodeでプログラミング](#day02-vscodeでプログラミング)
+- [day02: vscode でプログラミング](#day02-vscodeでプログラミング)
   - [1. 課題用のディレクトリを作る](#1-課題用のディレクトリを作る)
     - [1.1. `poetry new k00`](#11-poetry-new-k00)
     - [1.2. `k00/.venv/`](#12-k00venv)
@@ -6,16 +6,16 @@
     - [2.1. `k00/k00/k00_turtle.py`](#21-k00k00k00_turtlepy)
     - [2.2. `k00/test_k00_turtle.py`:インタフェースからのパッケージ読み込み](#22-k00test_k00_turtlepyインタフェースからのパッケージ読み込み)
     - [2.3. `k00/dists/k00-[...].whl`:提出](#23-k00distsk00-whl提出)
-      - [2.3.1. `poetry version`,`poetry build`: wheelに圧縮](#231-poetry-versionpoetry-build-wheelに圧縮)
-      - [2.3.2. 提出物のcheck](#232-提出物のcheck)
+      - [2.3.1. `poetry version`,`poetry build`: wheel に圧縮](#231-poetry-versionpoetry-build-wheelに圧縮)
+      - [2.3.2. 提出物の check](#232-提出物のcheck)
     - [@. jupyter で実行する場合](#-jupyter-で実行する場合)
   - [3. 今日の課題](#3-今日の課題)
-  - [@1. 便利なvscode用コメントアウト　「`# %%`」](#1-便利なvscode用コメントアウト-)
+  - [@1. 便利な vscode 用コメントアウト　「`# %%`」](#1-便利なvscode用コメントアウト-)
   - [@2. 繰り返し処理](#2-繰り返し処理)
   - [@3. モジュールおよび関数](#3-モジュールおよび関数)
     - [**混乱を生むが許されている他の`import`方法**](#混乱を生むが許されている他のimport方法)
 
-# day02: vscodeでプログラミング
+# day02: vscode でプログラミング
 
 ## 1. 課題用のディレクトリを作る
 
@@ -36,7 +36,7 @@
 > cd k00
 ```
 
-仮想環境（システムの`site-packages`を用いない，独自の`site-packages`）をpoetry で作成します．独自の`site-packages`を使うことで，システムの`site-packages`に依存させないようにできます．
+仮想環境（システムの`site-packages`を用いない，独自の`site-packages`）を poetry で作成します．独自の`site-packages`を使うことで，システムの`site-packages`に依存させないようにできます．
 
 ```{.sh}
 > poetry env use py # `py`は仮想環境で`python`として利用するコマンドパス
@@ -64,38 +64,39 @@ Executable: /opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3
 
 皆さんのところでは，どうなるでしょう．
 
-
 ### 1.2. `k00/.venv/`
 
-仮想環境に入るときには，macやlinuxなら
+仮想環境に入るときには，mac や linux なら
 
 ```{.sh}
 > source .venv/bin/activate
 ```
 
-windows の command promptなら
+windows の command prompt なら
 
 ```{.sh}
 > .\.venv\Scripts\Activate.bat
 ```
 
-windows の PowerShellの場合は，
+windows の PowerShell の場合は，
 
 ```{.sh}
 PS1 > .\.venv\Scripts\Activate.ps1
 ```
+
 で入ることができます．この場合プロンプトが`(k00-py3.12)`となります．
 
-PowerShellの場合，うまく行かない可能性があります．そのときは，
+PowerShell の場合，うまく行かない可能性があります．そのときは，
 
 ```{sh}
 PS > Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 ```
+
 を入力してください．
 
 仮想環境に入ると，インタプリタの場所，および外部パッケージ置き場が変わります．
 
-仮想環境から出るときには，いずれのOSでも
+仮想環境から出るときには，いずれの OS でも
 
 ```{.sh}
 > deactivate
@@ -107,13 +108,13 @@ PS > Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 
 ### 2.1. `k00/k00/k00_turtle.py`
 
-vscodeを起動します．
+vscode を起動します．
 
 ![起動直後](vscode01.png)
 
 左端にあるアイコンは，メニューです．一番下にある帯には，現在開いているファイルに関する「状態」が表示されています．
 
-ウィンドウのほとんどの部分は，エディタです．「ファイル名　x」という感じで，最近のウェブブラウザのように「タブ」が並びます．
+ウィンドウのほとんどの部分は，エディタです．「ファイル名　 x」という感じで，最近のウェブブラウザのように「タブ」が並びます．
 
 初期起動時には，「`Get Started`」というタブが立ち上がっています．使わないので「x」を押して消してください．
 
@@ -135,7 +136,7 @@ vscodeを起動します．
 
 のように表示されていると思います．
 
-「`K00`」のあたりにマウスを移動させると，その帯の右側に4つのアイコンが並びます．それぞれのアイコンにマウスを移動させると説明が表示されますが，左から，「ファイルを追加」「フォルダを追加」「更新」「表示を縮める」です．
+「`K00`」のあたりにマウスを移動させると，その帯の右側に 4 つのアイコンが並びます．それぞれのアイコンにマウスを移動させると説明が表示されますが，左から，「ファイルを追加」「フォルダを追加」「更新」「表示を縮める」です．
 
 ![k00の横](./k00_ss01.png)
 
@@ -207,16 +208,15 @@ if __name__ == '__main__':
     main()
 ```
 
-- 「`"""`」で囲まれた部分は，一般に複数行のコメントアウトで，pythonの実行コードから無視されます．
+- 「`"""`」で囲まれた部分は，一般に複数行のコメントアウトで，python の実行コードから無視されます．
   - 特に`def`文直後の`"""`ブロックは「**docString**」と呼ばれ，`help()`関数で表示されます．
-- 「`#`」記号のある行はいわゆるコメントアウトで，pythonの実行コードから無視されます．
+- 「`#`」記号のある行はいわゆるコメントアウトで，python の実行コードから無視されます．
 - コメントアウト，文字列，など色分けされていますね．
-- 最初の行のコメントアウト「`# coding:utf-8`」は，このソースコードの日本語が文字コード「`utf-8`」で書かれていることをIDEに教えています．Windowsの場合は文字コードが「`shift-jis`」かもしれません．
-
+- 最初の行のコメントアウト「`# coding:utf-8`」は，このソースコードの日本語が文字コード「`utf-8`」で書かれていることを IDE に教えています．Windows の場合は文字コードが「`shift-jis`」かもしれません．
 
 では，この`k00_turtle.py`を実行しましょう．
 
-vscodeとは別に，コマンドプロンプトを立ち上げて，
+vscode とは別に，コマンドプロンプトを立ち上げて，
 
 ```{.sh}
 > cd c:\Users\kotaro\Documents\psp2\k00\k00
@@ -230,13 +230,13 @@ vscodeとは別に，コマンドプロンプトを立ち上げて，
 
 とすればプログラムが動きます．
 
-これでもいいのですが，vscodeはウィンドウの中でコマンドプロンプトを起動できます．上部メニューに「ターミナル」があり，そこに「新しいターミナルを開く」というのがあります．
+これでもいいのですが，vscode はウィンドウの中でコマンドプロンプトを起動できます．上部メニューに「ターミナル」があり，そこに「新しいターミナルを開く」というのがあります．
 
 ![ターミナル](./vscode05.png)
 
-「`(k00-py3.12)`」というプロンプトのコマンドプロンプトがエディタの下の領域に立ち上がります．フォルダも現在作業中の場所に移動しています．つまり，vscodeでは直下に`.venv`というフォルダがあると，自動的に仮想環境に入るのです．
+「`(k00-py3.12)`」というプロンプトのコマンドプロンプトがエディタの下の領域に立ち上がります．フォルダも現在作業中の場所に移動しています．つまり，vscode では直下に`.venv`というフォルダがあると，自動的に仮想環境に入るのです．
 
-PowerShellの場合は，プロンプトが変わらないので，仮想環境が適用されているのか否かが不明なので，「規定のプロファイルを選択」からCommand Promptを選んでおきましょう．
+PowerShell の場合は，プロンプトが変わらないので，仮想環境が適用されているのか否かが不明なので，「規定のプロファイルを選択」から Command Prompt を選んでおきましょう．
 
 ![規定のプロファイルを選択](./k00_terminal.png)
 
@@ -265,9 +265,9 @@ my.main()
 - `from (パッケージディレクトリパス) import （モジュールの拡張子省略名） as （別名）`
 - `（別名）.（関数オブジェクト）`で呼び出します．
 
-パスについては，[importについて](https://github.com/helmenov/psp2/blob/e603e02f4d2704fcc895a2654e4c32f8cad4a5cf/reference_import.md#import%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)を参照．
+パスについては，[import について](https://github.com/helmenov/psp2/blob/e603e02f4d2704fcc895a2654e4c32f8cad4a5cf/reference_import.md#import%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)を参照．
 
-パッケージのパス（PATH,場所）は，実行するpython環境の`sys.path`に列挙されているPATHの直下に無ければいけません．
+パッケージのパス（PATH,場所）は，実行する python 環境の`sys.path`に列挙されている PATH の直下に無ければいけません．
 
 ```{.sh}
 (k00-py3.12) > python
@@ -305,7 +305,7 @@ my.main()
 
 ![install](./k00_turtle_02.png)
 
-のように，若干ファイルが増えています（だけど，k00フォルダは無い）
+のように，若干ファイルが増えています（だけど，k00 フォルダは無い）
 
 `sys.path`に`psp2/k00`フォルダが列挙されているので，`(k00-py3.12)`の仮想環境であれば，
 `psp2/k00/k00`というフォルダをパッケージとして読み込むことができます．
@@ -315,6 +315,7 @@ my.main()
 ```{.sh}
 > poetry run python tests/test_k00_turtle.py
 ```
+
 でテストできます．
 
 また，
@@ -329,11 +330,11 @@ main() -> None
     (このmain関数が何をするのかを書く．)
 ```
 
-で `k00_turtle.py`の`main`関数のdocStringが表示されます．
+で `k00_turtle.py`の`main`関数の docString が表示されます．
 
 ### 2.3. `k00/dists/k00-[...].whl`:提出
 
-#### 2.3.1. `poetry version`,`poetry build`: wheelに圧縮
+#### 2.3.1. `poetry version`,`poetry build`: wheel に圧縮
 
 ```{.sh}
 > poetry build
@@ -341,31 +342,33 @@ main() -> None
 
 で，`k00/dists/k00-0.1.0-py3-none-any.whl`が作られます．
 
-これを提出してください．`0.1.0`はversionです．
+これを提出してください．`0.1.0`は version です．
 
 再提出の際，`build`の前に以下の操作を行ってください．
 
 - 前に提出したものとモジュール名や関数名を変えない修正なら（例：関数の中の処理を変更．間違いを修正）
-   ```{.sh}
-   poetry version patch
-   ```
+  ```{.sh}
+  poetry version patch
+  ```
 - モジュールや関数を増やす修正なら（例：最初の提出は(1)だけだったが，次の提出は(2)のモジュールも増やした）
-   ```{.sh}
-   poetry version minor
-   ```
+  ```{.sh}
+  poetry version minor
+  ```
 - モジュールや関数を減らす修正なら（例：関数名を変更した．）
-   ```{.sh}
-   poetry version major
-   ```
+  ```{.sh}
+  poetry version major
+  ```
 
 `patch`は`a.b.c`の`c`が増え，`minor`は`b`, `major`は`a`が増えます．
 
-#### 2.3.2. 提出物のcheck
+#### 2.3.2. 提出物の check
 
-TAは，適当な環境で，
+TA は，適当な環境で，
+
 ```{.sh}
 pip install k00-0.1.0-py3-none-any.whl
 ```
+
 して，`site-packages`に`k00`をインストールします．
 
 そこで上の`test_k00_turtle.py`を実行します．再現されるかな．
@@ -378,9 +381,9 @@ pip uninstall k00
 
 ### @. jupyter で実行する場合
 
-vscodeやコマンドプロンプト，terminalから実行する場合はよいのですが，jupyterやGoogleColabなどweb上では表示できずエラーになります．
+vscode やコマンドプロンプト，terminal から実行する場合はよいのですが，jupyter や GoogleColab など web 上では表示できずエラーになります．
 
-そこで，jupyter用のturtle [ColabTurtlePlus][ColabTurtlePlus] をインストールします．
+そこで，jupyter 用の turtle [ColabTurtlePlus][ColabTurtlePlus] をインストールします．
 
 ```{.sh}
 > poetry add ColabTurtlePlus
@@ -412,7 +415,7 @@ from ColabTurtlePlus import Turtle as turtle
 
 > (2)正六角形を描画するモジュール`k00_hexagon.py`を作成せよ．ただし，左半分は矢印で赤，右半分はカメで青で描くこと．`for`文もしくは`while`文などの繰り返し処理を用いること．自分で編集したソースコードのそれぞれの行で行われていることをコメントアウトに追加せよ．
 
-> (3)`k00_pentagon.py`に正N角形を描画する関数`NsidePolygon(n)`を作成し，`NsidePolygon`関数を利用して正五角形を描け．ただし，関数`NsidePolygon(n)`は`n`匹のカメを発生させ，それぞれのカメがそれぞれ各頂点に移動して一つの辺のみを描画することとする．繰り返し処理を利用してできるだけ行数を短くせよ．
+> (3)`k00_pentagon.py`に正 N 角形を描画する関数`NsidePolygon(n)`を作成し，`NsidePolygon`関数を利用して正五角形を描け．ただし，関数`NsidePolygon(n)`は`n`匹のカメを発生させ，それぞれのカメがそれぞれ各頂点に移動して一つの辺のみを描画することとする．繰り返し処理を利用してできるだけ行数を短くせよ．
 
 > (4)`k00_pentagon.py`を`k00_invalid.py`にコピーし，`NsidePolygon`関数に描く線の色名を引数`color`として指定してできるようにせよ．その上で正五角形を描け．`pencolor('yellow')`で黄色に，`pencolor('blue')`で青色の線を指定できる．ただし，適当な文字列を色名とするとエラーが出てプログラムが止まるであろう．適当な色名が指定されたときには`pencolor('black')`で線を黒色に指定しなおすように，例外処理を加えよ．
 
@@ -437,19 +440,18 @@ from ColabTurtlePlus import Turtle as turtle
 >     └── __init__.py
 > ```
 
-
 課題は，
 
-- LACSの課題から，パッケージ`k00`を`wheel`にしたもの，と，描画されたウィンドウのスクリーンショットを提出してください．
-- 初めての提出作業は**5月8日正午まで**に必ず行ってください． 課題提出があると，TAや私がそれを採点し，改善点があればコメントを残します．
-- コメントを踏まえて再度提出し，10点満点を目指し何度でも提出を受付ます．課題k00の最終期限は**5月22日正午まで**を目安とします．
+- LACS の課題から，パッケージ`k00`を`wheel`にしたもの，と，描画されたウィンドウのスクリーンショットを提出してください．
+- 初めての提出作業は**5 月 8 日正午まで**に必ず行ってください． 課題提出があると，TA や私がそれを採点し，改善点があればコメントを残します．
+- コメントを踏まえて再度提出し，10 点満点を目指し何度でも提出を受付ます．課題 k00 の最終期限は**5 月 22 日正午まで**を目安とします．
 - 今後の課題も，基本的には，初めての提出の期限を２週間後，最終期限を４週間後とします．
 
-## @1. 便利なvscode用コメントアウト　「`# %%`」
+## @1. 便利な vscode 用コメントアウト　「`# %%`」
 
 ソースコードは基本的には，`python **.py`だと最初の行から最後の行まですべての工程を行います．
 
-コードのそれぞれの行で何を行っているか調べるなら，もしくは新しく文を書いて，その動きを確かめたいのなら，pythonだとIPythonが有名です．IPythonは，JupyterやGoogle Colabを動かしているプログラムです．
+コードのそれぞれの行で何を行っているか調べるなら，もしくは新しく文を書いて，その動きを確かめたいのなら，python だと IPython が有名です．IPython は，Jupyter や Google Colab を動かしているプログラムです．
 
 ターミナルやコマンドプロンプトで，`ipython`と打つと，
 
@@ -472,13 +474,13 @@ In [2]: print(x)
 10
 ```
 
-のように，JupyterやGoogle Colabと何ら変わりません．
+のように，Jupyter や Google Colab と何ら変わりません．
 
-ただ，問題なのは，このインタラクティブモードで書いたソースコードは保存されないということ．JupyterやGoogle Colabで書いたものも，基本的には「jupyter notebook」（拡張子は `.ipynb`）であり，pythonのソースコード(`.py`)ではないということです．
+ただ，問題なのは，このインタラクティブモードで書いたソースコードは保存されないということ．Jupyter や Google Colab で書いたものも，基本的には「jupyter notebook」（拡張子は `.ipynb`）であり，python のソースコード(`.py`)ではないということです．
 
-JupyterやGoogle Colabではメニューから，JupyterNotebook(`.ipynb`)からpythonソースコード(`.py`)に変換することは可能ですが，
+Jupyter や Google Colab ではメニューから，JupyterNotebook(`.ipynb`)から python ソースコード(`.py`)に変換することは可能ですが，
 
-僕らが今欲しいのは，書いているpythonソースコードをブロック毎に動きを確かめたい．そこで，vscodeの「`# %%`」です．
+僕らが今欲しいのは，書いている python ソースコードをブロック毎に動きを確かめたい．そこで，vscode の「`# %%`」です．
 
 実は，
 
@@ -488,27 +490,27 @@ JupyterやGoogle Colabではメニューから，JupyterNotebook(`.ipynb`)から
 # %%
 ```
 
-は，vscode上で，pythonソースコードを簡単にインタラクティブモードで動かすコメントアウトになっているのです．凄い便利！！
+は，vscode 上で，python ソースコードを簡単にインタラクティブモードで動かすコメントアウトになっているのです．凄い便利！！
 
-「`# %%`」から次の「`# %%`」までが，IPythonの「セル」です．
+「`# %%`」から次の「`# %%`」までが，IPython の「セル」です．
 
 - 「Run Cell」は，セルを実行する
 - 「Run Below」は，以下のすべてのセルを実行する
 - 「Debug Cell」は，セルをデバグする．（デバグについては後日）
 
-また，このように書かれたpythonソースコード`.py`は，`Run Cell`や`Run Below`で隣に立ち上がったJupyterみたいなタブで`save`をすることでJupyter Notebook `.ipynb`に保存できます．ターミナルで`jupyter notebook`と打つとウェブブラウザが立ち上がり，
+また，このように書かれた python ソースコード`.py`は，`Run Cell`や`Run Below`で隣に立ち上がった Jupyter みたいなタブで`save`をすることで Jupyter Notebook `.ipynb`に保存できます．ターミナルで`jupyter notebook`と打つとウェブブラウザが立ち上がり，
 
 ![Jupyter Notebook](jupyternotebook00.png)
 
-ここで，`.ipynb`を選択すると，jupyter Notebookを実行できます．
+ここで，`.ipynb`を選択すると，jupyter Notebook を実行できます．
 
 ![Jupter Notebookで開く](jupyternotebook01.png)
 
-ちなみに，Jupyter notebookでの編集は，`.ipynb`には反映されますが，元の`.py`には反映されないので注意．
+ちなみに，Jupyter notebook での編集は，`.ipynb`には反映されますが，元の`.py`には反映されないので注意．
 
 ## @2. 繰り返し処理
 
-python言語の繰り返し処理は，
+python 言語の繰り返し処理は，
 
 ```{.py}
 処理文A
@@ -518,11 +520,11 @@ for 仮変数X in コンテナP:
 処理文D
 ```
 
-の形で処理文Bと処理文Cの繰り返しを実現します．
+の形で処理文 B と処理文 C の繰り返しを実現します．
 
-仮変数Xは繰り返しのたびに，コンテナPの先頭から1つだけ要素が代入されます．コンテナPの最後の要素が代入されたら最後の繰り返しとなり，繰り返しブロックを抜けます．
+仮変数 X は繰り返しのたびに，コンテナ P の先頭から 1 つだけ要素が代入されます．コンテナ P の最後の要素が代入されたら最後の繰り返しとなり，繰り返しブロックを抜けます．
 
-コンテナPがリストの場合，
+コンテナ P がリストの場合，
 
 ```{.py}
 L = [1, 10, 'blue', 3.14]
@@ -534,7 +536,7 @@ for j in L:
 
 は，どのように出力されるでしょうか？やってみましょう．
 
-コンテナPが文字列の場合は，どうなるでしょう？
+コンテナ P が文字列の場合は，どうなるでしょう？
 
 ```{.py}
 S = 'Programing'
@@ -542,7 +544,7 @@ for i in S:
     print(i)
 ```
 
-コンテナPが辞書の場合は，どうなるでしょう？
+コンテナ P が辞書の場合は，どうなるでしょう？
 
 ```{.py}
 D = {'a':1, 'b':10, 'c':'blue', 'd':3.14}
@@ -552,7 +554,7 @@ for j in D:
     print(D[j])
 ```
 
-コンテナPは，スライスでも構いません．
+コンテナ P は，スライスでも構いません．
 
 ```{.py}
 S = 'Programing'
@@ -560,7 +562,7 @@ for i in S[1:]:
     print(i)
 ```
 
-コンテナPは，その場で`range`を利用することもできます．
+コンテナ P は，その場で`range`を利用することもできます．
 
 ```{.py}
 for i in range(5):
@@ -587,9 +589,9 @@ def 関数名(仮引数...):
 y = 関数名(x)
 ```
 
-別のファイルに関数が書かれている場合，呼び出し側のファイルでimportします．関数が書かれた`.py`ファイル，またはそのファイル名の`.py`を除いた文字列をモジュールと呼びます．
+別のファイルに関数が書かれている場合，呼び出し側のファイルで import します．関数が書かれた`.py`ファイル，またはそのファイル名の`.py`を除いた文字列をモジュールと呼びます．
 
-importについては，[こちら](https://github.com/helmenov/2023psp2/blob/main/reference_import.md)を参考にしてください．
+import については，[こちら](https://github.com/helmenov/2023psp2/blob/main/reference_import.md)を参考にしてください．
 
 呼び出し側で，関数を呼び出すときは，以下のようにします．
 
@@ -613,35 +615,34 @@ y = mod.func(x)
 
 また，ソースコードと同じフォルダの下でなくとも，`pip`や`poetry`や`conda`で入れたパッケージやモジュールは`import`できます．
 
-
 ### **混乱を生むが許されている他の`import`方法**
 
 実は他の`import`方法があります．
 
 1. モジュールを`from`にして，関数を`import`
 
-    呼び出し側のソースコードでも，単に関数名になります．
-    関数名が他でも使われている場合に混乱します．
+   呼び出し側のソースコードでも，単に関数名になります．
+   関数名が他でも使われている場合に混乱します．
 
-    ```{.py}
-    from フォルダ.モジュール import func
+   ```{.py}
+   from フォルダ.モジュール import func
 
-    y = func(x)
-    ```
+   y = func(x)
+   ```
 
-2. 1でさらにワイルドカード`*`で関数を`import`
+2. 1 でさらにワイルドカード`*`で関数を`import`
 
-    `import`は，「`,`」で区切って複数のものを`import`できますが，
-    あるモジュール内に存在するすべての関数を`import`する場合，
-    以下のように書くことができます．
-    ```{.py}
-    from モジュールA import *
-    from モジュールB import *
+   `import`は，「`,`」で区切って複数のものを`import`できますが，
+   あるモジュール内に存在するすべての関数を`import`する場合，
+   以下のように書くことができます．
 
-    y = func(x)
-    ```
+   ```{.py}
+   from モジュールA import *
+   from モジュールB import *
 
-    しかし，この場合，`func`という関数が，どちらのモジュールに書かれているものなのか，ソースコードから読み取れません．どちらのモジュールにも`func`が存在する場合，後ろにあるモジュールBの`func`が利用され，混乱の元になります．
+   y = func(x)
+   ```
 
+   しかし，この場合，`func`という関数が，どちらのモジュールに書かれているものなのか，ソースコードから読み取れません．どちらのモジュールにも`func`が存在する場合，後ろにあるモジュール B の`func`が利用され，混乱の元になります．
 
-[ColabTurtlePlus]:https://pypi.org/project/ColabTurtlePlus/
+[ColabTurtlePlus]: https://pypi.org/project/ColabTurtlePlus/
