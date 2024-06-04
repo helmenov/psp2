@@ -139,6 +139,8 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="fu">install</span> <span class="at">--sync</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">add</span> ipykernel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>により，いつものように，パッケージ開発用フォルダを作り， その下に，仮想環境(<code>.venv</code>)，配布するフォルダ(<code>k02</code>)などを作る．</p>
+<section id="外部パッケージの利用" class="level3">
+<h3 class="anchored" data-anchor-id="外部パッケージの利用">0.1. 外部パッケージの利用</h3>
 <p>今回は，パッケージの中で，外部パッケージを使いたいので，</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">add</span> pandas</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">add</span> openpyxl</span>
@@ -152,8 +154,40 @@ window.Quarto = {
 <li>NumPy</li>
 </ul>
 <p>の4つの外部パッケージを仮想環境にインストールしておきます．</p>
+</section>
+<section id="リソースの利用" class="level3">
+<h3 class="anchored" data-anchor-id="リソースの利用">0.2. リソースの利用</h3>
+<p>パッケージには，フォルダ，モジュール(<code>.py</code>)の他に，「リソース」と呼ばれる資源を含ませることができます．（つまり，パッケージの一部として配布されます．）</p>
+<p>配布パッケージ（フォルダ） <code>d02</code> の下の <code>data</code> というフォルダにリソースファイル <code>mydata1.csv</code> を置いているとします．</p>
+<p>この <code>mydata1.csv</code> の「ファイルパス」は，</p>
+<div id="326e6d0c" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> importlib <span class="im">import</span> resources</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 'k02/data/__init__.py' があればフォルダである'data'をimportできる．</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> k02 <span class="im">import</span> data</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># `resources.files(foo)` は，importしたモジュール'foo'のファイルパス</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>data_path <span class="op">=</span> resources.files(data)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data_path)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># .joinpath(パス)は，パスを後ろに結合する．</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>fpath <span class="op">=</span> data_path.joinpath(<span class="st">'mydata1.csv'</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fpath)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>MultiplexedPath('/Users/kotaro/MyRepository/MyLecture/psp2/2024psp2/d06/k02/data')
+/Users/kotaro/MyRepository/MyLecture/psp2/2024psp2/d06/k02/data/mydata1.csv</code></pre>
+</div>
+</div>
+<p>今回は，4 つのcsvファイルをリソースにします．</p>
+<ul>
+<li><a href="'https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/mydata1.csv'"><code>mydata1.csv</code></a></li>
+<li><a href="'https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/mydata2.csv'"><code>mydata2.csv</code></a></li>
+<li><a href="'https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/mydata3.csv'"><code>mydata3.csv</code></a></li>
+<li><a href="'https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/heights14.csv'"><code>heights14.csv</code></a> : 課題用</li>
+</ul>
+</section>
 <section id="vscode-で-jupyter" class="level3">
-<h3 class="anchored" data-anchor-id="vscode-で-jupyter">0.1. vscode で jupyter</h3>
+<h3 class="anchored" data-anchor-id="vscode-で-jupyter">0.3. vscode で jupyter</h3>
 <p>vscodeで配布用フォルダ <code>k02</code> の下に，<code>k02_1.ipynb</code> という名前のファイルを作り，開きます．</p>
 </section>
 </section>
@@ -162,20 +196,20 @@ window.Quarto = {
 <section id="標本の追加" class="level3">
 <h3 class="anchored" data-anchor-id="標本の追加">1.1 標本の追加</h3>
 <p>最初のセルに，</p>
-<div id="4d1a89ad" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># アジア語の文字幅をきれいに表示するおまじない</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.unicode.east_asian_width'</span>, <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="101120fb" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># アジア語の文字幅をきれいに表示するおまじない</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.unicode.east_asian_width'</span>, <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>と書いて，実行します．</p>
 <p>次に，データフレームを作ります．データフレームには変数（項目名）が必要です．</p>
-<div id="2fce0723" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'名前'</span>,<span class="st">'性別'</span>,<span class="st">'好きな数'</span>,<span class="st">'誕生月'</span>,<span class="st">'セロリ好き度'</span>,<span class="st">'身長'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b1b2096e" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'名前'</span>,<span class="st">'性別'</span>,<span class="st">'好きな数'</span>,<span class="st">'誕生月'</span>,<span class="st">'セロリ好き度'</span>,<span class="st">'身長'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>dfを表示するには，普通は<code>print(df)</code>としますが，jupyterでは，<code>display(df)</code>とすると，きれいに表示されます．</p>
-<div id="6b2586e6" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>display(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="111d1b53" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>display(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -204,13 +238,13 @@ window.Quarto = {
 <p>今はデータがありませんので，項目名のみが表示されます．</p>
 <p>では，データを入れていきましょう．</p>
 <p>というか，データが1つでもデータフレームです．</p>
-<div id="fd5acfce" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sample_0 <span class="op">=</span> {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'名前'</span>:<span class="st">'鈴木'</span>, <span class="st">'性別'</span>:<span class="st">'女'</span>, <span class="st">'好きな数'</span>:<span class="dv">3</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'誕生月'</span>:<span class="dv">12</span>, <span class="st">'セロリ好き度'</span>:<span class="st">'好き'</span>, <span class="st">'身長'</span>:<span class="dv">165</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    } <span class="co"># dictで作ります．</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>df_0 <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>[sample_0])</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>display(df_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="71ff4791" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sample_0 <span class="op">=</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'名前'</span>:<span class="st">'鈴木'</span>, <span class="st">'性別'</span>:<span class="st">'女'</span>, <span class="st">'好きな数'</span>:<span class="dv">3</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'誕生月'</span>:<span class="dv">12</span>, <span class="st">'セロリ好き度'</span>:<span class="st">'好き'</span>, <span class="st">'身長'</span>:<span class="dv">165</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    } <span class="co"># dictで作ります．</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>df_0 <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>[sample_0])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>display(df_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -246,13 +280,13 @@ window.Quarto = {
 </div>
 </div>
 <p>別の標本は，</p>
-<div id="696e251f" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sample_1 <span class="op">=</span> {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'名前'</span>:<span class="st">'薗田'</span>, <span class="st">'性別'</span>:<span class="st">'男'</span>, <span class="st">'好きな数'</span>:<span class="dv">7</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'誕生月'</span>:<span class="dv">5</span>, <span class="st">'セロリ好き度'</span>:<span class="st">'とても嫌い'</span>, <span class="st">'身長'</span>:<span class="dv">172</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df_1 <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>[sample_1])</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>display(df_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0deba323" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sample_1 <span class="op">=</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'名前'</span>:<span class="st">'薗田'</span>, <span class="st">'性別'</span>:<span class="st">'男'</span>, <span class="st">'好きな数'</span>:<span class="dv">7</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'誕生月'</span>:<span class="dv">5</span>, <span class="st">'セロリ好き度'</span>:<span class="st">'とても嫌い'</span>, <span class="st">'身長'</span>:<span class="dv">172</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df_1 <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>[sample_1])</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>display(df_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -288,9 +322,9 @@ window.Quarto = {
 </div>
 </div>
 <p>これら2つのデータフレームを合成して，新たなデータフレーム <code>df</code> を作ります．</p>
-<div id="cfffcb33" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df_0, df_1], ignore_index<span class="op">=</span><span class="va">True</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>display(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e78f64c6" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df_0, df_1], ignore_index<span class="op">=</span><span class="va">True</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>display(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -342,9 +376,10 @@ window.Quarto = {
 <section id="標本セットの読み込み" class="level3">
 <h3 class="anchored" data-anchor-id="標本セットの読み込み">1.2. 標本セットの読み込み</h3>
 <p>CSVファイルの読み込みは，<code>read_csv</code>関数です．</p>
-<div id="52265b7b" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'mydata1.csv'</span>,skipinitialspace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>display(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e96e533c" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fpath <span class="op">=</span> data_path.joinpath(<span class="st">"mydata1.csv"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(fpath, skipinitialspace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>display(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -402,16 +437,16 @@ window.Quarto = {
 </div>
 </div>
 <p><code>skip-initial-space</code>はアジア語で余計な空白が入るのを防ぐので，いつもつけておくとよい．</p>
-<div id="6c3a118c" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="b5aec80d" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="74">
 <pre><code>pandas.core.frame.DataFrame</code></pre>
 </div>
 </div>
 <p><code>df</code>は<code>DataFrame</code>というクラスに割当てられていることがわかります．</p>
 <p><code>df.shape</code> データフレームの行数（観測数）と列数（変数数）をタプルで表示します．</p>
-<div id="830fca23" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="20303a00" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(4, 1)</code></pre>
 </div>
@@ -419,10 +454,11 @@ window.Quarto = {
 <p>4つの観測，1つの変数となりました．</p>
 <p>あれれ，それは違います．今回のデータは3観測(薗田と鈴木と斎藤)，6変数（名前,…, 身長）のはずなので<code>(3,6)</code>であるはずです．</p>
 <p>ファイルを直接見ると，1行目に<code># mydata1.csv</code>とあり，これはメモですね．読み飛ばす行番号をリストにして<code>skiprows</code>オプションに渡します．</p>
-<div id="860c8c42" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'mydata1.csv'</span>,skipinitialspace<span class="op">=</span><span class="va">True</span>, skiprows<span class="op">=</span>[<span class="dv">0</span>])</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="d42c47a9" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fpath <span class="op">=</span> data_path.joinpath(<span class="st">'mydata1.csv'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(fpath,skipinitialspace<span class="op">=</span><span class="va">True</span>, skiprows<span class="op">=</span>[<span class="dv">0</span>])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="76">
 <div>
 <div>
 
@@ -474,25 +510,26 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="f6b9d794" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="cc08051e" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="77">
 <pre><code>(3, 6)</code></pre>
 </div>
 </div>
 <p>きちんと，3観測6変数になりました．ちなみに読み飛ばした後の最初の行をヘッダ(header)，変数名リストとして読みます． クラス変数columnsに変数名が保存されています．</p>
 <p>ちなみに，ヘッダ行は観測ではないので，(4,6)ではなく(3,6)になっています．</p>
-<div id="9855cbdd" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div id="4b6f64db" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="78">
 <pre><code>Index(['名前', '性別', '好きな数', '誕生月', 'セロリ好き度', '身長'], dtype='object')</code></pre>
 </div>
 </div>
 <p>変数名が並んだ行が無いCSVもあります．例えば<code>mydata2.csv</code>は<code>mydata1.csv</code>と同じ3観測6変数のデータですが，</p>
-<div id="4462d686" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'mydata2.csv'</span>,skipinitialspace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="60cef536" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fpath <span class="op">=</span> data_path.joinpath(<span class="st">'mydata2.csv'</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(fpath,skipinitialspace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="79">
 <div>
 <div>
 
@@ -535,17 +572,18 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="4f49351d" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div id="e5f1cfe0" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="80">
 <pre><code>(2, 6)</code></pre>
 </div>
 </div>
 <p>のように，データの1観測目がヘッダと捉えられてしまいます．よって， <code>header</code>が無いことを教えて read_csv　します．</p>
-<div id="ddd0ee34" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'mydata2.csv'</span>,skipinitialspace<span class="op">=</span><span class="va">True</span>,header<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div id="3d3fe66c" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fpath <span class="op">=</span> data_path.joinpath(<span class="st">'mydata2.csv'</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(fpath,skipinitialspace<span class="op">=</span><span class="va">True</span>,header<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="81">
 <div>
 <div>
 
@@ -598,17 +636,17 @@ window.Quarto = {
 </div>
 </div>
 <p>ただし，ヘッダが無いので変数名が仮に0,….,5となっています．</p>
-<div id="9009eb54" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div id="9e920831" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="82">
 <pre><code>Index([0, 1, 2, 3, 4, 5], dtype='int64')</code></pre>
 </div>
 </div>
 <p>きちんと変数名を決めるには このクラス変数<code>columns</code>を正しいもので上書きします．</p>
-<div id="eb6b37cb" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df.columns<span class="op">=</span>[<span class="st">'Name'</span>,<span class="st">'Sex'</span>,<span class="st">'FavoriteNumber'</span>,<span class="st">'BirthMonth'</span>,<span class="st">'CeleryFavor'</span>,<span class="st">'Height'</span>]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div id="a5566258" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df.columns<span class="op">=</span>[<span class="st">'Name'</span>,<span class="st">'Sex'</span>,<span class="st">'FavoriteNumber'</span>,<span class="st">'BirthMonth'</span>,<span class="st">'CeleryFavor'</span>,<span class="st">'Height'</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="83">
 <div>
 <div>
 
@@ -661,9 +699,9 @@ window.Quarto = {
 </div>
 </div>
 <p>変数名を変えるにはrenameメソッドを使ってもよいです．</p>
-<div id="e8a73197" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df.rename(columns<span class="op">=</span>{<span class="st">'Sex'</span>:<span class="st">'Gender'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div id="ef6d501c" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df.rename(columns<span class="op">=</span>{<span class="st">'Sex'</span>:<span class="st">'Gender'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="84">
 <div>
 <div>
 
@@ -716,8 +754,8 @@ window.Quarto = {
 </div>
 </div>
 <p>ところで，データフレームを表示したときに，左端に毎回0から始まる数字が書かれています． これは，CSVにおける観測の個体IDであり，「インデックス(index)」と読んでいます．データ本体には含まれません．</p>
-<div id="1771c28c" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="70b5618c" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>RangeIndex(start=0, stop=3, step=1)</code></pre>
 </div>
@@ -727,10 +765,11 @@ window.Quarto = {
 <section id="データを集めたら" class="level3">
 <h3 class="anchored" data-anchor-id="データを集めたら">1.3. データを集めたら</h3>
 <p>そんなこんなで，<code>mydata1.csv</code>を読みます．</p>
-<div id="5f875ca2" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'mydata1.csv'</span>,skipinitialspace<span class="op">=</span><span class="va">True</span>,header<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div id="e11884b3" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fpath <span class="op">=</span> data_path.joinpath(<span class="st">'mydata1.csv'</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(fpath,skipinitialspace<span class="op">=</span><span class="va">True</span>,header<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="86">
 <div>
 <div>
 
@@ -783,10 +822,11 @@ window.Quarto = {
 </div>
 </div>
 <p>同じデータですが，場合によっては，次のような表でまとめているかもしれません．</p>
-<div id="87fd47d0" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.read_csv(<span class="st">'mydata3.csv'</span>,skipinitialspace<span class="op">=</span><span class="va">True</span>,skiprows<span class="op">=</span>[<span class="dv">0</span>])</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="2f8f229f" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fpath <span class="op">=</span> data_path.joinpath(<span class="st">"mydata3.csv"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.read_csv(fpath, skipinitialspace<span class="op">=</span><span class="va">True</span>, skiprows<span class="op">=</span>[<span class="dv">0</span>])</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="87">
 <div>
 <div>
 
@@ -899,10 +939,10 @@ window.Quarto = {
 </div>
 </div>
 <p>この場合，「名前」が同じ行は，1人に対する別々の変数と回答を表しています．つまり，回答者は「薗田」「鈴木」「斎藤」の3人です．よって，回答者をIDとします．</p>
-<div id="f3824224" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df2.set_index(<span class="st">'名前'</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div id="c1e141c2" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df2.set_index(<span class="st">'名前'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="88">
 <div>
 <div>
 
@@ -1004,10 +1044,10 @@ window.Quarto = {
 </div>
 </div>
 <p>このような縦長の表を先程のようなデータフレームに変換するには，pivot関数を使います．変数名が並ぶ列と，回答が並ぶ列を指定すると，変換できます．</p>
-<div id="42d40c6f" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> pd.pivot(df2,columns<span class="op">=</span><span class="st">'変数名'</span>,values<span class="op">=</span><span class="st">'回答'</span>)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div id="a702857d" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> pd.pivot(df2,columns<span class="op">=</span><span class="st">'変数名'</span>,values<span class="op">=</span><span class="st">'回答'</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="89">
 <div>
 <div>
 
@@ -1072,10 +1112,10 @@ window.Quarto = {
 <ol type="1">
 <li>df[[変数名]]</li>
 </ol>
-<div id="592928f8" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>col1 <span class="op">=</span> df3[[<span class="st">'好きな数'</span>]]</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>col1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div id="f32e2141" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>col1 <span class="op">=</span> df3[[<span class="st">'好きな数'</span>]]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>col1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="90">
 <div>
 <div>
 
@@ -1111,8 +1151,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="7ccfde15" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col1), col1.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a3c29b71" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col1), col1.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt; (3, 1)</code></pre>
 </div>
@@ -1120,10 +1160,10 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>df.変数名</li>
 </ol>
-<div id="2eb4ef75" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>col2 <span class="op">=</span> df3.好きな数</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>col2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div id="b3b85b54" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>col2 <span class="op">=</span> df3.好きな数</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>col2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="92">
 <pre><code>名前
 斎藤    4
 薗田    7
@@ -1131,8 +1171,8 @@ window.Quarto = {
 Name: 好きな数, dtype: object</code></pre>
 </div>
 </div>
-<div id="7eb233ff" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col2), col2.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a32bc09e" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col2), col2.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.series.Series'&gt; (3,)</code></pre>
 </div>
@@ -1140,10 +1180,10 @@ Name: 好きな数, dtype: object</code></pre>
 <ol start="3" type="1">
 <li>df[変数名]</li>
 </ol>
-<div id="e86b2f5b" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>col3 <span class="op">=</span> df3[<span class="st">'好きな数'</span>]</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>col3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div id="ad8ec702" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>col3 <span class="op">=</span> df3[<span class="st">'好きな数'</span>]</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>col3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="94">
 <pre><code>名前
 斎藤    4
 薗田    7
@@ -1151,8 +1191,8 @@ Name: 好きな数, dtype: object</code></pre>
 Name: 好きな数, dtype: object</code></pre>
 </div>
 </div>
-<div id="01fde80a" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col3),col3.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8df92e03" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col3),col3.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.series.Series'&gt; (3,)</code></pre>
 </div>
@@ -1160,10 +1200,10 @@ Name: 好きな数, dtype: object</code></pre>
 <ol start="4" type="1">
 <li>df[[変数名]][範囲]</li>
 </ol>
-<div id="7b376594" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>col4 <span class="op">=</span> df3[[<span class="st">'好きな数'</span>]][<span class="dv">1</span>:<span class="dv">3</span>] <span class="co">#　スライスで行番号</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>col4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div id="96f1ae83" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>col4 <span class="op">=</span> df3[[<span class="st">'好きな数'</span>]][<span class="dv">1</span>:<span class="dv">3</span>] <span class="co">#　スライスで行番号</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>col4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="96">
 <div>
 <div>
 
@@ -1195,8 +1235,8 @@ Name: 好きな数, dtype: object</code></pre>
 </div>
 </div>
 </div>
-<div id="f11c4932" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col4),col4.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6d1f654f" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col4),col4.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt; (2, 1)</code></pre>
 </div>
@@ -1204,17 +1244,17 @@ Name: 好きな数, dtype: object</code></pre>
 <ol start="5" type="1">
 <li>df.loc[範囲,変数名]</li>
 </ol>
-<div id="89ddc392" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>col5 <span class="op">=</span> df.loc[:<span class="dv">1</span>, <span class="st">'好きな数'</span>] <span class="co"># 行スライスが`:1`に注意</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>col5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="32">
+<div id="7c8225c4" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>col5 <span class="op">=</span> df.loc[:<span class="dv">1</span>, <span class="st">'好きな数'</span>] <span class="co"># 行スライスが`:1`に注意</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>col5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="98">
 <pre><code>0    7
 1    3
 Name: 好きな数, dtype: int64</code></pre>
 </div>
 </div>
-<div id="e012fc89" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col5), col5.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e62eeb04" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(col5), col5.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.series.Series'&gt; (2,)</code></pre>
 </div>
@@ -1222,29 +1262,32 @@ Name: 好きな数, dtype: int64</code></pre>
 <ol start="6" type="1">
 <li>df.iloc[行範囲，列範囲]</li>
 </ol>
-<div id="63df34bd" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>col6 <span class="op">=</span> df3.iloc[:<span class="dv">2</span>, <span class="dv">1</span>] <span class="co"># 変数の順番で指定</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>col6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="34">
+<div id="1d33a032" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>col6 <span class="op">=</span> df3.iloc[:<span class="dv">2</span>, <span class="dv">1</span>] <span class="co"># 変数の順番で指定</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>col6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="100">
 <pre><code>名前
 斎藤    4
 薗田    7
 Name: 好きな数, dtype: object</code></pre>
 </div>
 </div>
-<p>以上から， - <code>df[['var']]</code> : DataFrame 2階テンソル（行列） - <code>df['var']</code> : Series 1階テンソル（ベクトル） - <code>df.var</code> : Series 1階テンソル（ベクトル）</p>
-<ul>
+<p>以上から，</p>
+<ol type="1">
+<li><code>df[['var']]</code> : DataFrame 2階テンソル（行列）</li>
+<li><code>df['var']</code> : Series 1階テンソル（ベクトル）</li>
+<li><code>df.var</code> : Series 1階テンソル（ベクトル）</li>
 <li><code>df[['var']][:2]</code> : DataFrame</li>
 <li><code>df.loc[:1, 'var']</code> : Series</li>
 <li><code>df.iloc[:2, 2]</code> : Series</li>
-</ul>
+</ol>
 </section>
 <section id="データの要約" class="level3">
 <h3 class="anchored" data-anchor-id="データの要約">1.5. データの要約</h3>
 <p>データの要約は describeメソッドで行います．</p>
-<div id="14284bf3" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df.describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div id="d2fa2f54" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>df.describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="101">
 <div>
 <div>
 
@@ -1379,52 +1422,52 @@ Name: 好きな数, dtype: object</code></pre>
 <li><code>NaN</code> は <em>Not a Number</em> 値なし</li>
 </ul>
 <p>この関数の中身は，以下のDataFrameのメソッドを使っても表示されます．</p>
-<div id="252eaf4b" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数のサンプルサイズ</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div id="0b2d9fb9" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数のサンプルサイズ</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].count()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="102">
 <pre><code>3</code></pre>
 </div>
 </div>
-<div id="65dad624" class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数の標本平均</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="37">
+<div id="9c41598e" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数の標本平均</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="103">
 <pre><code>172.33333333333334</code></pre>
 </div>
 </div>
-<div id="789a86cf" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数の標本中央値</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].median()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div id="80e1987e" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数の標本中央値</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].median()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="104">
 <pre><code>172.0</code></pre>
 </div>
 </div>
-<div id="da93320c" class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数の標本標準偏差</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].std(ddof<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div id="b908926e" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 各変数の標本標準偏差</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].std(ddof<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="105">
 <pre><code>6.128258770283411</code></pre>
 </div>
 </div>
-<div id="e563c813" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 第1四分位</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].quantile(q<span class="op">=</span><span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="40">
+<div id="a8a7bcc8" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 第1四分位</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].quantile(q<span class="op">=</span><span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="106">
 <pre><code>168.5</code></pre>
 </div>
 </div>
-<div id="976072de" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 第2四分位（中央値）</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].quantile(q<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="41">
+<div id="e7481b0d" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 第2四分位（中央値）</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].quantile(q<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="107">
 <pre><code>172.0</code></pre>
 </div>
 </div>
-<div id="a1d18b79" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 第3四分位</span></span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].quantile(q<span class="op">=</span><span class="fl">0.75</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="42">
+<div id="07b6dd05" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 第3四分位</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'身長'</span>].quantile(q<span class="op">=</span><span class="fl">0.75</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="108">
 <pre><code>176.0</code></pre>
 </div>
 </div>
@@ -1519,25 +1562,32 @@ Name: 好きな数, dtype: object</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Pandasでは，それぞれの尺度に型（クラス）を割り当てています． - 名義尺度は，<code>Categorical(categories=[...],ordered=False)</code>クラス - 順序尺度は，<code>Categorical(categories=[...],ordered=True)</code>クラス - 間隔尺度と比尺度は，<code>Float</code>クラス</p>
+<p>Pandasでは，それぞれの尺度に型（クラス）を割り当てています．</p>
+<ul>
+<li>名義尺度は，<code>Categorical(categories=[...],ordered=False)</code>クラス</li>
+<li>順序尺度は，<code>Categorical(categories=[...],ordered=True)</code>クラス</li>
+<li>間隔尺度と比尺度は，<code>Float</code>クラス</li>
+</ul>
 <p>というわけで，そのように直します．</p>
 <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html">公式サイトの<code>class pandas.Categorical</code></a></p>
 <ul>
-<li>「名前」</li>
+<li><p>「名前」（名義尺度）</p>
+<p>尺度を設定する前</p></li>
 </ul>
-<div id="cbf5e12a" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'名前'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="43">
+<div id="2cb248e4" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'名前'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="109">
 <pre><code>0    薗田
 1    鈴木
 2    斎藤
 Name: 名前, dtype: object</code></pre>
 </div>
 </div>
-<div id="c346a8aa" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'名前'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'名前'</span>])</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'名前'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="44">
+<pre><code>名義尺度に設定．水準を全て挙げることができないので，`categories` は指定できない．</code></pre>
+<div id="6150af44" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'名前'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'名前'</span>])</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'名前'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="110">
 <pre><code>0    薗田
 1    鈴木
 2    斎藤
@@ -1546,87 +1596,118 @@ Categories (3, object): ['斎藤', '薗田', '鈴木']</code></pre>
 </div>
 </div>
 <ul>
-<li>「性別」</li>
+<li><p>「性別」（名義尺度）</p>
+<p>尺度を設定する前</p></li>
 </ul>
-<div id="1c829ff1" class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="45">
+<div id="357a5468" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="111">
 <pre><code>0    男
 1    女
 2    男
 Name: 性別, dtype: object</code></pre>
 </div>
 </div>
-<div id="00327f2d" class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>GenderSet <span class="op">=</span> {<span class="st">'男'</span>,<span class="st">'女'</span>}</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'性別'</span>], categories<span class="op">=</span>GenderSet, ordered<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="46">
+<pre><code>名義尺度に設定．水準がすべて挙げられるなら `categories` に水準の集合を指定する．</code></pre>
+<div id="f172df62" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>GenderSet <span class="op">=</span> {<span class="st">'男'</span>,<span class="st">'女'</span>}</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'性別'</span>], categories<span class="op">=</span>GenderSet, ordered<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="112">
 <pre><code>0    男
 1    女
 2    男
 Name: 性別, dtype: category
-Categories (2, object): ['男', '女']</code></pre>
+Categories (2, object): ['女', '男']</code></pre>
 </div>
 </div>
 <ul>
-<li>「好きな数」，「誕生月」</li>
+<li><p>「好きな数」，「誕生月」（名義尺度に設定）</p>
+<p>尺度を設定する前</p></li>
 </ul>
-<div id="0343c742" class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="47">
+<div id="ee73b49f" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="113">
 <pre><code>0    7
 1    3
 2    4
 Name: 好きな数, dtype: int64</code></pre>
 </div>
 </div>
-<div id="8f705dd4" class="cell" data-execution_count="48">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>] <span class="op">=</span> df[<span class="st">'好きな数'</span>].astype(<span class="st">'str'</span>)</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>名義尺度に設定．
+
+ここで測定した数は，単なる選択肢で名義尺度なので，「数字」（文字）に直す．</code></pre>
+<div id="dbd63ab7" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>] <span class="op">=</span> df[<span class="st">'好きな数'</span>].astype(<span class="st">'str'</span>)</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="114">
 <pre><code>0    7
 1    3
 2    4
 Name: 好きな数, dtype: object</code></pre>
 </div>
 </div>
-<div id="16b5d3ee" class="cell" data-execution_count="49">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MonthSet = {'1','2','3','4','5','6','7','8','9','10','11','12'} でもいいですが</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>MonthSet <span class="op">=</span> <span class="bu">set</span>([<span class="bu">str</span>(n) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">13</span>)])</span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'好きな数'</span>], categories<span class="op">=</span>MonthSet, ordered<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="49">
+<pre><code>また，水準を全て挙げることができないので，`categories`は指定できない．</code></pre>
+<div id="8745b73e" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'好きな数'</span>], ordered<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'好きな数'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="115">
 <pre><code>0    7
 1    3
 2    4
 Name: 好きな数, dtype: category
-Categories (12, object): ['2', '3', '9', '10', ..., '4', '1', '5', '11']</code></pre>
+Categories (3, object): ['3', '4', '7']</code></pre>
 </div>
 </div>
-<div id="f6698ba0" class="cell" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'誕生月'</span>] <span class="op">=</span> df[<span class="st">'誕生月'</span>].astype(<span class="st">'str'</span>)</span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'誕生月'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'誕生月'</span>], categories<span class="op">=</span>MonthSet, ordered<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>次に，「誕生月」．尺度を設定する前は，</code></pre>
+<div id="c9dfd31e" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'誕生月'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="116">
+<pre><code>0     5
+1    12
+2    10
+Name: 誕生月, dtype: int64</code></pre>
+</div>
+</div>
+<pre><code>これも大小・優劣など無いので，名義尺度であり，文字列化する．
+
+また，全ての水準を挙げられるので，`categories`を指定する．</code></pre>
+<div id="d423c1bc" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"誕生月"</span>] <span class="op">=</span> df[<span class="st">"誕生月"</span>].astype(<span class="st">"str"</span>)</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="co"># MonthSet = {'1','2','3','4','5','6','7','8','9','10','11','12'} でもいいですが</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>MonthSet <span class="op">=</span> <span class="bu">set</span>([<span class="bu">str</span>(n) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)])</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"誕生月"</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">"誕生月"</span>], categories<span class="op">=</span>MonthSet, ordered<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"誕生月"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="117">
+<pre><code>0     5
+1    12
+2    10
+Name: 誕生月, dtype: category
+Categories (12, object): ['6', '10', '4', '8', ..., '7', '9', '1', '2']</code></pre>
+</div>
 </div>
 <ul>
-<li>「セロリ好き度」</li>
+<li><p>「セロリ好き度」（順序尺度）</p>
+<p>セロリ好き度は，強弱・大小があるので，「順序尺度」．</p>
+<p>尺度を設定する前は，</p></li>
 </ul>
-<p>セロリ好き度は，強弱・大小があるので，順序尺度です．</p>
-<div id="0f833a2d" class="cell" data-execution_count="51">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div id="fdda5cb5" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="118">
 <pre><code>0    とても嫌い
 1          好き
 2          嫌い
 Name: セロリ好き度, dtype: object</code></pre>
 </div>
 </div>
-<div id="8778ebfa" class="cell" data-execution_count="52">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>CerelyFavorLevel <span class="op">=</span> [<span class="st">'とても嫌い'</span>,<span class="st">'嫌い'</span>,<span class="st">'ふつう'</span>,<span class="st">'好き'</span>,<span class="st">'とても好き'</span>]</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'セロリ好き度'</span>],categories<span class="op">=</span>CerelyFavorLevel,ordered<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>全ての水準を挙げられるので，`categories` を指定．
+
+また水準には順序があるので，リストに順に水準を並べる．`ordered = True` を指定．</code></pre>
+<div id="3f3a7c36" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>CerelyFavorLevel <span class="op">=</span> [<span class="st">'とても嫌い'</span>,<span class="st">'嫌い'</span>,<span class="st">'ふつう'</span>,<span class="st">'好き'</span>,<span class="st">'とても好き'</span>]</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> pd.Categorical(df[<span class="st">'セロリ好き度'</span>],categories<span class="op">=</span>CerelyFavorLevel, ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="119">
 <pre><code>0    とても嫌い
 1          好き
 2          嫌い
@@ -1634,7 +1715,13 @@ Name: セロリ好き度, dtype: category
 Categories (5, object): ['とても嫌い' &lt; '嫌い' &lt; 'ふつう' &lt; '好き' &lt; 'とても好き']</code></pre>
 </div>
 </div>
+</section>
+<section id="文字変数-を-数字-に対応付け" class="level3">
+<h3 class="anchored" data-anchor-id="文字変数-を-数字-に対応付け">1.7. 文字変数 を 数字 に対応付け</h3>
 <p>変数が文字列のものは，数字と対応付けすることができます．</p>
+</section>
+<section id="名義尺度" class="level3">
+<h3 class="anchored" data-anchor-id="名義尺度">1.7.1. 名義尺度</h3>
 <p>性別に対して，</p>
 <ul>
 <li>男: -1</li>
@@ -1642,26 +1729,29 @@ Categories (5, object): ['とても嫌い' &lt; '嫌い' &lt; 'ふつう' &lt; '
 </ul>
 <p>に対応付けしたいならば，まず対応を記した辞書を作り，それをマッピングします．</p>
 <p>マッピングしたのちも，尺度は変わらず名義尺度(Categorical, ordered=False)となっています．</p>
-<p>数字だからといって大小をつけられるわけではありません．</p>
-<div id="9f74b7b1" class="cell" data-execution_count="53">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>SexMap <span class="op">=</span> {<span class="st">'男'</span>:<span class="op">-</span><span class="dv">1</span>, <span class="st">'女'</span>:<span class="op">+</span><span class="dv">1</span>}</span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>] <span class="op">=</span> df[<span class="st">'性別'</span>].<span class="bu">map</span>(SexMap)</span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<p><em>数字だからといって大小をつけられるわけではありません．</em></p>
+<div id="38a704a7" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>SexMap <span class="op">=</span> {<span class="st">'男'</span>:<span class="op">-</span><span class="dv">1</span>, <span class="st">'女'</span>:<span class="op">+</span><span class="dv">1</span>}</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>] <span class="op">=</span> df[<span class="st">'性別'</span>].<span class="bu">map</span>(SexMap)</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'性別'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="120">
 <pre><code>0   -1
 1    1
 2   -1
 Name: 性別, dtype: category
-Categories (2, int64): [-1, 1]</code></pre>
+Categories (2, int64): [1, -1]</code></pre>
 </div>
 </div>
+</section>
+<section id="順序尺度" class="level3">
+<h3 class="anchored" data-anchor-id="順序尺度">1.7.2. 順序尺度</h3>
 <p>同様に，「セロリ好き度」も数字にしましょうか．</p>
-<p>とても嫌い(-2) - 嫌い(-1) - ふつう(0) - 好き(+1) - とても好き(+2)</p>
-<div id="8cce7405" class="cell" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>CerelyFavorMap <span class="op">=</span> {<span class="st">'とても嫌い'</span>:<span class="op">-</span><span class="dv">2</span>, <span class="st">'嫌い'</span>:<span class="op">-</span><span class="dv">1</span>, <span class="st">'ふつう'</span>:<span class="dv">0</span>, <span class="st">'好き'</span>:<span class="op">+</span><span class="dv">1</span>, <span class="st">'とても好き'</span>:<span class="op">+</span><span class="dv">2</span>}</span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> df[<span class="st">'セロリ好き度'</span>].<span class="bu">map</span>(CerelyFavorMap)</span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<pre><code>とても嫌い(-2) &lt; 嫌い(-1) &lt; ふつう(0) &lt; 好き(+1) &lt; とても好き(+2)</code></pre>
+<div id="31cdf433" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>CerelyFavorMap <span class="op">=</span> {<span class="st">'とても嫌い'</span>:<span class="op">-</span><span class="dv">2</span>, <span class="st">'嫌い'</span>:<span class="op">-</span><span class="dv">1</span>, <span class="st">'ふつう'</span>:<span class="dv">0</span>, <span class="st">'好き'</span>:<span class="op">+</span><span class="dv">1</span>, <span class="st">'とても好き'</span>:<span class="op">+</span><span class="dv">2</span>}</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> df[<span class="st">'セロリ好き度'</span>].<span class="bu">map</span>(CerelyFavorMap)</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="121">
 <pre><code>0   -2
 1    1
 2   -1
@@ -1669,43 +1759,55 @@ Name: セロリ好き度, dtype: category
 Categories (5, int64): [-2 &lt; -1 &lt; 0 &lt; 1 &lt; 2]</code></pre>
 </div>
 </div>
-<div id="cacec805" class="cell" data-execution_count="55">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co">#df['セロリ好き度'].median()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>順序尺度に中央値はありません．</p>
+<div id="225e6ba0" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df["セロリ好き度"].median()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>セロリ好き度の5段階は，等間隔ですので，数字にしたからには間隔尺度になってほしいですが，そうなっていません． 間隔尺度にしてあげましょう．</p>
-<div id="fc55dc67" class="cell" data-execution_count="56">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> df[<span class="st">'セロリ好き度'</span>].cat.codes</span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="56">
+<p>セロリ好き度の5段階は等間隔ですので，<em>「数にしたからには間隔尺度になります」</em> が，そうなっていません．</p>
+<p>間隔尺度にしてあげましょう．</p>
+<p><code>.cat.codes</code> は，カテゴリに振られた符号（数値）を参照します．</p>
+<div id="c6aa9dd6" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> df[<span class="st">'セロリ好き度'</span>].cat.codes</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="123">
 <pre><code>0    0
 1    3
 2    1
 Name: セロリ好き度, dtype: int8</code></pre>
 </div>
 </div>
-<div id="6b0a5bf5" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> df[<span class="st">'セロリ好き度'</span>]<span class="op">-</span><span class="dv">2</span></span>
-<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="57">
+<div id="6eef7a17" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>] <span class="op">=</span> df[<span class="st">'セロリ好き度'</span>]<span class="op">-</span><span class="dv">2</span></span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="124">
 <pre><code>0   -2
 1    1
 2   -1
 Name: セロリ好き度, dtype: int8</code></pre>
 </div>
 </div>
-<div id="31ef238a" class="cell" data-execution_count="58">
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>].median()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="58">
+<div id="99df7b51" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'セロリ好き度'</span>].median()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="125">
 <pre><code>-1.0</code></pre>
 </div>
 </div>
+</section>
+</section>
+<section id="その他" class="level2">
+<h2 class="anchored" data-anchor-id="その他">1.8. その他</h2>
+<section id="index-id-の再設定" class="level3">
+<h3 class="anchored" data-anchor-id="index-id-の再設定">1.8.1 index (ID) の再設定</h3>
 <p>今回のデータでは，名前は単に各データのID（データを見分けるための符号）でしかありません．set_indexでIDとなる列を指定します．</p>
-<div id="4c98dd6c" class="cell" data-execution_count="59">
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.set_index(<span class="st">'名前'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c9b613c7" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.set_index(<span class="st">"名前"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="53e057c0" class="cell" data-execution_count="60">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="60">
+</section>
+<section id="数字の数値化数値の整数化など" class="level3">
+<h3 class="anchored" data-anchor-id="数字の数値化数値の整数化など">1.8.2. 数字の数値化，数値の整数化など</h3>
+<div id="7bae7ce5" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="127">
 <div>
 <div>
 
@@ -1764,10 +1866,12 @@ Name: セロリ好き度, dtype: int8</code></pre>
 <p>本当は数値なのにCategoricalや文字列に認識されてしまっている列が合った場合や 本当は整数なのに，小数点付きに認識されてしまっている列については，</p>
 <pre><code>df['列名'].astype(float) # 列の値をすべてfloat型に</code></pre>
 <p>のような　astype(float) や astype(int)　などで型キャストができる</p>
-<p>要約</p>
-<div id="8d338586" class="cell" data-execution_count="61">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>df.describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="61">
+</section>
+<section id="要約" class="level3">
+<h3 class="anchored" data-anchor-id="要約">1.8.3. 要約</h3>
+<div id="79d63af9" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>df.describe(include<span class="op">=</span><span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="128">
 <div>
 <div>
 
@@ -1880,13 +1984,13 @@ Name: セロリ好き度, dtype: int8</code></pre>
 </div>
 </div>
 <p>ある変数をグループ分けして，グループごとに要約することもできます．</p>
-<div id="54f5180e" class="cell" data-execution_count="62">
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>df.groupby([<span class="st">'性別'</span>]).describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7541d4bc" class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>df.groupby([<span class="st">"性別"</span>]).describe(include<span class="op">=</span><span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\kotaro\AppData\Local\Temp\ipykernel_5480\3355058789.py:1: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
-  df.groupby(['性別']).describe(include='all')</code></pre>
+<pre><code>/var/folders/qq/y0p5l6xd5qb7l_6_x0nmwhv40000gn/T/ipykernel_62463/2324908859.py:1: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  df.groupby(["性別"]).describe(include="all")</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div class="cell-output cell-output-display" data-execution_count="129">
 <div>
 <div>
 
@@ -1950,30 +2054,6 @@ Name: セロリ好き度, dtype: int8</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">-1</td>
-<td>2</td>
-<td>2</td>
-<td>7</td>
-<td>1</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>176.0</td>
-<td>5.656854</td>
-<td>172.0</td>
-<td>174.0</td>
-<td>176.0</td>
-<td>178.0</td>
-<td>180.0</td>
-</tr>
-<tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>1</td>
 <td>1</td>
@@ -1997,6 +2077,30 @@ Name: セロリ好き度, dtype: int8</code></pre>
 <td>165.0</td>
 <td>165.0</td>
 </tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">-1</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>1</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>176.0</td>
+<td>5.656854</td>
+<td>172.0</td>
+<td>174.0</td>
+<td>176.0</td>
+<td>178.0</td>
+<td>180.0</td>
+</tr>
 </tbody>
 </table>
 
@@ -2005,10 +2109,12 @@ Name: セロリ好き度, dtype: int8</code></pre>
 </div>
 </div>
 </div>
-<p>クロス集計表を作ることもできます．クロスさせる2つの変数名を引数に並べます．</p>
-<div id="416966c1" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>pd.crosstab(df[<span class="st">'性別'</span>],df[<span class="st">'好きな数'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="63">
+</section>
+<section id="クロス集計表を作ることもできますクロスさせる2つの変数名を引数に並べます" class="level3">
+<h3 class="anchored" data-anchor-id="クロス集計表を作ることもできますクロスさせる2つの変数名を引数に並べます">1.8.4. クロス集計表を作ることもできます．クロスさせる2つの変数名を引数に並べます．</h3>
+<div id="b3d4ca27" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>pd.crosstab(df[<span class="st">'性別'</span>],df[<span class="st">'好きな数'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="130">
 <div>
 <div>
 
@@ -2018,8 +2124,8 @@ Name: セロリ好き度, dtype: int8</code></pre>
 <tr class="header">
 <th data-quarto-table-cell-role="th">好きな数</th>
 <th data-quarto-table-cell-role="th">3</th>
-<th data-quarto-table-cell-role="th">7</th>
 <th data-quarto-table-cell-role="th">4</th>
+<th data-quarto-table-cell-role="th">7</th>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">性別</th>
@@ -2030,16 +2136,16 @@ Name: セロリ好き度, dtype: int8</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">-1</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">-1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
@@ -2050,55 +2156,56 @@ Name: セロリ好き度, dtype: int8</code></pre>
 </div>
 </section>
 </section>
-<section id="課題k02" class="level2">
-<h2 class="anchored" data-anchor-id="課題k02">課題k02</h2>
-<p><a href="heights14.csv">これ</a>は，身近の14人（男7人，女7人）に性別と身長を尋ねたときの回答を集めた標本データである．</p>
+<section id="課題k02" class="level1">
+<h1>2. 課題k02</h1>
+<p><a href="heights14.csv">これ</a>は，身近の14人（男7人，女7人）に性別と身長を尋ねたときの回答を集めた標本データである．<code>k02/k02/data/heights14.csv</code> とする．</p>
 <ol type="1">
 <li>pandasパッケージを用いて，csvファイルを読み込んでデータフレームを作成し， この標本集団における男性と女性それぞれの「平均」と「標準偏差」を表示する関数を <code>k02_1.py</code> の中で <code>main()</code> として定義せよ．</li>
 </ol>
 <p>開発手順は，</p>
 <ol start="0" type="1">
-<li><p><code>k02/k02_1.ipynb</code> を作り，Jupyter形式で，入力セルと出力セルを確認しながらプログラミング</p></li>
-<li><p><code>k02/k02_1.ipynb</code> を <code>k02/k02_1.py</code> にエクスポートする．入力セルのみが .py にコピーされる．</p>
+<li><code>k02/k02_1.ipynb</code> を作り，Jupyter形式で，入力セルと出力セルを確認しながらプログラミング</li>
+<li><code>k02/k02_1.ipynb</code> を <code>k02/k02_1.py</code> にエクスポートする．入力セルのみが .py にコピーされる．
 <ul>
 <li>jupyter形式ではないため <code>display()</code> は使えないので消す．</li>
 <li><code>poetry run python k02/k02_1.py</code>で確認．</li>
 </ul></li>
-<li><p><code>k02_1.py</code> をモジュールに書き換える．</p>
+<li><code>k02_1.py</code> をモジュールに書き換える．
 <ul>
 <li>import行のあとのすべての処理を <code>def main():</code> ブロックに入れる．</li>
 <li><code>k02_1.py</code> の末尾に，<code>if __name__ == '__main__': main()</code> という行を追加</li>
 </ul></li>
-<li><p>動作確認用に<code>tests/test_k02_1.py</code>を書いて，正しく動作することを確認</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> k02 <span class="im">import</span> k02_1</span>
-<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>k02_1.main()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li>動作確認用に<code>tests/test_k02_1.py</code>を書いて，正しく動作することを確認</li>
 </ol>
+<div class="sourceCode" id="cb118"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> k02 <span class="im">import</span> k02_1</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>k02_1.main()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>k02_1.py</code>を以下のように，<code>def main()</code> に処理，<code>if __name__ == '__main__': main()</code> を末尾に設定，とすると，</p>
-<p>```{.py’} import pandas as pd</p>
-<p>def main(): # ここに処理を書く（インデントに気をつけよ）</p>
-<p>if <strong>name</strong> == ‘<strong>main</strong>’: main()</p>
-<pre><code>
-```{.sh}
-&gt; poetry run python k02/k02_1.py</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main():</span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ここに処理を書く（インデントに気をつけよ）</span></span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>: main()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">run</span> python k02/k02_1.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>は，</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">run</span> python</span>
-<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> from <span class="ex">k02</span> import k02_1</span>
-<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> k02_1.main<span class="kw">()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">run</span> python</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> from <span class="ex">k02</span> import k02_1</span>
+<span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> k02_1.main<span class="kw">()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>実行結果は</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="ex">==男==</span></span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="ex">平均:173.90</span></span>
-<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="ex">標準偏差:</span> 5.06</span>
-<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="ex">--女--</span></span>
-<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="ex">平均:</span> ◯ cm</span>
-<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a><span class="ex">標準偏差：　◯</span> cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="ex">==男==</span></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="ex">平均:173.90</span></span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a><span class="ex">標準偏差:</span> 5.06</span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a><span class="ex">--女--</span></span>
+<span id="cb122-6"><a href="#cb122-6" aria-hidden="true" tabindex="-1"></a><span class="ex">平均:</span> ◯ cm</span>
+<span id="cb122-7"><a href="#cb122-7" aria-hidden="true" tabindex="-1"></a><span class="ex">標準偏差：　◯</span> cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>と表示されるようにせよ．（男について表示される数値は上記になるのが正解）</p>
 <p>ちなみに，標本分散は <code>var(ddof=0)</code>，標本標準偏差は， <code>std(ddof=0)</code> で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="ex">df_M</span> = df[df<span class="pp">[</span><span class="st">'性別'</span><span class="pp">]</span>==<span class="st">'男'</span>]</span>
-<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="ex">se_M_height</span> = df_M<span class="pp">[</span><span class="st">'身長'</span><span class="pp">]</span></span>
-<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="ex">M_std</span> = se_M_height.std<span class="er">(</span><span class="va">ddof</span><span class="op">=</span>0<span class="kw">)</span> <span class="co"># 標準偏差</span></span>
-<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="ex">M_var</span> = se_M_height.var<span class="er">(</span><span class="va">ddof</span><span class="op">=</span>0<span class="kw">)</span> <span class="co"># 分散</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="ex">df_M</span> = df[df<span class="pp">[</span><span class="st">'性別'</span><span class="pp">]</span>==<span class="st">'男'</span>]</span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="ex">se_M_height</span> = df_M<span class="pp">[</span><span class="st">'身長'</span><span class="pp">]</span></span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="ex">M_std</span> = se_M_height.std<span class="er">(</span><span class="va">ddof</span><span class="op">=</span>0<span class="kw">)</span> <span class="co"># 標準偏差</span></span>
+<span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a><span class="ex">M_var</span> = se_M_height.var<span class="er">(</span><span class="va">ddof</span><span class="op">=</span>0<span class="kw">)</span> <span class="co"># 分散</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>このデータはある特定の14人のデータなので，別な14人で回答を集めるたびに別の標本平均が求まる． 適当な男7人，女7人で回答を集めたときにその標本平均が収まる範囲「◯±△」を推定せよ． <code>(1)</code>と同様に最終的には モジュール<code>k02/k02_2.py</code>を作り，<code>tests/test_k02_2.py</code>で動作確認せよ．</li>
 </ol>
@@ -2114,21 +2221,21 @@ u^2 = \frac{N}{N-1}s^2
 </ul>
 <p>ちなみに，母集団の分散と標準偏差は，<code>var(ddof=1)</code>，<code>std(ddof=1)</code>で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）</p>
 <p>実行結果は，</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="ex">==男==</span></span>
-<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団平均:173.90±</span> 1.91</span>
-<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a><span class="ex">--女--</span></span>
-<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団平均範囲：</span> ◯ ± △ cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="ex">==男==</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団平均:173.90±</span> 1.91</span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="ex">--女--</span></span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団平均範囲：</span> ◯ ± △ cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>と表示されるようにせよ．（男について表示される数値は上記になるのが正解）</p>
 <ol start="3" type="1">
 <li>男性全体，女性全体の母集団の標準偏差を求めよ．モジュール名は，<code>k02/k02_3.py</code>とする． 母集団の標準偏差は，(2)の母集団分散の二乗根である．</li>
 </ol>
 <p>実行結果は，</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="ex">==男==</span></span>
-<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団標準偏差:</span> 5.41</span>
-<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a><span class="ex">--女--</span></span>
-<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団標準偏差：　◯</span> cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="ex">==男==</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団標準偏差:</span> 5.41</span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a><span class="ex">--女--</span></span>
+<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a><span class="ex">母集団標準偏差：　◯</span> cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>と表示されるようにせよ．（男について表示される数値は上記になるのが正解）</p>
 </section>
 
