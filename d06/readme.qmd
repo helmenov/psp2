@@ -142,11 +142,11 @@ display(df_1)
 これら2つのデータフレームを合成して，新たなデータフレーム `df` を作ります．
 
 ```{python}
-df = pd.concat([df_0, df_1], ignore_index=True, axis=1)
+df = pd.concat([df_0, df_1], ignore_index=True, axis=0)
 display(df)
 ```
 
-`axis=1` は，合成の方向です．標本を追加するので縦方向に合成です．縦方向は`axis=1`です．（列方向，項目を追加する場合は，`axis=0`）
+`axis=1` は，合成の方向です．標本を追加するので縦方向に合成です．縦方向は`axis=0`です．（列方向，項目を追加する場合は，`axis=1`）
 
 ### 1.2. 標本セットの読み込み
 
