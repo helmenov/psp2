@@ -626,11 +626,11 @@ df.describe()
     - `pd.concat([df0,df1], ignore_index=True, axis=0)`
 2. 尺度を設定
     - 質的変数（文字，数字）:
-        - 名義尺度：`se = pd.Categorical(categories=[...], ordered=False)`
-        - 順序尺度: `se = pd.Categorical(categories=[...], ordered=True)`
+        - 名義尺度：`se = pd.Categorical(se, categories=[...], ordered=False)`
+        - 順序尺度: `se = pd.Categorical(se, categories=[...], ordered=True)`
             - 場合によっては間隔尺度に設定しなおす．
     - 量的変数（数値）：
-        - 間隔尺度・非尺度: `se = se.astype('float')`
+        - 間隔尺度・比尺度: `se = se.astype('float')`
 
 
 ### 1.9. クロス集計
