@@ -45,7 +45,7 @@ html-math-method: mathjax
 
 パッケージには，フォルダ，モジュール(`.py`)の他に，「リソース」と呼ばれる資源を含ませることができます．（つまり，パッケージの一部として配布されます．）
 
-配布パッケージ（フォルダ） `d02` の下の `data` というフォルダにリソースファイル `mydata1.csv` を置いているとします．
+配布パッケージ（フォルダ） `k02` の下の `data` というフォルダにリソースファイル `mydata1.csv` を置いているとします．
 
 この `mydata1.csv` の「ファイルパス」は，
 
@@ -67,10 +67,10 @@ print(fpath)
 
 今回は，4 つのcsvファイルをリソースにします．
 
-- [`mydata1.csv`]('https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/mydata1.csv')
-- [`mydata2.csv`]('https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/mydata2.csv')
-- [`mydata3.csv`]('https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/mydata3.csv')
-- [`heights14.csv`]('https://raw.githubusercontent.com/helmenov/psp2/main/d06/k02/data/heights14.csv') : 課題用
+- [`mydata1.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata1.csv')
+- [`mydata2.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata2.csv')
+- [`mydata3.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata3.csv')
+- [`heights14.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/heights14.csv') : 課題用
 
 ### 0.3. vscode で jupyter
 
@@ -644,7 +644,6 @@ pd.crosstab(df['性別'],df['好きな数'])
 # 2. 課題k02
 
 [これ](heights14.csv)は，身近の14人（男7人，女7人）に性別と身長を尋ねたときの回答を集めた標本データである．`k02/k02/data/heights14.csv` とする．
-
 ```{python}
 from importlib import resources
 from k02 import data
@@ -659,6 +658,49 @@ df
 で読み取れます．ヘッダー読み取りの有無等は考えてください．
 
 また，このデータは所謂long形式ですので，`pivot`で wide形式になおしてから使ってください．
+
+```{python}
+# まず，wide形式にしたときのindex列を決めます．リストで指定します．
+df2 = df.set_index(["ID"])
+df2
+```
+
+```{python}
+# index列が変わりました
+# columnsをwide形式の変数名が並んでる列名，今回は "Q"
+# valuesをwide形式の各変数の値が並んでる列名，今回は "A"
+# としてピボット
+df3 = df2.pivot(columns="Q", values="A")
+display(df3)
+print(df3.dtypes)
+```
+
+wide形式になりましたが，変数のtypeが`object`（なにがし）になっています．
+このままだと，統計量が正しく計算できません（特に身長），
+よって，次に尺度を正します．
+
+変数 `性別` は，
+
+- 値は `男` か `女`
+- 名義尺度
+
+なので，`category`に直します．`categories={'男','女'}`, `ordered=False`です．
+
+変数 `身長` は，
+
+- 値は，実数
+- 比尺度
+
+なので，`float`に直します．
+
+```{python}
+df3['性別'] = pd.Categorical(df3['性別'], categories={'男','女'}, ordered=False)
+df3['身長'] = df3['身長'].astype(float)
+display(df3)
+print(df3.dtypes)
+```
+
+きちんと尺度が正されました．
 
 (1) pandasパッケージを用いて，csvファイルを読み込んでデータフレームを作成し，
 この標本集団における男性と女性それぞれの「平均」と「標準偏差」を表示する関数を `k02_1.py` の中で `main()` として定義せよ．
@@ -720,7 +762,7 @@ if __name__ == '__main__': main()
 ちなみに，標本分散は `var(ddof=0)`，標本標準偏差は， `std(ddof=0)` で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）
 
 ```{.sh}
-df_M = df[df['性別']=='男']
+df_M = df3[df3['性別']=='男']
 se_M_height = df_M['身長']
 M_std = se_M_height.std(ddof=0) # 標準偏差
 M_var = se_M_height.var(ddof=0) # 分散
@@ -744,13 +786,24 @@ M_var = se_M_height.var(ddof=0) # 分散
 
 ```{.sh}
 ==男==
-母集団平均:173.90± 1.91
+母集団平均範囲:173.90± 1.91
 
 --女--
 母集団平均範囲： ◯ ± △ cm
 ```
 
 と表示されるようにせよ．（男について表示される数値は上記になるのが正解）
+
+ちなみに，今回は各値を小数点以下2桁までを表示している．`x`を小数点以下2桁までで表示する場合には，**fフォーマット**で文字列を作ります．fフォーマットでは，中括弧`{x}`でxを文字列化します．また，`:`のあとに，表記方法を指定します．
+
+```{python}
+x = 3.141592
+print(f"円周率は {x} です（通常表記）．")
+print(f"円周率は {x:.2f} です（小数点以下2桁表示）．")
+print(f"円周率は {x:.3e} です（小数点以下3桁の指数表示，つまり有効桁4桁）．")
+print(f"円周率は {x:.5g} です（有効桁5桁）．")
+```
+
 
 (3) 男性全体，女性全体の母集団の標準偏差を求めよ．モジュール名は，`k02/k02_3.py`とする．
 母集団の標準偏差は，(2)の母集団分散の二乗根である．
