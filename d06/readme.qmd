@@ -700,25 +700,20 @@ df
 
 で読み取れます．ヘッダー読み取りの有無等は考えてください．
 
-また，このデータは所謂long形式ですので，`pivot`で wide形式になおしてから使ってください．
-
-```{python}
-# まず，wide形式にしたときのindex列を決めます．リストで指定します．
-df2 = df.set_index(["ID"])
-df2
-```
+また，このデータは，尺度が混ざっている列があるので，ピボットが必要です．
 
 ```{python}
 # index列が変わりました
-# columnsをwide形式の変数名が並んでる列名，今回は "Q"
-# valuesをwide形式の各変数の値が並んでる列名，今回は "A"
+# columnsを変数名が並んでる列名，今回は "Q"
+# valuesを各変数の値が並んでる列名，今回は "A"
+# indexを固定する列名のリスト，今回は ["ID"]
 # としてピボット
-df3 = df2.pivot(columns="Q", values="A")
-display(df3)
-print(df3.dtypes)
+df2 = df.pivot(columns="Q", values="A", index=["ID"])
+display(df2)
+print(df2.dtypes)
 ```
 
-wide形式になりましたが，変数のtypeが`object`（なにがし）になっています．
+pivotされましたが，変数のtypeが`object`（なにがし）になっています．
 このままだと，統計量が正しく計算できません（特に身長），
 よって，次に尺度を正します．
 
@@ -737,10 +732,10 @@ wide形式になりましたが，変数のtypeが`object`（なにがし）に�
 なので，`float`に直します．
 
 ```{python}
-df3['性別'] = pd.Categorical(df3['性別'], categories={'男','女'}, ordered=False)
-df3['身長'] = df3['身長'].astype(float)
-display(df3)
-print(df3.dtypes)
+df2['性別'] = pd.Categorical(df2['性別'], categories={'男','女'}, ordered=False)
+df2['身長'] = df2['身長'].astype(float)
+display(df2)
+print(df2.dtypes)
 ```
 
 きちんと尺度が正されました．
@@ -807,7 +802,7 @@ if __name__ == '__main__': main()
 ちなみに，標本分散は `var(ddof=0)`，標本標準偏差は， `std(ddof=0)` で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）
 
 ```{.sh}
-df_M = df3[df3['性別']=='男']
+df_M = df2[df3['性別']=='男']
 se_M_height = df_M['身長']
 M_std = se_M_height.std(ddof=0) # 標準偏差
 M_var = se_M_height.var(ddof=0) # 分散
