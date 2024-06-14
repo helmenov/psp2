@@ -801,16 +801,16 @@ if __name__ == '__main__': main()
 ちなみに，標本分散は `var(ddof=0)`，標本標準偏差は， `std(ddof=0)` で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）
 
 ```{python}
-df_M = df2[df2['性別']=='男']
+df_M = df2[df2["性別"] == "男"]
 display(df_M)
-se_M_height = df_M['身長']
+se_M_height = df_M["身長"]
 display(se_M_height)
-M_std = se_M_height.std(ddof=0) # 標準偏差
-M_ustd = se_M_height.std(ddof=1) # 不偏標準偏差
-display(f"標準偏差：{M_std}\n不偏標準偏差：{M_ustd}")
-M_var = se_M_height.var(ddof=0) # 分散
-M_uvar = se_M_height.var(ddof=1) # 不偏分散
-display(f"分散：{M_var}\n不偏分散：{M_uvar}")
+M_std = se_M_height.std(ddof=0)  # 標準偏差
+M_ustd = se_M_height.std(ddof=1)  # 不偏標準偏差
+print(f"標準偏差：{M_std}\n不偏標準偏差：{M_ustd}")
+M_var = se_M_height.var(ddof=0)  # 分散
+M_uvar = se_M_height.var(ddof=1)  # 不偏分散
+print(f"分散：{M_var}\n不偏分散：{M_uvar}")
 ```
 
 ## k02_2
