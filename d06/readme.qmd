@@ -800,7 +800,7 @@ if __name__ == '__main__': main()
 
 ちなみに，標本分散は `var(ddof=0)`，標本標準偏差は， `std(ddof=0)` で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）
 
-```{.sh}
+```{python}
 df_M = df2[df2['性別']=='男']
 display(df_M)
 se_M_height = df_M['身長']
