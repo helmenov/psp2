@@ -67,10 +67,10 @@ print(fpath)
 
 今回は，4 つのcsvファイルをリソースにします．
 
-- [`mydata1.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata1.csv')
-- [`mydata2.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata2.csv')
-- [`mydata3.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata3.csv')
-- [`heights14.csv`]('https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/heights14.csv') : 課題用
+- [`mydata1.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata1.csv)
+- [`mydata2.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata2.csv)
+- [`mydata3.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata3.csv)
+- [`heights14.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/heights14.csv) : 課題用
 
 ### 0.3. vscode で jupyter
 
@@ -252,8 +252,12 @@ df
 
 データフレームの参照（抽出）は，2種類あります．参照の出力もデータフレームです．
 
+::: {.callout-tip title="データフレームの値の参照"}
 - `.loc[index名リスト, 変数名リスト]` : index名リスト，変数名リストによる参照
 - `.iloc[行番号リスト, 列番号リスト]` : データの`i`行目リスト，`j`列目の指定による参照
+
+取り出されたものの型は `DataFrame`
+:::
 
 いずれの場合も *リスト* なので，
 
@@ -289,7 +293,11 @@ df.iloc[0:1, 2:5:2]
 
 `loc`や`iloc`でもいいですが，データフレームになっています．場合によっては値のリストとして取り出したいときがあります．
 
-`df['変数名']`でそれができます．
+::: {.callout-tip title="列データを取り出す"}
+`df['変数名']`: `変数名` の列を取り出す
+
+取り出されたものの型は `Series`
+:::
 
 ```{python}
 display(df["好きな数"])
@@ -588,10 +596,55 @@ df['セロリ好き度']
 df.describe()
 ```
 
+### 1.8. 名義尺度の再解釈
 
-### 1.8. 整然データへ変換
+$\text{性別}\in\{\text{男性},~\text{女性}\}$ は，名義尺度でした．
 
-### 1.8.1. pivot
+ですが，このような2値データの場合，$\text{男性か?}\in\{\text{Yes},~\text{No}\}$ と解釈し直すこともできます．このような Boolな回答（Yes/No, True/False）は，間隔尺度と考えるのがよいとされています．（名義尺度は計算できないが，間隔尺度は計算できる）
+
+その流れで，2つ以上のカテゴリ水準となる1列の名義尺度は，複数列のBool回答（つまり間隔尺度）に直せます．
+
+例えば
+
+```{python}
+s1 = {"名前": "薗田", "所属学部": "情報データ科学部"}
+s2 = {"名前": "鈴木", "所属学部": "工学部"}
+s3 = {"名前": "中村", "所属学部": "水産学部"}
+df6 = pd.DataFrame([s1, s2, s3])
+df6
+```
+
+列`所属学部`は，名義尺度で，カテゴリは，
+```{python}
+categories={"情報データ科学部","工学部","医学部","歯学部","薬学部","環境科学部","水産学部","経済学部","教育学部","多文化社会学部"}
+```
+
+したがって，
+
+```{python}
+df6["所属学部"] = pd.Categorical(df6["所属学部"], categories=categories, ordered=False)
+display(df6)
+print(df6["所属学部"])
+```
+
+ここで，「所属学部は？」という変数ではなく，「情報データ科学部に所属？」，「工学部に所属？」,...というように複数のBool変数に分けることができて
+
+```{python}
+df_faculties = pd.get_dummies(df6['所属学部']).astype(int)
+display(df_faculties)
+```
+
+のような変数に変更できます．
+
+結果的には，
+```{python}
+df7 = pd.concat([df6.drop(columns=["所属学部"]), df_faculties], axis=1)
+df7
+```
+
+### 1.9. 整然データへ変換
+
+### 1.9.1. pivot
 
 同じデータですが，場合によっては，次のような表でまとめているかもしれません．
 ```{python}
@@ -637,34 +690,67 @@ df3 = pd.pivot(df2, columns="変数名", values="回答", index=["名前"])
 df3
 ```
 
-### 1.8.2. from wide to long (melt)
+### 1.9.2. from wide to long (melt)
 
 こんなデータがあったとします．
 
 ```{python}
-df4 = pd.DataFrame(
+# | code-fold: true
+import pandas as pd
+
+df_univ = pd.DataFrame(
     {
-        "名前": [
-            "鈴木",
-            "鈴木",
-            "鈴木",
-            "中村",
-        ]
+        "ID": ["鈴木", "鈴木", "鈴木", "中村", "中村", "中村", "高橋", "高橋", "高橋"],
+        "Q": [
+            "志望大学",
+            "入学大学",
+            "出身",
+            "志望大学",
+            "入学大学",
+            "出身",
+            "志望大学",
+            "入学大学",
+            "出身",
+        ],
+        "A": ["長大", "長大", "長崎", "東大", "長大", "東京", "長大", "京大", "長崎"],
     }
 )
-df4
+df_univ
 ```
 
-### 1.9. まとめ
+A列の尺度がバラバラで，Qによって分けると良さそうです．
+
+```{python}
+df_univ = df_univ.pivot(columns="Q", values="A", index="ID")
+df_univ = df_univ.reset_index(["ID"])
+df_univ
+```
+
+`志望大学`列と`入学大学`列は，尺度も分布も同一なので，これらの列名は，変数名ではなく値と考えられます．(wide型です．)
+
+long型に直します．wide型（同一尺度・分布の列が複数ある表）をlong型（同一尺度・分布の列が1列）にするには，`melt`関数を使います．
+
+```{python}
+df_univ = df_univ.melt(id_vars=["ID", "出身"])
+df_univ
+```
+
+列名に適切な名前をつける
+
+```{python}
+df_univ.columns = ["ID", "出身", "入学と志望", "大学名"]
+df_univ
+```
+
+### 1.10. まとめ
 
 1. データフレームを作る
-    - `pd.read_csv(csvファイル名, header=)`
-        + long形式は，wide形式へ (`pd.pivot(df, columns=, values=)`)
-    - `pd.DataFrame(data=[dict], columns=[])`
-    - `pd.concat([df0,df1], ignore_index=True, axis=0)`
+    - ファイルから読み込む： `pd.read_csv(csvファイル名, header=)`
+    - 手打ちで入力：`pd.DataFrame(data=[dict], columns=[])`
+    - 標本を付け足す：`pd.concat([df0,df1], ignore_index=True, axis=0)`
 2. 整然化
     - ある列の尺度や分布が複数混ざり合っていて，別の列の値（カテゴリ）によって表を分けたほうが良さそうなら，その列の値（カテゴリ）が実は変数である．
-        - -> ピボット: `pd.pivot(df,columns=var_col, values=var_val)`
+        - -> ピボット: `pd.pivot(df,columns=var_col, values=var_val, index=[var_id0, var_id1,...])`
     - 尺度や分布が同一の列が複数ある(wide型)なら，それらの列名は実は値である．
         - -> メルト: `pd.melt(df, id_vars=[var_id0, var_id1, ...])`
 3. 尺度を設定
@@ -675,8 +761,7 @@ df4
     - 量的変数（数値）：
         - 間隔尺度・比尺度: `se = se.astype('float')`
 
-
-### 1.10. クロス集計
+### 1.11. クロス集計
 
 クロス集計表を作ることもできます．クロスさせる2つの変数名を引数に並べます．
 
