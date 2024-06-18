@@ -6,6 +6,7 @@ authors = ["Kotaro Sonoda <kotaro1976@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.12.3"
+lxml = "^5.2.2"
 
 [tool.poetry.group.qmd.dependencies]
 nbclient = "^0.10.0"
