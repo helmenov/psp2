@@ -1,21 +1,11 @@
 ---
+title: Pandas, データフレームの扱い
 jupyter: python3
+toc: true
+html-math-method: mathjax
+#number-sections: true
+#highlight-style: pygments
 ---
-<!-- TOC -->
-
-- [まず，](#%E3%81%BE%E3%81%9A)
-    - [vscode で jupyter](#vscode-%E3%81%A7-jupyter)
-- [Pandas](#pandas)
-    - [標本の追加](#%E6%A8%99%E6%9C%AC%E3%81%AE%E8%BF%BD%E5%8A%A0)
-    - [標本セットの読み込み](#%E6%A8%99%E6%9C%AC%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF)
-    - [データを集めたら](#%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E9%9B%86%E3%82%81%E3%81%9F%E3%82%89)
-    - [データフレーム上の値は以下のように参照できます．](#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E4%B8%8A%E3%81%AE%E5%80%A4%E3%81%AF%E4%BB%A5%E4%B8%8B%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB%E5%8F%82%E7%85%A7%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%99%EF%BC%8E)
-    - [データの要約](#%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A6%81%E7%B4%84)
-    - [変数の尺度を正しく設定](#%E5%A4%89%E6%95%B0%E3%81%AE%E5%B0%BA%E5%BA%A6%E3%82%92%E6%AD%A3%E3%81%97%E3%81%8F%E8%A8%AD%E5%AE%9A)
-- [課題k02](#%E8%AA%B2%E9%A1%8Ck02)
-
-<!-- /TOC -->
-
 ## 0. まず，
 
 `cmd`で
@@ -30,6 +20,8 @@ jupyter: python3
 
 により，いつものように，パッケージ開発用フォルダを作り，
 その下に，仮想環境(`.venv`)，配布するフォルダ(`k02`)などを作る．
+
+### 0.1. 外部パッケージの利用
 
 今回は，パッケージの中で，外部パッケージを使いたいので，
 
@@ -49,7 +41,38 @@ jupyter: python3
 
 の4つの外部パッケージを仮想環境にインストールしておきます．
 
-### 0.1. vscode で jupyter
+### 0.2. リソースの利用
+
+パッケージには，フォルダ，モジュール(`.py`)の他に，「リソース」と呼ばれる資源を含ませることができます．（つまり，パッケージの一部として配布されます．）
+
+配布パッケージ（フォルダ） `k02` の下の `data` というフォルダにリソースファイル `mydata1.csv` を置いているとします．
+
+この `mydata1.csv` の「ファイルパス」は，
+
+```{python}
+from importlib import resources
+
+# 'k02/data/__init__.py' があればフォルダである'data'をimportできる．
+from k02 import data
+
+# `resources.files(foo)` は，importしたモジュール'foo'のファイルパス
+data_path = resources.files(data)
+print(data_path)
+
+# .joinpath(パス)は，パスを後ろに結合する．
+fpath = data_path.joinpath('mydata1.csv')
+print(fpath)
+```
+
+
+今回は，4 つのcsvファイルをリソースにします．
+
+- [`mydata1.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata1.csv)
+- [`mydata2.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata2.csv)
+- [`mydata3.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/mydata3.csv)
+- [`heights14.csv`](https://raw.githubusercontent.com/helmenov/psp2/09eca8d4151bb19fa3c9c230bd1628dd9d91dfaf/d06/k02/data/heights14.csv) : 課題用
+
+### 0.3. vscode で jupyter
 
 vscodeで配布用フォルダ `k02` の下に，`k02_1.ipynb` という名前のファイルを作り，開きます．
 
@@ -109,18 +132,19 @@ display(df_1)
 これら2つのデータフレームを合成して，新たなデータフレーム `df` を作ります．
 
 ```{python}
-df = pd.concat([df_0, df_1], ignore_index=True, axis=1)
+df = pd.concat([df_0, df_1], ignore_index=True, axis=0)
 display(df)
 ```
 
-`axis=1` は，合成の方向です．標本を追加するので縦方向に合成です．縦方向は`axis=1`です．（列方向，項目を追加する場合は，`axis=0`）
+`axis=1` は，合成の方向です．標本を追加するので縦方向に合成です．縦方向は`axis=0`です．（列方向，項目を追加する場合は，`axis=1`）
 
 ### 1.2. 標本セットの読み込み
 
 CSVファイルの読み込みは，`read_csv`関数です．
 
 ```{python}
-df = pd.read_csv('mydata1.csv',skipinitialspace=True)
+fpath = data_path.joinpath("mydata1.csv") # data_pathはリソースファイルのあるフォルダ（既に設定済）
+df = pd.read_csv(fpath, skipinitialspace=True)
 display(df)
 ```
 
@@ -142,10 +166,11 @@ print(df.shape)
 
 あれれ，それは違います．今回のデータは3観測(薗田と鈴木と斎藤)，6変数（名前,..., 身長）のはずなので`(3,6)`であるはずです．
 
-ファイルを直接見ると，1行目に`# mydata1.csv`とあり，これはメモですね．読み飛ばす行番号をリストにして`skiprows`オプションに渡します．
+ファイルを直接見ると，1行目に`# mydata1.csv`とあり，これはメモですね．読み飛ばす行番号をリストにして`skiprows`オプションに渡して読み直します．
 
 ```{python}
-df = pd.read_csv('mydata1.csv',skipinitialspace=True, skiprows=[0])
+fpath = data_path.joinpath('mydata1.csv')
+df = pd.read_csv(fpath,skipinitialspace=True, skiprows=[0])
 df
 ```
 
@@ -153,8 +178,9 @@ df
 df.shape
 ```
 
-きちんと，3観測6変数になりました．ちなみに読み飛ばした後の最初の行をヘッダ(header)，変数名リストとして読みます．
-クラス変数columnsに変数名が保存されています．
+きちんと，3観測6変数になりました．ちなみに読み飛ばした後の最初の行をヘッダ(header)と呼んでおり，変数名のリストとして読みます．
+
+クラス変数 `columns` に変数名が保存されています．
 
 ちなみに，ヘッダ行は観測ではないので，(4,6)ではなく(3,6)になっています．
 
@@ -162,10 +188,11 @@ df.shape
 df.columns
 ```
 
-変数名が並んだ行が無いCSVもあります．例えば`mydata2.csv`は`mydata1.csv`と同じ3観測6変数のデータですが，
+変数名が並んだ行が無いCSVもあります．例えば`mydata2.csv`は`mydata1.csv`と同じ3観測6変数のデータですが，普通に読むと，
 
 ```{python}
-df = pd.read_csv('mydata2.csv',skipinitialspace=True)
+fpath = data_path.joinpath('mydata2.csv')
+df = pd.read_csv(fpath,skipinitialspace=True)
 df
 ```
 
@@ -173,11 +200,12 @@ df
 df.shape
 ```
 
-のように，データの1観測目がヘッダと捉えられてしまいます．よって，
-`header`が無いことを教えて read_csv　します．
+のように，データの1観測目がヘッダ（変数名のリスト）と捉えられてしまいます．よって，
+`header`が無いことを教えて read_csv　します．( `header=None` )
 
 ```{python}
-df = pd.read_csv('mydata2.csv',skipinitialspace=True,header=None)
+fpath = data_path.joinpath('mydata2.csv')
+df = pd.read_csv(fpath,skipinitialspace=True,header=None)
 df
 ```
 
@@ -202,137 +230,116 @@ df.rename(columns={'Sex':'Gender'})
 ```
 
 ところで，データフレームを表示したときに，左端に毎回0から始まる数字が書かれています．
-これは，CSVにおける観測の個体IDであり，「インデックス(index)」と読んでいます．データ本体には含まれません．
+これは，CSVにおける観測の個体IDであり，「インデックス(index)」と呼んでいます．データ本体には含まれません．
 
 ```{python}
 print(df.index)
 ```
 
-indexは0から始まって，1ずつ増えて，3の前までということみたいですね．
+今， `index` は0から始まって，1ずつ増えて，3の前までということみたいですね．
 
 ### 1.3. データを集めたら
 
 そんなこんなで，`mydata1.csv`を読みます．
 
 ```{python}
-df = pd.read_csv('mydata1.csv',skipinitialspace=True,header=1)
+fpath = data_path.joinpath('mydata1.csv')
+df = pd.read_csv(fpath,skipinitialspace=True,header=1)
 df
 ```
 
-同じデータですが，場合によっては，次のような表でまとめているかもしれません．
+### 1.4. データフレーム上の値の参照
+
+データフレームの参照（抽出）は，2種類あります．参照の出力もデータフレームです．
+
+::: {.callout-tip title="データフレームの値の参照"}
+- `.loc[index名リスト, 変数名リスト]` : index名リスト，変数名リストによる参照
+- `.iloc[行番号リスト, 列番号リスト]` : データの`i`行目リスト，`j`列目の指定による参照
+
+取り出されたものの型は `DataFrame`
+:::
+
+いずれの場合も *リスト* なので，
+
+`[1,3,2]`とか`["性別",'誕生月']` のように四角カッコの配列で指定します．
 
 ```{python}
-df2 = pd.read_csv('mydata3.csv',skipinitialspace=True,skiprows=[0])
-df2
-```
-
-この場合，「名前」が同じ行は，1人に対する別々の変数と回答を表しています．つまり，回答者は「薗田」「鈴木」「斎藤」の3人です．よって，回答者をIDとします．
-
-```{python}
-df2 = df2.set_index('名前')
-df2
-```
-
-このような縦長の表を先程のようなデータフレームに変換するには，pivot関数を使います．変数名が並ぶ列と，回答が並ぶ列を指定すると，変換できます．
-
-```{python}
-df3 = pd.pivot(df2,columns='変数名',values='回答')
-df3
-```
-
-
-### 1.4. データフレーム上の値は以下のように参照できます．
-
-- 変数「好きな数」だけを全サンプル参照してみます．
-
-1. df[[変数名]]
-
-```{python}
-col1 = df3[['好きな数']]
-col1
+# .loc
+df.loc[[0, 1], ["好きな数"]]
 ```
 
 ```{python}
-print(type(col1), col1.shape)
+# .iloc
+df.iloc[[0, 1], [2]]
 ```
 
-2. df.変数名
+配列要素が数値（数字ではなく数値ね）の場合は，`range`でリストを作ることもできます．(内側の四角カッコは無し)
+
+`range(start,stop,step)`は
+`[start+0*step, start+1*step, ..., ] < stop` を作るのでした．
+```{python}
+df.iloc[range(0, 1), range(2, 5, 2)]
+```
+
+`range` で作るものは，スライスと呼ばれる形で表現できます．
 
 ```{python}
-col2 = df3.好きな数
-col2
+df.iloc[0:1, 2:5:2]
 ```
+
+#### 1.4.1. ある1つの変数だけ取り出す．
+
+上の例でも1つの変数「`好きな数`」を取り出していましたが，全てのサンプルにおけるある1つの変数だけを見たいときがあります．
+
+`loc`や`iloc`でもいいですが，データフレームになっています．場合によっては値のリストとして取り出したいときがあります．
+
+::: {.callout-tip title="列データを取り出す"}
+`df['変数名']`: `変数名` の列を取り出す
+
+取り出されたものの型は `Series`
+:::
 
 ```{python}
-print(type(col2), col2.shape)
+display(df["好きな数"])
+print(df["好きな数"].shape, type(df["好きな数"]))
 ```
 
-3. df[変数名]
+表示がきれいではなくなりました．型（クラス）が `Series`となっているからです．
 
+`Series`は，`DataFrame`のある変数を取り出したものになっていて，データ（値のリスト）のサイズが `(3,)` つまり，3要素のリストになっています．また，DataFrameと同様に index を持ちます(今の場合，`0`, `1`, `2`が `index`)．さらに `Name`に変数名を持ちます．
+
+また，データは普通のリストではなく， **全ての要素が同じ型になっている特別なリスト** です（変数というのはそういうもの）．今の場合，`dtype: int64` つまり 64bit整数 という型です．
+
+`Series`はリストと同様に順番のあるコンテナなので，順番を指定することで要素を取り出せます．
+
+サンプル0番目と1番目は，
 ```{python}
-col3 = df3['好きな数']
-col3
+df["好きな数"][[0, 1]]
 ```
 
+という感じです．上のほうでも，あるサンプルのある変数の値を取り出しましたが，上のほうではDataFrameを取り出しましたが，今回はSeriesを取り出しています．
+
+また`Series`のままだと扱いにくい場合には，list に変換できます．
 ```{python}
-print(type(col3),col3.shape)
+df["好きな数"].to_list()
 ```
-
-4. df[[変数名]][範囲]
-
-```{python}
-col4 = df3[['好きな数']][1:3] #　スライスで行番号
-col4
-```
-
-```{python}
-print(type(col4),col4.shape)
-```
-
-5. df.loc[範囲,変数名]
-
-```{python}
-col5 = df.loc[:1, '好きな数'] # 行スライスが`:1`に注意
-col5
-```
-
-```{python}
-print(type(col5), col5.shape)
-```
-
-6. df.iloc[行範囲，列範囲]
-
-```{python}
-col6 = df3.iloc[:2, 1] # 変数の順番で指定
-col6
-```
-
-以上から，
-- `df[['var']]` : DataFrame 2階テンソル（行列）
-- `df['var']` : Series 1階テンソル（ベクトル）
-- `df.var` : Series 1階テンソル（ベクトル）
-
-- `df[['var']][:2]` : DataFrame
-- `df.loc[:1, 'var']` : Series
-- `df.iloc[:2, 2]` : Series
 
 ### 1.5. データの要約
+
+要約とは，変数ごとに分布の特徴（統計量）に代表する処理です．
 
 データの要約は describeメソッドで行います．
 
 ```{python}
-df.describe(include='all')
+df.describe()
 ```
 
-全て，各項目ごとの代表値で，
+値が数値型の変数のみについて要約されました．
 
 - `count`はデータの個数(sample size，サンプルサイズ)
-- `unique`は*データに現れた*水準の個数 (**本当の水準数ではない**)
-- `top`はデータの最頻値，`freq`は最頻値の頻度
-- `mean`は平均値，`std`は標準偏差(STandard Deviation)
+- `mean`は平均値，`std`は *標本* の標準偏差(STandard Deviation)
 - `min`は最小値，`max`は最大値，
 - `25%`, `50%`, `75%`は四分位で，ヒストグラムを低い水準から並べたときに下位25％，50％，75％にあたる水準を答えるものです．下位50％はmedian（メディアン，メジアン）とも呼ばれます．
-- `NaN` は *Not a Number* 値なし
 
 この関数の中身は，以下のDataFrameのメソッドを使っても表示されます．
 
@@ -373,11 +380,13 @@ df['身長'].quantile(q=0.75)
 
 ### 1.6. 変数の尺度を正しく設定
 
-ところで，身長は平均や標準偏差に意味がありますが，「好きな数」や「誕生月」にとっての平均や標準偏差は意味不明ですね．
+ところで，身長は平均や標準偏差に意味がありますが，「好きな数」や「誕生月」にとっての平均や標準偏差は *意味不明* ですね．
 
 「好きな数」や「誕生月」って，いわば「性別」と同じように，どれが最初でどれが最後だとか無いですね．
 
-ということで，各変数は，尺度（スケール，scale）というものがあります．
+また，さきほどの「要約」で，変数「セロリ好き度」は単なる5段階評価値「とても嫌い，嫌い，普通，好き，とても好き」で選んでいるので，代表値や分布を考えられそうですが，文字なので「要約」ができませんでした．
+
+ということで，各変数は，尺度（スケール，scale）を設定しなければいけません．（pandasに教えてあげなければなりません）
 
 |尺度名|特徴|計算可能|
 |---|---|---|
@@ -386,11 +395,11 @@ df['身長'].quantile(q=0.75)
 |間隔尺度(interval)|MKS単位系でない測定値| `+`,`-`|
 |比尺度(ratio)| MKS単位系の測定値 | `*`,`/`|
 
-間隔尺度と比尺度は見分けにくいが，MKS単位系（メートル，キログラム，秒）を基本単位とする測定値は原器に対する比で表されるので比尺度，それ以外の単位系（または単位無し）の測定値は間隔尺度と考えられる．
+間隔尺度と比尺度は見分けにくいですが，MKS単位系（メートル，キログラム，秒）を基本単位とする測定値は原器に対する比で表されるので比尺度，それ以外の単位系（または単位無し）の測定値は間隔尺度と考えられます．
 
-では，`mydata1.csv`の各変数の尺度は何でしょうか.
+では，`mydata1.csv` の各変数の尺度は何でしょうか.
 
-また，各変数は，とりうる値のリスト（「水準」といいます）がすでに決められています．各変数の具体的な水準はどうなっているでしょうか
+また，各変数は，とりうる値のリスト（「水準」といいます）がすでに決められています．各変数の具体的な水準はどうなっているでしょうか．
 
 |変数名|尺度|水準|
 |---|---|---|
@@ -403,6 +412,7 @@ df['身長'].quantile(q=0.75)
 
 
 Pandasでは，それぞれの尺度に型（クラス）を割り当てています．
+
 - 名義尺度は，`Categorical(categories=[...],ordered=False)`クラス
 - 順序尺度は，`Categorical(categories=[...],ordered=True)`クラス
 - 間隔尺度と比尺度は，`Float`クラス
@@ -411,22 +421,35 @@ Pandasでは，それぞれの尺度に型（クラス）を割り当ててい�
 
 [公式サイトの`class pandas.Categorical`](https://pandas.pydata.org/docs/reference/api/pandas.Categorical.html)
 
-- 「名前」
+- 「名前」（名義尺度）
+
+    尺度を設定する前
+
+    `dtype` に，現在の型（クラス）が表示されますので，注目してください．
 
 ```{python}
 df['名前']
 ```
+
+    尺度を設定する前のdtypeは，`object`．object型というのは，汎用型（いわば不明）であり，所謂文字列型(str)と同義です．
+
+    名義尺度に設定．水準を全て挙げることができないので，`categories` は指定できない．
 
 ```{python}
 df['名前'] = pd.Categorical(df['名前'])
 df['名前']
 ```
 
-- 「性別」
+    dtypeが category になりました．水準は3種です．
 
+- 「性別」（名義尺度）
+
+    尺度を設定する前
 ```{python}
 df['性別']
 ```
+
+    名義尺度に設定．水準がすべて挙げられるなら `categories` に水準の集合を指定する．
 
 ```{python}
 GenderSet = {'男','女'}
@@ -434,45 +457,89 @@ df['性別'] = pd.Categorical(df['性別'], categories=GenderSet, ordered=False)
 df['性別']
 ```
 
-- 「好きな数」，「誕生月」
+- 「好きな数」，「誕生月」（名義尺度に設定）
 
+    尺度を設定する前
+
+    dytpeは，数なので `int64`．64ビット整数として読み取られています．
 ```{python}
 df['好きな数']
 ```
 
+    名義尺度に設定．
+
+    ここで測定した数は，単なる選択肢で名義尺度なので，「数字」（文字）に直す．
+
+    dtypeは文字列，`object`型になります．
 ```{python}
 df['好きな数'] = df['好きな数'].astype('str')
 df['好きな数']
 ```
 
-```{python}
-# MonthSet = {'1','2','3','4','5','6','7','8','9','10','11','12'} でもいいですが
-MonthSet = set([str(n) for n in range(1,13)])
-df['好きな数'] = pd.Categorical(df['好きな数'], categories=MonthSet, ordered=False)
+    また，水準を全て挙げることができないので，`categories`は指定できない．
 
+    これで，dtypeは正しく category になります．
+```{python}
+df['好きな数'] = pd.Categorical(df['好きな数'], ordered=False)
 df['好きな数']
 ```
 
+    次に，「誕生月」．尺度を設定する前は，
+
 ```{python}
-df['誕生月'] = df['誕生月'].astype('str')
-df['誕生月'] = pd.Categorical(df['誕生月'], categories=MonthSet, ordered=False)
+df['誕生月']
 ```
 
-- 「セロリ好き度」
+    これも大小・優劣など無いので，名義尺度であり，文字列化する．
 
-セロリ好き度は，強弱・大小があるので，順序尺度です．
+    また，全ての水準を挙げられるので，`categories`を指定する．
+
+```{python}
+df["誕生月"] = df["誕生月"].astype("str")
+# MonthSet = {'1','2','3','4','5','6','7','8','9','10','11','12'} でもいいですが
+MonthSet = set([str(n) for n in range(1, 13)])
+df["誕生月"] = pd.Categorical(df["誕生月"], categories=MonthSet, ordered=False)
+df["誕生月"]
+```
+
+- 「セロリ好き度」（順序尺度）
+
+    セロリ好き度は，強弱・大小があるので，「順序尺度」．
+
+    尺度を設定する前は，
 
 ```{python}
 df['セロリ好き度']
 ```
 
+    全ての水準を挙げられるので，`categories` を指定．
+
+    また水準には順序があるので，リストに順に水準を並べる．`ordered = True` を指定．
+
+    dtype が正しく category になります．また，水準に順位が付いてますね．
 ```{python}
 CerelyFavorLevel = ['とても嫌い','嫌い','ふつう','好き','とても好き']
-df['セロリ好き度'] = pd.Categorical(df['セロリ好き度'],categories=CerelyFavorLevel,ordered=True)
+df['セロリ好き度'] = pd.Categorical(df['セロリ好き度'],categories=CerelyFavorLevel, ordered=True)
 df['セロリ好き度']
 ```
 
-変数が文字列のものは，数字と対応付けすることができます．
+#### あらためて要約しなおし
+
+すべての変数の尺度を設定したので，もう一度「要約」してみましょう．
+
+```{python}
+df.describe()
+```
+
+名義尺度である「好きな数」「誕生月」が消えました．ですが，順序尺度である「セロリ好き度」は依然，出てきません．
+
+値が数値でないと出てこないようです．考えてみると，順序尺度とはいえ，平均値や標準偏差などは数値でしか表示できませんね．水準が文字列なので無理ってことです．
+
+### 1.7. 文字変数 を 数字 に対応付け
+
+変数が文字列のものは，数字と対応付けすることができます．(`se.map(dict)`)
+
+#### 1.7.1. 名義尺度
 
 性別に対して，
 
@@ -483,7 +550,7 @@ df['セロリ好き度']
 
 マッピングしたのちも，尺度は変わらず名義尺度(Categorical, ordered=False)となっています．
 
-数字だからといって大小をつけられるわけではありません．
+*数字だからといって大小をつけられるわけではありません．*
 
 ```{python}
 SexMap = {'男':-1, '女':+1}
@@ -491,68 +558,210 @@ df['性別'] = df['性別'].map(SexMap)
 df['性別']
 ```
 
+#### 1.7.2. 順序尺度
+
 同様に，「セロリ好き度」も数字にしましょうか．
 
-とても嫌い(-2) - 嫌い(-1) - ふつう(0) - 好き(+1) - とても好き(+2)
+以下のイメージです．
 
+```
+とても嫌い(-2) < 嫌い(-1) < ふつう(0) < 好き(+1) < とても好き(+2)
+```
 ```{python}
-CerelyFavorMap = {'とても嫌い':-2, '嫌い':-1, 'ふつう':0, '好き':+1, 'とても好き':+2}
-df['セロリ好き度'] = df['セロリ好き度'].map(CerelyFavorMap)
+CerelyFavorMap = {
+    "とても嫌い": -2,
+    "嫌い": -1,
+    "ふつう": 0,
+    "好き": +1,
+    "とても好き": +2,
+}
+df["セロリ好き度"] = df["セロリ好き度"].map(CerelyFavorMap)
+df["セロリ好き度"]
+```
+
+ただし，`map`で対応付けしても，文字と数字の対応がされるだけで，数値としては扱われず，大小は評価されません．(`dtype: category`)
+
+しかた無いので，順序尺度でなく間隔尺度に設定しなおします．
+(つまりは数字を数値にする)
+```{python}
+df['セロリ好き度'] = df['セロリ好き度'].astype(int)
 df['セロリ好き度']
 ```
 
-```{python}
-#df['セロリ好き度'].median()
-```
+#### あらためて「要約」
 
-セロリ好き度の5段階は，等間隔ですので，数字にしたからには間隔尺度になってほしいですが，そうなっていません．
-間隔尺度にしてあげましょう．
+あらためて，要約します．
 
 ```{python}
-df['セロリ好き度'] = df['セロリ好き度'].cat.codes
-df['セロリ好き度']
+df.describe()
 ```
+
+### 1.8. 名義尺度の再解釈
+
+$\text{性別}\in\{\text{男性},~\text{女性}\}$ は，名義尺度でした．
+
+ですが，このような2値データの場合，$\text{男性か?}\in\{\text{Yes},~\text{No}\}$ と解釈し直すこともできます．このような Boolな回答（Yes/No, True/False）は，間隔尺度と考えるのがよいとされています．（名義尺度は計算できないが，間隔尺度は計算できる）
+
+その流れで，2つ以上のカテゴリ水準となる1列の名義尺度は，複数列のBool回答（つまり間隔尺度）に直せます．
+
+例えば
 
 ```{python}
-df['セロリ好き度'] = df['セロリ好き度']-2
-df['セロリ好き度']
+s1 = {"名前": "薗田", "所属学部": "情報データ科学部"}
+s2 = {"名前": "鈴木", "所属学部": "工学部"}
+s3 = {"名前": "中村", "所属学部": "水産学部"}
+df6 = pd.DataFrame([s1, s2, s3])
+df6
 ```
+
+列`所属学部`は，名義尺度で，カテゴリは，
+```{python}
+categories={"情報データ科学部","工学部","医学部","歯学部","薬学部","環境科学部","水産学部","経済学部","教育学部","多文化社会学部"}
+```
+
+したがって，
 
 ```{python}
-df['セロリ好き度'].median()
+df6["所属学部"] = pd.Categorical(df6["所属学部"], categories=categories, ordered=False)
+display(df6)
+print(df6["所属学部"])
 ```
 
-今回のデータでは，名前は単に各データのID（データを見分けるための符号）でしかありません．set_indexでIDとなる列を指定します．
+ここで，「所属学部は？」という変数ではなく，「情報データ科学部に所属？」，「工学部に所属？」,...というように複数のBool変数に分けることができて
 
 ```{python}
-df = df.set_index('名前')
+df_faculties = pd.get_dummies(df6['所属学部']).astype(int)
+display(df_faculties)
 ```
+
+のような変数に変更できます．
+
+結果的には，
+```{python}
+df7 = pd.concat([df6.drop(columns=["所属学部"]), df_faculties], axis=1)
+df7
+```
+
+### 1.9. 整然データへ変換
+
+### 1.9.1. pivot
+
+同じデータですが，場合によっては，次のような表でまとめているかもしれません．
+```{python}
+fpath = data_path.joinpath("mydata3.csv")
+df2 = pd.read_csv(fpath, skipinitialspace=True, skiprows=[0])
+df2
+```
+
+この「回答」という列ですが，尺度は何でしょうか？
+
+あるときは「男」や「とても嫌い」などの文字列，あるときは「7」や「172」などの数字になっていて，なんとも言えません．
+
+このような尺度を決めきれないような列のある表は「雑然」としています．よって「整然」データに変換します．
+
+よく見ると「変数名」という列の値の種別ごとに表を分けると，
+
+- `変数名`==`性別`の表
+
+|名前|回答|
+|---|---|
+|薗田|男|
+|鈴木|女|
+|斎藤|男|
+
+- `変数名` == `好きな数`の表
+
+|名前|回答|
+|---|---|
+|薗田|7|
+|鈴木|3|
+|斎藤|4|
+
+というように，それぞれの表で回答の列がある尺度や分布に統一できそうです．
+
+むしろ，「回答」という列名ではなく，それぞれの表の名前（つまり元の変数名の値）を列名にすればよいのではないでしょうか．
+
+この作業を *ピボット* といいます．
+
+`pandas` では，`pivot` 関数を使います．変数名が並ぶ列と，回答が並ぶ列を指定し，それ以外の列をindexに指定すると，変換できます．
 
 ```{python}
-df
+df3 = pd.pivot(df2, columns="変数名", values="回答", index=["名前"])
+df3
 ```
 
-本当は数値なのにCategoricalや文字列に認識されてしまっている列が合った場合や
-本当は整数なのに，小数点付きに認識されてしまっている列については，
+### 1.9.2. from wide to long (melt)
 
-```
-df['列名'].astype(float) # 列の値をすべてfloat型に
-```
-
-のような　astype(float) や astype(int)　などで型キャストができる
-
-
-要約
+こんなデータがあったとします．
 
 ```{python}
-df.describe(include='all')
+# | code-fold: true
+import pandas as pd
+
+df_univ = pd.DataFrame(
+    {
+        "ID": ["鈴木", "鈴木", "鈴木", "中村", "中村", "中村", "高橋", "高橋", "高橋"],
+        "Q": [
+            "志望大学",
+            "入学大学",
+            "出身",
+            "志望大学",
+            "入学大学",
+            "出身",
+            "志望大学",
+            "入学大学",
+            "出身",
+        ],
+        "A": ["長大", "長大", "長崎", "東大", "長大", "東京", "長大", "京大", "長崎"],
+    }
+)
+df_univ
 ```
 
-ある変数をグループ分けして，グループごとに要約することもできます．
+A列の尺度がバラバラで，Qによって分けると良さそうです．
 
 ```{python}
-df.groupby(['性別']).describe(include='all')
+df_univ = df_univ.pivot(columns="Q", values="A", index="ID")
+df_univ = df_univ.reset_index(["ID"])
+df_univ
 ```
+
+`志望大学`列と`入学大学`列は，尺度も分布も同一なので，これらの列名は，変数名ではなく値と考えられます．(wide型です．)
+
+long型に直します．wide型（同一尺度・分布の列が複数ある表）をlong型（同一尺度・分布の列が1列）にするには，`melt`関数を使います．
+
+```{python}
+df_univ = df_univ.melt(id_vars=["ID", "出身"])
+df_univ
+```
+
+列名に適切な名前をつける
+
+```{python}
+df_univ.columns = ["ID", "出身", "入学と志望", "大学名"]
+df_univ
+```
+
+### 1.10. まとめ
+
+1. データフレームを作る
+    - ファイルから読み込む： `pd.read_csv(csvファイル名, header=)`
+    - 手打ちで入力：`pd.DataFrame(data=[dict], columns=[])`
+    - 標本を付け足す：`pd.concat([df0,df1], ignore_index=True, axis=0)`
+2. 整然化
+    - ある列の尺度や分布が複数混ざり合っていて，別の列の値（カテゴリ）によって表を分けたほうが良さそうなら，その列の値（カテゴリ）が実は変数である．
+        - -> ピボット: `pd.pivot(df,columns=var_col, values=var_val, index=[var_id0, var_id1,...])`
+    - 尺度や分布が同一の列が複数ある(wide型)なら，それらの列名は実は値である．
+        - -> メルト: `pd.melt(df, id_vars=[var_id0, var_id1, ...])`
+3. 尺度を設定
+    - 質的変数（文字，数字）:
+        - 名義尺度：`se = pd.Categorical(se, categories=[...], ordered=False)`
+        - 順序尺度: `se = pd.Categorical(se, categories=[...], ordered=True)`
+            - 場合によっては間隔尺度に設定しなおす．
+    - 量的変数（数値）：
+        - 間隔尺度・比尺度: `se = se.astype('float')`
+
+### 1.11. クロス集計
 
 クロス集計表を作ることもできます．クロスさせる2つの変数名を引数に並べます．
 
@@ -560,11 +769,64 @@ df.groupby(['性別']).describe(include='all')
 pd.crosstab(df['性別'],df['好きな数'])
 ```
 
-## 課題k02
+# 2. 課題k02
 
-[これ](heights14.csv)は，身近の14人（男7人，女7人）に性別と身長を尋ねたときの回答を集めた標本データである．
+[これ](heights14.csv)は，身近の14人に性別と身長を尋ねたときの回答を集めた標本データである．`k02/k02/data/heights14.csv` とする．
+```{python}
+from importlib import resources
+from k02 import data
 
-(1) pandasパッケージを用いて，csvファイルを読み込んでデータフレームを作成し，
+data_path = resources.files(data)
+fpath = data_path.joinpath("heights14.csv")
+
+df = pd.read_csv(fpath)
+df
+```
+
+で読み取れます．ヘッダー読み取りの有無等は考えてください．
+
+また，このデータは，尺度が混ざっている列があるので，ピボットが必要です．
+
+```{python}
+# columnsを変数名が並んでる列名，今回は "Q"
+# valuesを各変数の値が並んでる列名，今回は "A"
+# indexを固定する列名のリスト，今回は ["ID"]
+# としてピボット
+df2 = df.pivot(columns="Q", values="A", index=["ID"])
+display(df2)
+print(df2.dtypes)
+```
+
+pivotされましたが，変数のtypeが`object`（なにがし）になっています．
+このままだと，統計量が正しく計算できません（特に身長），
+よって，次に尺度を正します．
+
+変数 `性別` は，
+
+- 値は `男` か `女`
+- 名義尺度
+
+なので，`category`に直します．`categories={'男','女'}`, `ordered=False`です．
+
+変数 `身長` は，
+
+- 値は，実数
+- 比尺度
+
+なので，`float`に直します．
+
+```{python}
+df2['性別'] = pd.Categorical(df2['性別'], categories={'男','女'}, ordered=False)
+df2['身長'] = df2['身長'].astype(float)
+display(df2)
+print(df2.dtypes)
+```
+
+きちんと尺度が正されました．
+
+## k02_1
+
+pandasパッケージを用いて，csvファイルを読み込んでデータフレームを作成し，
 この標本集団における男性と女性それぞれの「平均」と「標準偏差」を表示する関数を `k02_1.py` の中で `main()` として定義せよ．
 
 開発手順は，
@@ -578,15 +840,15 @@ pd.crosstab(df['性別'],df['好きな数'])
     - `k02_1.py` の末尾に，`if __name__ == '__main__': main()` という行を追加
 3. 動作確認用に`tests/test_k02_1.py`を書いて，正しく動作することを確認
 
-    ```{.py}
-    from k02 import k02_1
+```{.py}
+from k02 import k02_1
 
-    k02_1.main()
-    ```
+k02_1.main()
+```
 
 `k02_1.py`を以下のように，`def main()` に処理，`if __name__ == '__main__': main()` を末尾に設定，とすると，
 
-```{.py'}
+```{.py}
 import pandas as pd
 
 def main():
@@ -611,10 +873,10 @@ if __name__ == '__main__': main()
 
 ```{.sh}
 ==男==
-平均:173.90
-標準偏差: 5.06
+平均:173.90 cm
+標準偏差: 5.06 cm
 
---女--
+==女==
 平均: ◯ cm
 標準偏差：　◯ cm
 ```
@@ -623,20 +885,30 @@ if __name__ == '__main__': main()
 
 ちなみに，標本分散は `var(ddof=0)`，標本標準偏差は， `std(ddof=0)` で計算される．（いくつかのサイトで誤っていることを確認しているので，注意すること）
 
-```{.sh}
-df_M = df[df['性別']=='男']
-se_M_height = df_M['身長']
-M_std = se_M_height.std(ddof=0) # 標準偏差
-M_var = se_M_height.var(ddof=0) # 分散
+```{python}
+df_M = df2[df2["性別"] == "男"]
+display(df_M)
+se_M_height = df_M["身長"]
+display(se_M_height)
+M_std = se_M_height.std(ddof=0)  # 標準偏差
+M_ustd = se_M_height.std(ddof=1)  # 不偏標準偏差
+print(f"標準偏差：{M_std}\n不偏標準偏差：{M_ustd}")
+M_var = se_M_height.var(ddof=0)  # 分散
+M_uvar = se_M_height.var(ddof=1)  # 不偏分散
+print(f"分散：{M_var}\n不偏分散：{M_uvar}")
 ```
 
-(2) このデータはある特定の14人のデータなので，別な14人で回答を集めるたびに別の標本平均が求まる．
-適当な男7人，女7人で回答を集めたときにその標本平均が収まる範囲「◯±△」を推定せよ．
-`(1)`と同様に最終的には モジュール`k02/k02_2.py`を作り，`tests/test_k02_2.py`で動作確認せよ．
+## k02_2
 
-- 母集団の平均の最良推定値（「◯±△」の「◯」）は，標本平均と等しい．
-- また，標本誤差（「◯±△」の「△」）は， $\sqrt{\frac{u^2}{N}}$ で求まる．
-  - 母集団の分散 $u^2$ は標本の分散 $s^2$ と標本サイズ $N$ から「推定」できる．所謂，不偏分散と呼ばれる．
+このデータはある特定の14人のデータなので，別な14人で回答を集めるたびに別の標本平均が求まる．
+
+性別それぞれ同じ人数で回答を集めたときにその標本平均が68%の確率で収まる範囲「◯±△」を推定せよ．($\bar{x}\pm 1\times \mathrm{SE}$)
+
+`k02_1` と同様に最終的には モジュール`k02/k02_2.py`を作り，`tests/test_k02_2.py`で動作確認せよ．
+
+- 「◯±△」の「◯」は，母集団の平均の裁量推定値と等しく，手元の標本の平均($\bar{x}$)と等しい．
+- また，「◯±△」の「△」は，別の標本と手元の標本との誤差であり，標本誤差$\mathrm{SE}$という． $\sqrt{\frac{u^2}{N}}$ で求まる．
+  - $u^2$ は母集団の分散で，標本の分散 $s^2$ と標本サイズ $N$ から「推定」できる．所謂，不偏分散と呼ばれる．
 
     $$
     u^2 = \frac{N}{N-1}s^2
@@ -648,25 +920,20 @@ M_var = se_M_height.var(ddof=0) # 分散
 
 ```{.sh}
 ==男==
-母集団平均:173.90± 1.91
+別の標本の平均の68%信頼区間:173.90± 1.91 cm
 
---女--
-母集団平均範囲： ◯ ± △ cm
+==女==
+別の標本の平均の68%信頼区間： ◯ ± △ cm
 ```
 
 と表示されるようにせよ．（男について表示される数値は上記になるのが正解）
 
-(3) 男性全体，女性全体の母集団の標準偏差を求めよ．モジュール名は，`k02/k02_3.py`とする．
-母集団の標準偏差は，(2)の母集団分散の二乗根である．
+ちなみに，今回は各値を小数点以下2桁までを表示している．`x`を小数点以下2桁までで表示する場合には，**fフォーマット**で文字列を作ります．fフォーマットでは，中括弧`{x}`でxを文字列化します．また，`:`のあとに，表記方法を指定します．
 
-実行結果は，
-
-```{.sh}
-==男==
-母集団標準偏差: 5.41
-
---女--
-母集団標準偏差：　◯ cm
+```{python}
+x = 3.141592
+print(f"円周率は {x} です（通常表記）．")
+print(f"円周率は {x:.2f} です（小数点以下2桁表示）．")
+print(f"円周率は {x:.3e} です（小数点以下3桁の指数表示，つまり有効桁4桁）．")
+print(f"円周率は {x:.5g} です（有効桁5桁）．")
 ```
-
-と表示されるようにせよ．（男について表示される数値は上記になるのが正解）
