@@ -122,6 +122,12 @@ ul.task-list li input[type="checkbox"] {
 &gt; poetry env use py
 &gt; poetry install # k04パッケージ自身をimportできるようにする
 &gt; poetry add git+https://github.com/helmenov/color_quest # colorquestパッケージをimportできるようにする．</code></pre>
+
+<p>
+  MacOSの人は、<br>
+  最後の `poetry add` でHTTPS通信のエラーが出るかもしれない。その場合は、<br>
+  ApplicationフォルダのPythonフォルダにある、`Install Certificates.command`というファイル（スクリプト）を一回だけダブルクリック実行しておくと、PythonがHTTPS通信できるようになる。
+
 <p>k04パッケージ開発環境フォルダをvscodeで開き，コマンドプロンプトを立ち上げ，</p>
 <pre><code>&gt; poetry run color_quest</code></pre>
 <p>で動きます．</p>
