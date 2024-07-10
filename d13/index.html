@@ -120,9 +120,10 @@ ul.task-list li input[type="checkbox"] {
 <pre><code>&gt; poetry new k04
 &gt; cd k04
 &gt; poetry env use py
-&gt; poetry add git+https://github.com/helmenov/color_quest</code></pre>
+&gt; poetry install # k04パッケージ自身をimportできるようにする
+&gt; poetry add git+https://github.com/helmenov/color_quest # colorquestパッケージをimportできるようにする．</code></pre>
 <p>k04パッケージ開発環境フォルダをvscodeで開き，コマンドプロンプトを立ち上げ，</p>
-<pre><code>&gt; color_quest</code></pre>
+<pre><code>&gt; poetry run color_quest</code></pre>
 <p>で動きます．</p>
 <p>このプログラムは，</p>
 <ul>
