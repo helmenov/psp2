@@ -5,7 +5,7 @@ description = ""
 authors = [
     { name = "Kotaro Sonoda", email =  "kotaro1976@gmail.com" }
     ]
-requires-python = ">= 3.12.3, < 4"
+requires-python = ">= 3.12"
 dependencies = [
     "lxml >= 5.2.2, < 6",
     "nbclient >= 0.10.0, < 1",

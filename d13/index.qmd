@@ -62,13 +62,14 @@ RGB値とCMY値の理解が深まったところで，色当てゲームをし�
 > poetry new k04
 > cd k04
 > poetry env use py
-> poetry add git+https://github.com/helmenov/color_quest
+> poetry install # k04パッケージ自身をimportできるようにする
+> poetry add git+https://github.com/helmenov/color_quest # colorquestパッケージをimportできるようにする．
 ```
 
 k04パッケージ開発環境フォルダをvscodeで開き，コマンドプロンプトを立ち上げ，
 
 ```
-> color_quest
+> poetry run color_quest
 ```
 
 で動きます．
@@ -94,7 +95,3 @@ k04パッケージ開発環境フォルダをvscodeで開き，コマンドプ�
 一度RGB値を入力すると，距離が返却されます．入力したRGB値と返却された距離値の関係を元に，次に調べたいRGB値が決まるかと思います．
 
 `k04`フォルダ（親）のREADME.mdに，作成したパッケージの使い方を書いてください．
-
-
-
-
