@@ -66,6 +66,11 @@ RGB値とCMY値の理解が深まったところで，色当てゲームをし�
 > poetry add git+https://github.com/helmenov/color_quest # colorquestパッケージをimportできるようにする．
 ```
 
+> MacOSの人は、
+> 最後の `poetry add` でHTTPS通信のエラーが出るかもしれない。その場合は、
+> ApplicationフォルダのPythonフォルダにある、`Install Certificates.command`というファイル（スクリプト）を一回だけダブルクリック実行しておくと、
+> PythonがHTTPS通信できるようになる。
+
 k04パッケージ開発環境フォルダをvscodeで開き，コマンドプロンプトを立ち上げ，
 
 ```
