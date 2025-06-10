@@ -106,54 +106,58 @@ NumpyArray は，線形代数における行列やベクトルなので，行列
 
 ## `numpy.NDArray` は本当はテンソル演算
 
-「NumpyArray は，行列やベクトル」と言いましたが，行列やベクトルには形があります．
+「`NumpyArray` は，行列やベクトル」と言いましたが，行列やベクトルには形があります．
 
-```
-M = [1 2 3]
-    [4 5 6]
-```
+$$
+\pmb{M} = \begin{bmatrix}
+  1 & 2 & 3\\
+  4 & 5 & 6
+  \end{bmatrix}
+$$
 
-のとき，M の形は「2 行 3 列」です．
+のとき，$\pmb{M}$ の形は「2 行 3 列」です．
 
-```
-v = [7]
-    [8]
-    [9]
-```
+$$
+\pmb{v} = \begin{bmatrix}
+  7\\
+  8\\
+  9
+  \end{bmatrix}
+$$
 
-のとき，v の形は「3 行 1 列」ですね．
+のとき，$\pmb{v}$ の形は「3 行 1 列」ですね．
 
-```
-u = [10 11]
-```
+$$
+\pmb{u} = \begin{bmatrix} 10 & 11\end{bmatrix}
+$$
 
-のとき，u の形は「1 行 2 列」ですね．
+のとき，$\pmb{u}$ の形は「1 行 2 列」ですね．
 
-NumpyArray で 2 行 3 列の行列を作ってみましょう．
-すべての要素がゼロな 2 行 3 列の行列は，Numpy の zeros 関数で作ることができます．
+`NumpyArray` で 2 行 3 列の行列を作ってみましょう．
+すべての要素がゼロな 2 行 3 列の行列は，NumPy の `zeros` 関数で作ることができます．
 
 ```{python}
 M = np.zeros((2,3))
-print(M)
+print(f'{M = }')
 ```
 
 行列の形は 属性`.shape`に保存されています．
 
 ```{python}
-print(M.shape)
+print(f'{M.shape = }')
 ```
 
-形(2,3)の M を`print`したときの表示を見てみると，「行ごとの 3 つの要素がリストになっており，2 行のリストをさらにリストに」しています．
+形 `(2,3)` の `M` を`print`したときの表示を見てみると，「行ごとの 3 つの要素がリストになっており，2 行のリストをさらにリストに」しています．
 
-実は，このようなリストから NumpyArray を作ることもできます．
+実は，このような *リストから `NumpyArray` を作る* こともできます．
 
 ```{python}
 u1 = [1,2,3]
 u2 = [4,5,6]
 L = [u1, u2]
 M = np.array(L)
-print(M)
-print(M.shape)
+print(f'{M = }')
+print(f'{M.shape = }')
 ```
 
 では，7 と 8 と 9 を要素にもつ 1 行 3 列の NumpyArray を作ってみましょう．行ごとにリストに，全体をさらにリストにします．つまり 2 重リストになります．
@@ -161,43 +165,82 @@ print(M.shape)
 ```{python}
 Lx = [[7,8,9]]
 x = np.array(Lx)
-print(x)
-print(x.shape)
+print(f'{x = }')
+print(f'{x.shape = }')
 ```
 
-この x を転置すれば，Mx が計算できます．転置は Numpy の`transpose`関数を使います．また，行列積は Numpy の`matmul`関数です．(ちなみに`*`は要素積（要素同士の積）です．)
+この `x` を転置した $\pmb{x^{\prime}}$ ならば，$\pmb{M}\pmb{x^{\prime}}$ が計算できます．転置は Numpy の `transpose` 関数を使います．また，行列積は Numpy の `matmul` 関数です．(ちなみに *演算子 `*` は，要素積（要素同士の積）* です．)
 
 ```{python}
-R = np.matmul(M, np.transpose(x))
-print(R)
-print(R.shape)
+x_prime = np.transpose(x)
+# `x_prime = x.T` でもよい．
+R = np.matmul(M, x_prime)
+print(f"{R = }")
+print(f"{R.shape = }")
 ```
 
-皆が知っているように，行列積は，「左の行列の列数」と「右の行列の行数」が同じでなければいけません．上の例の場合，(2,3)と(3,1)なので行列積は(2,1)となるわけですね．
+皆が知っているように，行列積は，「左の行列の列数」と「右の行列の行数」が同じでなければいけません．上の例の場合，`shape`が `(2,3)` と `(3,1)` なので行列積の `shape` は `(2,1)` となるわけですね．
 
-ところで，x は行列でしょうか？ベクトルでしょうか？
+ところで，
+
+```{python}
+print(f'{x = }')
+```
+
+*この `x` は行列でしょうか？ベクトルでしょうか？*
 
 行ベクトルとか列ベクトルと言われているものですが，Numpy では
-「行数」とか「列数」とか言っているので，これは「行列」なのです．では，ベクトルは？
+「行数」とか「列数」とか言っているので，これは「行列」なのです．`shape`が 2元タプルになっています．
 
-ベクトルとは，1 重のリストから作ったものをいいます．「行」や「列」という概念がありません．
+先の `x` が行列ならば，ベクトルはどんなもの？
+
+*ベクトルとは，1 重のリストから作ったもの* をいいます． *「行」や「列」という概念がありません．*
 
 ```{python}
 Ly = [7,8,9]
 y = np.array(Ly)
-print(y)
-print(y.shape)
+print(f'{y = }')
+print(f'{y.shape = }')
 ```
 
-さきほどの x は形が(1,3)で，転置した`np.transpose(x)`は(3,1)でした．今度の y は(3,)です．さきほどの行列積ができます．
+さきほどの行ベクトル（$\in$ 行列） `x` は `shape` が `(1,3)` で，転置した `np.transpose(x)` は `(3,1)` で 列ベクトルでした．
+今度のベクトル `y` は `shape` が `(3,)` です．2元目がヌル（空）で，1元タプルです．
+
+ちなみに，行や列の概念が無いので転置は無意味で，形を変えません．
+
+```{python}
+# |error: true
+print(f"{y.T = }")
+print(f"{y.T.shape = }")
+```
+
+さきほどの行列積ができます．ベクトルは行列に右から掛けます．
 
 ```{python}
 R2 = np.matmul(M, y)
-print(R2)
-print(R2.shape)
+print(f'{R2 = }')
+print(f'{R2.shape = }')
 ```
 
-R2 はさきほどの R と要素は同じ数値ですが，(2,1)ではなく(2,)となります．（行列積の作られ方どおりです．）
+`R2` はさきほどの `R` と要素は同じ数値ですが，`shape` が `(2,1)` ではなく `(2,)` となります．（行列積の作られ方どおりです．）
+
+ちなみに，内積というのもありました．$a$ も $b$ も行列ならば $a^\top b$ で計算されるので，`np.mutmal(a.T, b)` です．
+
+ところで Numpy にも内積は用意されていて， `np.inner(a,b)` です．しかし，`a` と `b` が行列のとき，$a^{\top}b$ にはなりません． 本来の内積の定義は，「内側の積和」であり，$\sum_{i=1}^{N} \pmb{a_i} \pmb{b_i}$ という演算です（$N$ は $R-1$ 階の次数．$R$ は階数）
+
+```{python}
+# |error: true
+vc1 = np.array([[1], [2]])
+v1 = np.array([1, 2])
+vc2 = np.array([[3], [4]])
+v2 = np.array([3, 4])
+inner1 = np.inner(vc1, vc2)
+print(f"{inner1 = }")
+inner2 = np.matmul(vc1.T, vc2)
+print(f"{inner2 = }")
+inner3 = np.inner(v1, v2)
+print(f"{inner3 = }")
+```
 
 まとめると
 
@@ -223,7 +266,7 @@ print(yt.shape)
 
 **行列やベクトルをまとめて，一般的に「テンソル」と言います．**
 
-さきほどの「n 重のリスト」の`n`を階数といいます．
+さきほどの「n 重のリスト」の `n` を階数といいます．
 
 - 行列: 2 階テンソル
 - ベクトル: 1 階テンソル
@@ -254,8 +297,6 @@ print(f'shape(形):{A3.shape}')
 print(f'ndim(階数):{A3.ndim}')
 print(f'size(要素数):{A3.size}')
 print('\n')
-
-
 ```
 
 3 階以上になっても行列積(テンソル積)は同じです．
@@ -280,10 +321,10 @@ print(M_row,type(M_row),M_row.shape,M_row.ndim,M_row.size,'\n')
 M_item = M[1][2] # (1,2)要素 M[1,2]とは書けない
 print(M_item,type(M_item),M_item.shape,M_item.ndim,M_item.size,'\n')
 
-M_slice = M[1:3,0:2] #スライス
+M_slice = M[1:3, 0:2] #スライス
 print(M_slice,type(M_slice),M_slice.shape,M_slice.ndim,M_slice.size,'\n')
 
-M_column = M[:,1] # 列抽出はスライスで
+M_column = M[:, 1] # 列抽出はスライスで
 print(M_column,type(M_column),M_column.shape,M_column.ndim,M_column.size,'\n')
 
 M_sub = M[[0,2],[1,3]] # (0,1)要素と(2,3)要素　（スライス）
@@ -395,7 +436,7 @@ display(M2)
 このページには，文章の中に，表がありますね．
 
 pandas の`read_html`関数は URL を指定すると，その URL のページに含まれる表の数だけデータフレームを作って，そのリストを返します．
-(html/xml を解釈する外部パッケージ lxml のインストールが必要です．)
+(html/xml を解釈する外部パッケージ `lxml` のインストールが必要です．)
 
 python コードによるスクレイピングは，機械的な自動操作なのでホームページ作成者から敬遠される傾向があります．
 もし python コードから https 経由でファイルを読み込めない場合は，普段使っているウェブブラウザで手動で読み込み，ページを`stats_nagasaki.html`などと名前をつけて保存し，
@@ -408,7 +449,7 @@ from datetime import datetime
 URL = "https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&block_no=47817&year=&month=&day=&view=a1"
 # URL = "stats_nagasaki.html"
 df_List = pd.read_html(URL, header=0)
-df_List[0]
+df = df_List[0]
 ```
 
 「年の値」の列は，その年の平均気温です．今回は使わないので消します．
@@ -416,7 +457,7 @@ df_List[0]
 各月の値は，すべて同じ尺度・分布になっていて，いわゆるwide形式なので，メルトでlong形式に直します．
 年の列と，年の値の列を固定して，その他の列について，その列名を変数に，値を変数の値に整形します．
 ```{python}
-df = df_List[0].drop(columns='年の値')
+df = df.drop(columns='年の値')
 df2 = df.melt(id_vars=["年"], var_name='月', value_name='気温')  # pd.melt() : 先週やった pivotの逆操作
 df2
 ```
@@ -446,7 +487,7 @@ df3
 
 ```{python}
 df3['気温'] = df3['気温'].astype(str)
-df3['気温'] = df3['気温'].str.extract('([ 0-9.]+)')
+df3['気温'] = df3['気温'].str.extract('([ 0-9.]+)') # 「0」~「9」，「．」で構成される文字列（すなわち気温の数値）を取り出す．
 df3["気温"] = df3["気温"].astype(float)
 df3
 ```
@@ -495,7 +536,7 @@ Matplotlib は，入力した系列に対応してグラフを描くライブラ
 ```{python}
 from matplotlib import pyplot as plt
 
-fig = plt.figure(figsize=(8, 12), tight_layout=True)
+fig = plt.figure(figsize=(10, 5), tight_layout=True)
 fig
 ```
 
@@ -504,7 +545,10 @@ fig
    例) キャンバスを 3 行 2 列の行列状に領域を分けたときの左上から 4 番目の領域
 
 ```{python}
-ax1 = fig.add_subplot(3,2,4)
+# グラフ領域を用意
+# 例えばキャンバスを 2x3 に分割し，左上から右下に横方向に数えて，1番目と5番目に作成
+ax1 = fig.add_subplot(2,3,1)
+ax5 = fig.add_subplot(2,3,5)
 fig
 ```
 
@@ -522,7 +566,7 @@ df6 = df5[
     (datetime(target_year, 1, 1) <= df5["Date"])
     & (df5["Date"] < datetime(target_year + 1, 1, 1))
 ]
-month = [m.month for m in df6["Date"]]
+month = [dt.month for dt in df6["Date"]]
 ax1.plot(month, df6["気温"])
 fig
 ```
@@ -558,32 +602,32 @@ fig
 キャンバスの別の領域に別のグラフを書く
 
 ```{python}
-ax2 = fig.add_subplot(3,2,1)
 target_year2 = 1879
 df7 = df5[
     (datetime(target_year2, 1, 1) <= df5["Date"])
     & (df5["Date"] < datetime(target_year2 + 1, 1, 1))
 ]
-month2 = [m.month for m in df7["Date"]]
-ax2.plot(month2, df7["気温"])
-ax2.set_xlabel('Month')
-ax2.set_ylabel('temperature')
-ax2.set_title(f'Nagasaki {target_year2}')
-ax2.set_ylim([0,35])
-ax2.set_xlim([1,12])
-ax2.grid()
+month2 = [dt.month for dt in df7["Date"]]
+ax5.plot(month2, df7["気温"])
+ax5.set_xlabel('Month')
+ax5.set_ylabel('temperature')
+ax5.set_title(f'Nagasaki {target_year2}')
+ax5.set_ylim([0,35])
+ax5.set_xlim([1,12])
+ax5.grid()
 fig
 ```
 
+凝ったグラフを 3番目 (キャンバスの (2,1)要素)に追加してみましょう．
 
 ```{python}
-ax3 = fig.add_subplot(3, 2, 5)
+ax3 = fig.add_subplot(2, 3, 3)
 target_year3 = 1945
 df8 = df5[
     (datetime(target_year3, 1, 1) <= df5["Date"])
     & (df5["Date"] < datetime(target_year3 + 1, 1, 1))
 ]
-month3 = [m.month for m in df8["Date"]]
+month3 = [dt.month for dt in df8["Date"]]
 ax3.plot(month, df6["気温"], "rd-", label=f"{target_year}")
 ax3.plot(month2, df7["気温"], "b*:", label=f"{target_year2}")
 ax3.plot(month3, df8["気温"], "g^:", label=f"{target_year3}")
@@ -592,7 +636,7 @@ ax3.set_ylabel("temperature")
 ax3.set_title(f"Nagasaki {target_year}, {target_year2} and {target_year3}")
 ax3.set_ylim([0, 35])
 ax3.set_xlim([1, 12])
-ax3.legend(loc="best")
+ax3.legend(loc="best") # 判例の位置をベストポジションに
 ax3.grid()
 fig
 ```
@@ -602,17 +646,17 @@ fig
 - 箱ひげ図を置く横軸目盛を`positions`で指定する
 
 ```{python}
-ax4 = fig.add_subplot(3, 2, 6)
-ax4.boxplot(df6["気温"], positions=[1])
-ax4.boxplot(df7["気温"], positions=[2])
-ax4.boxplot(df8["気温"], positions=[3])
-ax4.set_xlabel("Year")
-ax4.set_ylabel("temperature")
-ax4.set_title("boxcar plot")
-ax4.set_ylim([0, 35])
-ax4.set_xlim([0, 4])
-ax4.set_xticklabels([f"{target_year}", f"{target_year2}", f"{target_year3}"])
-ax4.grid()
+ax6 = fig.add_subplot(2, 3, 6)
+ax6.boxplot(df6["気温"], positions=[1])
+ax6.boxplot(df8["気温"], positions=[2])
+ax6.boxplot(df7["気温"], positions=[3])
+ax6.set_xlabel("Year")
+ax6.set_ylabel("temperature")
+ax6.set_title("boxcar plot")
+ax6.set_ylim([0, 35])
+ax6.set_xlim([0, 4])
+ax6.set_xticklabels([f"{target_year}", f"{target_year3}", f"{target_year2}"])
+ax6.grid()
 fig
 ```
 
@@ -621,7 +665,15 @@ fig
 上記で紹介した[リンク](https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&block_no=47817&year=&month=&day=&view=a1) https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&block_no=47817&year=&month=&day=&view=a1 のページには，「日平均気温」の表が見えていますが，
 「日平均気温」以外にも同様の形式のデータを選ぶことができます.
 
-降水量の表をスクレイピングし，適切に表を整形し，指定した年の月別降水量の変化をグラフ表示せよ．グラフのタイトル，横軸ラベル，縦軸ラベル，グリッドなど体裁も整えること．
+「降水量」の表をスクレイピングし，適切に表を整形し，指定した年の月別降水量の変化をグラフ表示する `main()` 関数を記述せよ．引数 `years` で対象の年を任意個並べた2次元 `ndarray` を受け取り，その配置通りにグラフ表示すること．また，以下の指示，および表示例に従って体裁も整えること．
+
+- グラフの縦軸である降水量の値の表示範囲は，全ての Axes 共通で，0から `years` に含まれる全ての年の最大降水量までとする．
+    * 例えば，以下のグラフでは，`years`は，1925年から20年おき6回の月別降水量を表示しているが，1945年の9月が表示対象の年で最高の降水量(約800mm)を記録している．したがって，すべてのグラフの縦軸の表示範囲は，0から約800mmとしている．
+- Figureの `figsize` は，`(12,6)` とすること．
+
+![](k03_fig_example.png)
+
+
 
 いつものように，
 
@@ -630,31 +682,44 @@ fig
 > cd k03
 > poetry add pandas matplotlib numpy lxml ipykernel
 > poetry env use py
+> code .
 ```
 
-でパッケージ開発の準備をし，precipi_plot.pyをコーディングする．インタフェースプログラムは test_precipi_plot.py を実行する．
+でパッケージ開発の準備をする．
 
 ```
 k03
-┣─ k03
-│  └─ precipi_plot.py
+┣─ src
+│  └─ k03
+│     └─ precipi_plot.py
 └─ tests
    └─ test_precipi_plot.py
 ```
 
-test_precip_plot.py は，precipi_plot.py の main関数を実行するものであり，
-引数で，降水量変化グラフを表示したい年を指定する．
-`poetry install --sync`を行なってからでないとテストできない．
+- `k03/src/k03/precipi_plot.py` : プログラム本体
+- `k03/tests/test_precipi_plot.py` : 以下のような動作確認用コード
 
+    ```
+    import numpy as np
+    from k03 import precipi_plot as my
 
-```{.python}
-# tests/test_precipi_plot.py
-from k03 import precipi_plot as my
+    years = [[1925, 1945, 1965], #| 他の行数，列数，表示年でも動作確認すること
+             [1985, 2005, 2025]] #|
+    my.main(np.array(years))
+    ````
 
-my.main(2024)
-```
+の2つをコーディングする．
 
-precipi_plot.py には，降水量変化グラフを表示する年号を引数とするmain関数を定義し，その中で降水量の表が掲載されているURLを読み込み，matplotlib, pandas を用いてグラフを表示する．
+`poetry sync` を行なってからでないとテストできない．`module not found: k03` となるであろう．
+
+python では，あるファイル A から利用できる（参照できる）フォルダやファイルの場所が，
+- ファイル A と同じ階層
+- 利用している python 環境（今回では，`.venv` にまとめられている）の `site_packages` フォルダの中
+
+の2箇所に限定されている．
+つまり， `k03/src/k03/precipi_plot.py` は `tests/test_precipi_plot.py` からは参照できない場所にある．
+
+`poetry sync` を行うと，`k03/src/k03`フォルダ）を `k03`というパッケージ名で `.venv` の `site_packages` フォルダにリンクすることとなる．すなわち，そのpython環境であれば，どこからでも参照可能となる．
 
 提出物は，いつものように whl ファイルであり，
 
@@ -665,3 +730,12 @@ precipi_plot.py には，降水量変化グラフを表示する年号を引数�
 
 によって，distsの下にできあがる．
 
+# 課題の提出
+
+- 以下の2ファイルをLACSで提出
+    * `poetry build` でビルドした `dist/k03-x.y.z-py3-none-any.whl`ファイル
+    * Word (.docx) または pdf のレポート (テスト実行画面のスクリーンショット画像と簡単な説明を含めること)
+- 再提出のときは，`poetry version patch` してから再度ビルド
+- 初回提出〆切: *6/25(水)*, 最終提出〆切: *7/9(水)*
+    * 10点になるまで再提出です．最終〆切を過ぎると1日毎に減点．
+    * 初回提出〆切は状況把握のためにあります．未完成であってもレポートで現状報告してください．
