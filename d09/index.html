@@ -168,7 +168,7 @@ window.Quarto = {
 </ul></li>
 </ul>
 <p>があります．コンテナは，基本的に各要素が異なる型(クラス)でも構いません．要素がさらにコンテナであっても構いません．</p>
-<div id="6ce27792" class="cell" data-execution_count="1">
+<div id="bb6e9313" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>MyList <span class="op">=</span> [<span class="dv">1</span>, <span class="st">'two'</span>, [<span class="dv">3</span>], <span class="fl">3.14</span>]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>MyTuple <span class="op">=</span> (<span class="dv">1</span>, <span class="st">'two'</span>, [<span class="dv">3</span>], <span class="fl">3.14</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>MyStr <span class="op">=</span> <span class="st">'aa83988848'</span></span>
@@ -200,7 +200,7 @@ window.Quarto = {
 aa83988848
 
 ==MySet==
-{1, 3.14, 'two'}
+{'two', 1, 3.14}
 
 ==MyDict==
 {'v1': 1, 'v2': 'two', 'v3': [3], 'v4': 3.14}
@@ -210,7 +210,7 @@ aa83988848
 <section id="numpy以外のコンテナに対する演算" class="level3">
 <h3 class="anchored" data-anchor-id="numpy以外のコンテナに対する演算">Numpy以外のコンテナに対する演算</h3>
 <p>これらのコンテナに対して演算をすると</p>
-<div id="3dea4146" class="cell" data-execution_count="2">
+<div id="501aa01e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"==MyList * 3=="</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>MyList <span class="op">*</span> <span class="dv">3</span><span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -252,7 +252,7 @@ aa83988848aa83988848aa83988848
 <p>それぞれの要素に対し演算するには，どうしたらいいでしょうか．そのような演算をベクトル演算といいます．</p>
 <p>ベクトル演算をするためのコンテナを Numpy <code>NDArray</code> といいます．</p>
 <p>NumPy というパッケージに NumPy NDArray クラスが定義されています．</p>
-<div id="f0d914df" class="cell" data-execution_count="3">
+<div id="3a316db5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>MyList <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>,<span class="dv">7</span>]</span>
@@ -284,7 +284,7 @@ aa83988848aa83988848aa83988848
 </div>
 </div>
 <p>要素数の異なる NumpyArray との加算はできません．</p>
-<div id="2fdc74b2" class="cell" data-execution_count="4">
+<div id="7412a3b9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>MyArray2 <span class="op">=</span> np.array(MyList2)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>MyArray <span class="op">+</span> MyArray2<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
@@ -324,7 +324,7 @@ aa83988848aa83988848aa83988848
 \]</span></p>
 <p>のとき，<span class="math inline">\(\pmb{u}\)</span> の形は「1 行 2 列」ですね．</p>
 <p><code>NumpyArray</code> で 2 行 3 列の行列を作ってみましょう． すべての要素がゼロな 2 行 3 列の行列は，NumPy の <code>zeros</code> 関数で作ることができます．</p>
-<div id="9dcb4f1b" class="cell" data-execution_count="5">
+<div id="6e4e4ed8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.zeros((<span class="dv">2</span>,<span class="dv">3</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>M <span class="op">=</span> <span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -333,7 +333,7 @@ aa83988848aa83988848aa83988848
 </div>
 </div>
 <p>行列の形は 属性<code>.shape</code>に保存されています．</p>
-<div id="c81f3545" class="cell" data-execution_count="6">
+<div id="15f85433" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>M<span class="sc">.</span>shape <span class="op">=</span> <span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>M.shape = (2, 3)</code></pre>
@@ -341,7 +341,7 @@ aa83988848aa83988848aa83988848
 </div>
 <p>形 <code>(2,3)</code> の <code>M</code> を<code>print</code>したときの表示を見てみると，「行ごとの 3 つの要素がリストになっており，2 行のリストをさらにリストに」しています．</p>
 <p>実は，このような <em>リストから <code>NumpyArray</code> を作る</em> こともできます．</p>
-<div id="94350667" class="cell" data-execution_count="7">
+<div id="fcda9811" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>u1 <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>u2 <span class="op">=</span> [<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> [u1, u2]</span>
@@ -355,7 +355,7 @@ M.shape = (2, 3)</code></pre>
 </div>
 </div>
 <p>では，7 と 8 と 9 を要素にもつ 1 行 3 列の NumpyArray を作ってみましょう．行ごとにリストに，全体をさらにリストにします．つまり 2 重リストになります．</p>
-<div id="d8d7d533" class="cell" data-execution_count="8">
+<div id="95da5e90" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Lx <span class="op">=</span> [[<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>]]</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array(Lx)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>x <span class="op">=</span> <span class="sc">}</span><span class="ss">'</span>)</span>
@@ -366,7 +366,7 @@ x.shape = (1, 3)</code></pre>
 </div>
 </div>
 <p>この <code>x</code> を転置した <span class="math inline">\(\pmb{x^{\prime}}\)</span> ならば，<span class="math inline">\(\pmb{M}\pmb{x^{\prime}}\)</span> が計算できます．転置は Numpy の <code>transpose</code> 関数を使います．また，行列積は Numpy の <code>matmul</code> 関数です．(ちなみに <em>演算子 <code>*</code> は，要素積（要素同士の積）</em> です．)</p>
-<div id="20b73a6c" class="cell" data-execution_count="9">
+<div id="b00c6d5c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x_prime <span class="op">=</span> np.transpose(x)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `x_prime = x.T` でもよい．</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> np.matmul(M, x_prime)</span>
@@ -380,7 +380,7 @@ R.shape = (2, 1)</code></pre>
 </div>
 <p>皆が知っているように，行列積は，「左の行列の列数」と「右の行列の行数」が同じでなければいけません．上の例の場合，<code>shape</code>が <code>(2,3)</code> と <code>(3,1)</code> なので行列積の <code>shape</code> は <code>(2,1)</code> となるわけですね．</p>
 <p>ところで，</p>
-<div id="eb046ccc" class="cell" data-execution_count="10">
+<div id="97242487" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>x <span class="op">=</span> <span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x = array([[7, 8, 9]])</code></pre>
@@ -390,7 +390,7 @@ R.shape = (2, 1)</code></pre>
 <p>行ベクトルとか列ベクトルと言われているものですが，Numpy では 「行数」とか「列数」とか言っているので，これは「行列」なのです．<code>shape</code>が 2元タプルになっています．</p>
 <p>先の <code>x</code> が行列ならば，ベクトルはどんなもの？</p>
 <p><em>ベクトルとは，1 重のリストから作ったもの</em> をいいます． <em>「行」や「列」という概念がありません．</em></p>
-<div id="6f19525c" class="cell" data-execution_count="11">
+<div id="90b9572c" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Ly <span class="op">=</span> [<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>]</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array(Ly)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>y <span class="op">=</span> <span class="sc">}</span><span class="ss">'</span>)</span>
@@ -402,7 +402,7 @@ y.shape = (3,)</code></pre>
 </div>
 <p>さきほどの行ベクトル（<span class="math inline">\(\in\)</span> 行列） <code>x</code> は <code>shape</code> が <code>(1,3)</code> で，転置した <code>np.transpose(x)</code> は <code>(3,1)</code> で 列ベクトルでした． 今度のベクトル <code>y</code> は <code>shape</code> が <code>(3,)</code> です．2元目がヌル（空）で，1元タプルです．</p>
 <p>ちなみに，行や列の概念が無いので転置は無意味で，形を変えません．</p>
-<div id="ea5fc9c7" class="cell" data-execution_count="12">
+<div id="d82a58cc" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>y<span class="sc">.</span>T <span class="op">=</span> <span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>y<span class="sc">.</span>T<span class="sc">.</span>shape <span class="op">=</span> <span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -411,7 +411,7 @@ y.T.shape = (3,)</code></pre>
 </div>
 </div>
 <p>さきほどの行列積ができます．ベクトルは行列に右から掛けます．</p>
-<div id="c1f5303c" class="cell" data-execution_count="13">
+<div id="5529d266" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>R2 <span class="op">=</span> np.matmul(M, y)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>R2 <span class="op">=</span> <span class="sc">}</span><span class="ss">'</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>R2<span class="sc">.</span>shape <span class="op">=</span> <span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -421,9 +421,9 @@ R2.shape = (2,)</code></pre>
 </div>
 </div>
 <p><code>R2</code> はさきほどの <code>R</code> と要素は同じ数値ですが，<code>shape</code> が <code>(2,1)</code> ではなく <code>(2,)</code> となります．（行列積の作られ方どおりです．）</p>
-<p>ちなみに，内積というのもありました．<span class="math inline">\(a\)</span> も <span class="math inline">\(b\)</span> も行列ならば <span class="math inline">\(a^\top b\)</span> で計算されるので，<code>np.mutmal(a.T, b)</code> です．</p>
+<p>ちなみに，内積というのもありました．<span class="math inline">\(a\)</span> も <span class="math inline">\(b\)</span> も行列ならば <span class="math inline">\(a^\top b\)</span> で計算されるので，<code>np.matmul(a.T, b)</code> です．</p>
 <p>ところで Numpy にも内積は用意されていて， <code>np.inner(a,b)</code> です．しかし，<code>a</code> と <code>b</code> が行列のとき，<span class="math inline">\(a^{\top}b\)</span> にはなりません． 本来の内積の定義は，「内側の積和」であり，<span class="math inline">\(\sum_{i=1}^{N} \pmb{a_i} \pmb{b_i}\)</span> という演算です（<span class="math inline">\(N\)</span> は <span class="math inline">\(R-1\)</span> 階の次数．<span class="math inline">\(R\)</span> は階数）</p>
-<div id="fc438ab6" class="cell" data-execution_count="14">
+<div id="d0dc76f7" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>vc1 <span class="op">=</span> np.array([[<span class="dv">1</span>], [<span class="dv">2</span>]])</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>])</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>vc2 <span class="op">=</span> np.array([[<span class="dv">3</span>], [<span class="dv">4</span>]])</span>
@@ -455,7 +455,7 @@ inner3 = 11</code></pre>
 <li>形が(S1,)のベクトルの転置は，形が変わらず(S1,)となる</li>
 </ul></li>
 </ul>
-<div id="64bbd0e1" class="cell" data-execution_count="15">
+<div id="abd8fb2e" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y.shape)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>yt <span class="op">=</span> np.transpose(y)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(yt.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -474,7 +474,7 @@ inner3 = 11</code></pre>
 </ul>
 <p>ここで，1 重リストを並べたものをさらにリストにすれば，2 重リストになるので，すなわち(S1,)ベクトル（1 階テンソル）を S2 個並べると(S2,S1)行列（2 階テンソル）になるということです． 要素が(S1,)ベクトルである(S2,)ベクトルは，(S2,S1)という行列になります．</p>
 <p>属性<code>.ndim</code>に保存されています．属性<code>.shape</code>に保存されている「形」を表すタプルの要素数でもあります．</p>
-<div id="4f9e9d6e" class="cell" data-execution_count="16">
+<div id="cb85aec9" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>A1 <span class="op">=</span> np.array([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>])</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A1)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape(形):</span><span class="sc">{</span>A1<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
@@ -517,7 +517,7 @@ size(要素数):4
 </div>
 </div>
 <p>3 階以上になっても行列積(テンソル積)は同じです．</p>
-<div id="bf7f6b1d" class="cell" data-execution_count="17">
+<div id="9b0ee087" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>T3 <span class="op">=</span> np.array([[[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]]])</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>T1 <span class="op">=</span> np.array([<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>])</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>Result <span class="op">=</span> np.matmul(T3,T1)</span>
@@ -530,7 +530,7 @@ size(要素数):4
 </div>
 <section id="抽出" class="level4">
 <h4 class="anchored" data-anchor-id="抽出">抽出</h4>
-<div id="d1ffff1d" class="cell" data-execution_count="18">
+<div id="3aa76691" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>],[<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>],[<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>]])</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(M,<span class="bu">type</span>(M),M.shape,M.ndim,M.size,<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -568,7 +568,7 @@ size(要素数):4
 </section>
 <section id="追加" class="level4">
 <h4 class="anchored" data-anchor-id="追加">追加</h4>
-<div id="d83d96fa" class="cell" data-execution_count="19">
+<div id="02179580" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>u1 <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">2</span>],[<span class="dv">3</span>,<span class="dv">4</span>]])</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>u2 <span class="op">=</span> np.array([[<span class="dv">11</span>,<span class="dv">12</span>],[<span class="dv">13</span>,<span class="dv">14</span>]])</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -631,7 +631,7 @@ size(要素数):4
 </section>
 <section id="形を変形" class="level4">
 <h4 class="anchored" data-anchor-id="形を変形">形を変形</h4>
-<div id="8f8f06ad" class="cell" data-execution_count="20">
+<div id="9a0e48ec" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>],[<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>]])</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(T)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'形:</span><span class="sc">{</span>T<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">, 階:</span><span class="sc">{</span>T<span class="sc">.</span>ndim<span class="sc">}</span><span class="ss">, 要素数:</span><span class="sc">{</span>T<span class="sc">.</span>size<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span>
@@ -714,7 +714,7 @@ size(要素数):4
 <li>pandas データフレームは，2 階の NumpyArray（行列）に変換できます．: pandas の DataFrame クラスの<code>to_numpy</code>メソッド</li>
 </ul>
 <p>NumpyArray の行が，pandas の 1 行のサンプルに対応しています．</p>
-<div id="25dee351" class="cell" data-execution_count="21">
+<div id="823ced75" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>], [<span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>]])</span>
@@ -789,18 +789,237 @@ size(要素数):4
 <p>このページには，文章の中に，表がありますね．</p>
 <p>pandas の<code>read_html</code>関数は URL を指定すると，その URL のページに含まれる表の数だけデータフレームを作って，そのリストを返します． (html/xml を解釈する外部パッケージ <code>lxml</code> のインストールが必要です．)</p>
 <p>python コードによるスクレイピングは，機械的な自動操作なのでホームページ作成者から敬遠される傾向があります． もし python コードから https 経由でファイルを読み込めない場合は，普段使っているウェブブラウザで手動で読み込み，ページを<code>stats_nagasaki.html</code>などと名前をつけて保存し， それを読み込むように変更してください．</p>
-<div id="b71a9d8d" class="cell" data-execution_count="22">
+<div id="d75e5cb9" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> lxml</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>URL <span class="op">=</span> <span class="st">"https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&amp;block_no=47817&amp;year=&amp;month=&amp;day=&amp;view=a1"</span></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co"># URL = "stats_nagasaki.html"</span></span>
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>df_List <span class="op">=</span> pd.read_html(URL, header<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df_List[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df_List[<span class="dv">0</span>]</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">年</th>
+<th data-quarto-table-cell-role="th">1月</th>
+<th data-quarto-table-cell-role="th">2月</th>
+<th data-quarto-table-cell-role="th">3月</th>
+<th data-quarto-table-cell-role="th">4月</th>
+<th data-quarto-table-cell-role="th">5月</th>
+<th data-quarto-table-cell-role="th">6月</th>
+<th data-quarto-table-cell-role="th">7月</th>
+<th data-quarto-table-cell-role="th">8月</th>
+<th data-quarto-table-cell-role="th">9月</th>
+<th data-quarto-table-cell-role="th">10月</th>
+<th data-quarto-table-cell-role="th">11月</th>
+<th data-quarto-table-cell-role="th">12月</th>
+<th data-quarto-table-cell-role="th">年の値</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1878</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>26.0</td>
+<td>26.6</td>
+<td>24.9</td>
+<td>19.2</td>
+<td>12.1</td>
+<td>6.9</td>
+<td>19.3 ]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1879</td>
+<td>5.7</td>
+<td>7.7</td>
+<td>8.8</td>
+<td>14.2</td>
+<td>18.6</td>
+<td>21.9</td>
+<td>26.6</td>
+<td>27.6</td>
+<td>23.3</td>
+<td>17.2</td>
+<td>12.1</td>
+<td>8.4</td>
+<td>16.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1880</td>
+<td>4.8</td>
+<td>8.3</td>
+<td>9.9</td>
+<td>14.1</td>
+<td>19.4</td>
+<td>21.2</td>
+<td>25.4</td>
+<td>25.8</td>
+<td>23.7</td>
+<td>18.8</td>
+<td>11.7</td>
+<td>5.3</td>
+<td>15.7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1881</td>
+<td>4.0</td>
+<td>5.9</td>
+<td>7.5</td>
+<td>14.1</td>
+<td>18.8</td>
+<td>22.3</td>
+<td>26.3</td>
+<td>27.8</td>
+<td>24.6</td>
+<td>18.2</td>
+<td>13.6</td>
+<td>7.9</td>
+<td>15.9</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1882</td>
+<td>7.3</td>
+<td>6.7</td>
+<td>8.8</td>
+<td>14.7</td>
+<td>17.9</td>
+<td>20.6</td>
+<td>25.0</td>
+<td>26.4</td>
+<td>23.0</td>
+<td>19.4</td>
+<td>12.3</td>
+<td>6.8</td>
+<td>15.7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">143</td>
+<td>2021</td>
+<td>7.4</td>
+<td>10.3</td>
+<td>13.9</td>
+<td>16.7</td>
+<td>19.8</td>
+<td>23.7</td>
+<td>27.9</td>
+<td>27.3</td>
+<td>25.7</td>
+<td>21.1</td>
+<td>14.1</td>
+<td>9.2</td>
+<td>18.1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">144</td>
+<td>2022</td>
+<td>7.1</td>
+<td>6.5</td>
+<td>12.9</td>
+<td>16.4</td>
+<td>20.0</td>
+<td>23.9</td>
+<td>27.8</td>
+<td>28.6</td>
+<td>25.9</td>
+<td>19.9</td>
+<td>16.5</td>
+<td>7.8</td>
+<td>17.8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">145</td>
+<td>2023</td>
+<td>7.4</td>
+<td>9.2</td>
+<td>13.6</td>
+<td>16.9</td>
+<td>19.7</td>
+<td>23.7</td>
+<td>28.0</td>
+<td>29.2</td>
+<td>26.7</td>
+<td>19.8</td>
+<td>15.1</td>
+<td>10.2</td>
+<td>18.3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">146</td>
+<td>2024</td>
+<td>8.4</td>
+<td>10.6</td>
+<td>12.0</td>
+<td>17.7</td>
+<td>20.0</td>
+<td>23.2</td>
+<td>28.4</td>
+<td>29.8</td>
+<td>28.6</td>
+<td>22.6</td>
+<td>16.5</td>
+<td>9.0</td>
+<td>18.9</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">147</td>
+<td>2025</td>
+<td>6.9</td>
+<td>5.8</td>
+<td>12.1</td>
+<td>16.1</td>
+<td>19.4</td>
+<td>21.1 ]</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>12.1 ]</td>
+</tr>
+</tbody>
+</table>
+
+<p>148 rows × 14 columns</p>
+</div>
+</div>
 </div>
 <p>「年の値」の列は，その年の平均気温です．今回は使わないので消します．</p>
-<p>各月の値は，すべて同じ尺度・分布になっていて，いわゆるwide形式なので，メルトでlong形式に直します． 年の列と，年の値の列を固定して，その他の列について，その列名を変数に，値を変数の値に整形します．</p>
-<div id="b550b87d" class="cell" data-execution_count="23">
+<p><em>各月の値は，すべて同じ尺度・分布になっていて，いわゆるwide形式</em> なので，メルトでlong形式に直します． 列「年」を固定して，その他の列について，その列名を変数に，値を変数の値に整形します． - <code>id_vars = ["年"]</code> - <code>var_name = '月' # 元の列名を 列「月」の値にする． -</code>value_name = ‘気温’ # 元の列の値を 列「気温」の値にする．</p>
+<div id="8682f202" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span><span class="st">'年の値'</span>)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df.melt(id_vars<span class="op">=</span>[<span class="st">"年"</span>], var_name<span class="op">=</span><span class="st">'月'</span>, value_name<span class="op">=</span><span class="st">'気温'</span>)  <span class="co"># pd.melt() : 先週やった pivotの逆操作</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -891,8 +1110,8 @@ size(要素数):4
 </div>
 </div>
 </div>
-<p>年の列の値と月の列を値を合成すると，年月にまとめられます．</p>
-<div id="be98057c" class="cell" data-execution_count="24">
+<p>列「年」の値（例えば「1920」）と 列「月」を値（例えば「4月」）を合成すると，1つの列「年月」の値としてまとめることができます．</p>
+<div id="f598a3c0" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">"年月"</span>] <span class="op">=</span> df2[<span class="st">"年"</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">"年"</span> <span class="op">+</span> df2[<span class="st">"月"</span>].astype(<span class="bu">str</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
@@ -994,8 +1213,8 @@ size(要素数):4
 </div>
 </div>
 </div>
-<p>年月の列は，時刻データとして扱うようにします．すべて1日となります．</p>
-<div id="af633011" class="cell" data-execution_count="25">
+<p>列「年月」は，時刻データとして扱うようにします．</p>
+<div id="b695d547" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'Date'</span>] <span class="op">=</span> [datetime.strptime(s,<span class="st">'%Y年%m月'</span>) <span class="cf">for</span> s <span class="kw">in</span> df2[<span class="st">'年月'</span>]]</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
@@ -1109,8 +1328,8 @@ size(要素数):4
 </div>
 </div>
 </div>
-<p>整形前の列は消します．</p>
-<div id="9d2e3946" class="cell" data-execution_count="26">
+<p>整形前の列は，もう不要なので消します．</p>
+<div id="74514bf2" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> df2.drop(columns<span class="op">=</span>[<span class="st">'年'</span>,<span class="st">'月'</span>,<span class="st">'年月'</span>])</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>df3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
@@ -1188,8 +1407,8 @@ size(要素数):4
 </div>
 </div>
 </div>
-<p>「気温」は間隔尺度なので，floatにしたいのですが， 数字以外の記号が含まれているので，まずその記号部分を消します．</p>
-<div id="4101ff48" class="cell" data-execution_count="27">
+<p>列「気温」の値は間隔尺度なので，floatにしたいのですが， 数字以外の記号が含まれているので，まずその記号部分を消します．</p>
+<div id="aad66008" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">'気温'</span>] <span class="op">=</span> df3[<span class="st">'気温'</span>].astype(<span class="bu">str</span>)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">'気温'</span>] <span class="op">=</span> df3[<span class="st">'気温'</span>].<span class="bu">str</span>.extract(<span class="st">'([ 0-9.]+)'</span>) <span class="co"># 「0」~「9」，「．」で構成される文字列（すなわち気温の数値）を取り出す．</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>df3[<span class="st">"気温"</span>] <span class="op">=</span> df3[<span class="st">"気温"</span>].astype(<span class="bu">float</span>)</span>
@@ -1270,7 +1489,7 @@ size(要素数):4
 </div>
 </div>
 <p>NaN は，Not-A-Number（非数）を表します．欠損値ですので，気温がNaNの行は測定されていないことを表します．このような行を消します．</p>
-<div id="22a5cc10" class="cell" data-execution_count="28">
+<div id="f5e7e20e" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>df4 <span class="op">=</span> df3.dropna()</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>df4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
@@ -1349,7 +1568,7 @@ size(要素数):4
 </div>
 </div>
 <p>Date列をインデックスにして昇順に並べ直します．</p>
-<div id="4452b854" class="cell" data-execution_count="29">
+<div id="6b84023d" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df5 <span class="op">=</span> df4.set_index(<span class="st">"Date"</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>df5 <span class="op">=</span> df5.sort_index()</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>df5 <span class="op">=</span> df5.reset_index(<span class="st">'Date'</span>)</span>
@@ -1457,7 +1676,7 @@ size(要素数):4
 <ol type="1">
 <li>まず，キャンバスを用意する</li>
 </ol>
-<div id="07cfdcfd" class="cell" data-execution_count="30">
+<div id="ba207c10" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>), tight_layout<span class="op">=</span><span class="va">True</span>)</span>
@@ -1473,7 +1692,7 @@ size(要素数):4
 <li><p>グラフ領域を用意する: <code>fig.add_subplot(3,2,4)</code></p>
 <p>例) キャンバスを 3 行 2 列の行列状に領域を分けたときの左上から 4 番目の領域</p></li>
 </ol>
-<div id="183b7c23" class="cell" data-execution_count="31">
+<div id="cec004ab" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># グラフ領域を用意</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 例えばキャンバスを 2x3 に分割し，左上から右下に横方向に数えて，1番目と5番目に作成</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>)</span>
@@ -1494,15 +1713,20 @@ size(要素数):4
 ax1.plot(x座標の系列, y座標の系列)
 ```</code></pre></li>
 </ol>
-<div id="d51db08b" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>target_year <span class="op">=</span> <span class="dv">2024</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>df6 <span class="op">=</span> df5[</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    (datetime(target_year, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">&lt;=</span> df5[<span class="st">"Date"</span>])</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (df5[<span class="st">"Date"</span>] <span class="op">&lt;</span> datetime(target_year <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>month <span class="op">=</span> [dt.month <span class="cf">for</span> dt <span class="kw">in</span> df6[<span class="st">"Date"</span>]]</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>ax1.plot(month, df6[<span class="st">"気温"</span>])</span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d386db94" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2024年の全ての月を抽出 `df[]` の中は，target_yearの1月1日以上，かつ，</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># target_yearの翌年1月1日より小さい を満たすような日付を</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># df5の列["Date"]から探したときの，その行番号のリストとなります．</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>target_year <span class="op">=</span> <span class="dv">2024</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>df6 <span class="op">=</span> df5[</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    (datetime(target_year, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">&lt;=</span> df5[<span class="st">"Date"</span>])</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (df5[<span class="st">"Date"</span>] <span class="op">&lt;</span> datetime(target_year <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 内包表記．</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co"># df6の列["Date"]の値の全てをリストとして，その要素をfor文でいちいち抽出するという操作でリストを作る．</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>month <span class="op">=</span> [dt.month <span class="cf">for</span> dt <span class="kw">in</span> df6[<span class="st">"Date"</span>]]</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>ax1.plot(month, df6[<span class="st">"気温"</span>])</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <div>
 <figure class="figure">
@@ -1516,7 +1740,7 @@ ax1.plot(x座標の系列, y座標の系列)
     ```
     ax1.set_xlabel('横軸ラベル')
     ```</code></pre>
-<div id="bd38a10e" class="cell" data-execution_count="33">
+<div id="a2fbcf29" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">"Month"</span>)</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"temperature"</span>)</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="ss">f"Nagasaki </span><span class="sc">{</span>target_year<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1534,7 +1758,7 @@ ax1.plot(x座標の系列, y座標の系列)
     ax1.set_xlim()
     ax1.grid()
     ```</code></pre>
-<div id="bc11e2cb" class="cell" data-execution_count="34">
+<div id="d19bca3e" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>ax1.set_ylim([<span class="dv">0</span>,<span class="dv">35</span>])</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>ax1.set_xlim([<span class="dv">1</span>,<span class="dv">12</span>])</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>ax1.grid()</span>
@@ -1548,7 +1772,7 @@ ax1.plot(x座標の系列, y座標の系列)
 </div>
 </div>
 <p>キャンバスの別の領域に別のグラフを書く</p>
-<div id="04b9af76" class="cell" data-execution_count="35">
+<div id="b7cfb148" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>target_year2 <span class="op">=</span> <span class="dv">1879</span></span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>df7 <span class="op">=</span> df5[</span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    (datetime(target_year2, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">&lt;=</span> df5[<span class="st">"Date"</span>])</span>
@@ -1572,7 +1796,7 @@ ax1.plot(x座標の系列, y座標の系列)
 </div>
 </div>
 <p>凝ったグラフを 3番目 (キャンバスの (2,1)要素)に追加してみましょう．</p>
-<div id="358093c6" class="cell" data-execution_count="36">
+<div id="d2f09352" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>target_year3 <span class="op">=</span> <span class="dv">1945</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>df8 <span class="op">=</span> df5[</span>
@@ -1603,7 +1827,7 @@ ax1.plot(x座標の系列, y座標の系列)
 <ul>
 <li>箱ひげ図を置く横軸目盛を<code>positions</code>で指定する</li>
 </ul>
-<div id="2f2269ba" class="cell" data-execution_count="37">
+<div id="466f3aba" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>ax6 <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>ax6.boxplot(df6[<span class="st">"気温"</span>], positions<span class="op">=</span>[<span class="dv">1</span>])</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>ax6.boxplot(df8[<span class="st">"気温"</span>], positions<span class="op">=</span>[<span class="dv">2</span>])</span>
@@ -1627,7 +1851,7 @@ ax1.plot(x座標の系列, y座標の系列)
 </section>
 <section id="課題-k03" class="level2">
 <h2 class="anchored" data-anchor-id="課題-k03">課題 k03</h2>
-<p>上記で紹介した<a href="https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&amp;block_no=47817&amp;year=&amp;month=&amp;day=&amp;view=a1">リンク</a> https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&amp;block_no=47817&amp;year=&amp;month=&amp;day=&amp;view=a1 のページには，「日平均気温」の表が見えていますが， 「日平均気温」以外にも同様の形式のデータを選ぶことができます.</p>
+<p>上記で紹介した<a href="https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&amp;block_no=47817&amp;year=&amp;month=&amp;day=&amp;view=a1">リンク</a> のページには，「日平均気温」の表が見えていますが， 「日平均気温」以外にも同様の形式のデータを選ぶことができます.</p>
 <p>「降水量」の表をスクレイピングし，適切に表を整形し，指定した年の月別降水量の変化をグラフ表示する <code>main()</code> 関数を記述せよ．引数 <code>years</code> で対象の年を任意個並べた2次元 <code>ndarray</code> を受け取り，その配置通りにグラフ表示すること．また，以下の指示，および表示例に従って体裁も整えること．</p>
 <ul>
 <li>グラフの縦軸である降水量の値の表示範囲は，全ての Axes 共通で，0から <code>years</code> に含まれる全ての年の最大降水量までとする．
@@ -1653,21 +1877,26 @@ ax1.plot(x座標の系列, y座標の系列)
 <ul>
 <li><p><code>k03/src/k03/precipi_plot.py</code> : プログラム本体</p></li>
 <li><p><code>k03/tests/test_precipi_plot.py</code> : 以下のような動作確認用コード</p>
-<pre><code>import numpy as np
-from k03 import precipi_plot as my
-
-years = [[1925, 1945, 1965], #| 他の行数，列数，表示年でも動作確認すること
-         [1985, 2005, 2025]] #|
-my.main(np.array(years))</code></pre></li>
+<div class="sourceCode" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> k03 <span class="im">import</span> precipi_plot <span class="im">as</span> my</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>years <span class="op">=</span> [[<span class="dv">1925</span>, <span class="dv">1945</span>, <span class="dv">1965</span>], <span class="co">#| 他の行数，列数，表示年でも動作確認すること</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>         [<span class="dv">1985</span>, <span class="dv">2005</span>, <span class="dv">2025</span>]] <span class="co">#|</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>my.main(np.array(years))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 <p>の2つをコーディングする．</p>
 <p><code>poetry sync</code> を行なってからでないとテストできない．<code>module not found: k03</code> となるであろう．</p>
-<p>python では，あるファイル A から利用できる（参照できる）フォルダやファイルの場所が， - ファイル A と同じ階層 - 利用している python 環境（今回では，<code>.venv</code> にまとめられている）の <code>site_packages</code> フォルダの中</p>
-<p>の2箇所に限定されている． つまり， <code>k03/src/k03/precipi_plot.py</code> は <code>tests/test_precipi_plot.py</code> からは参照できない場所にある．</p>
+<p>python では，あるファイル A から利用できる（参照できる）フォルダやファイルの場所が，</p>
+<ul>
+<li>ファイル A と同じ階層</li>
+<li>利用している python 環境（今回では，<code>.venv</code> にまとめられている）の <code>site_packages</code> フォルダの中</li>
+</ul>
+<p>の2箇所に限定されている．</p>
+<p>つまり， <code>k03/src/k03/precipi_plot.py</code> は <code>tests/test_precipi_plot.py</code> からは参照できない場所にある．</p>
 <p><code>poetry sync</code> を行うと，<code>k03/src/k03</code>フォルダ）を <code>k03</code>というパッケージ名で <code>.venv</code> の <code>site_packages</code> フォルダにリンクすることとなる．すなわち，そのpython環境であれば，どこからでも参照可能となる．</p>
 <p>提出物は，いつものように whl ファイルであり，</p>
-<pre><code>&gt; poetry version patch
-&gt; poetry build</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">version</span> patch</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> poetry <span class="ex">build</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>によって，distsの下にできあがる．</p>
 </section>
 <section id="課題の提出" class="level1">
