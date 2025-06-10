@@ -224,7 +224,7 @@ print(f'{R2.shape = }')
 
 `R2` はさきほどの `R` と要素は同じ数値ですが，`shape` が `(2,1)` ではなく `(2,)` となります．（行列積の作られ方どおりです．）
 
-ちなみに，内積というのもありました．$a$ も $b$ も行列ならば $a^\top b$ で計算されるので，`np.mutmal(a.T, b)` です．
+ちなみに，内積というのもありました．$a$ も $b$ も行列ならば $a^\top b$ で計算されるので，`np.matmul(a.T, b)` です．
 
 ところで Numpy にも内積は用意されていて， `np.inner(a,b)` です．しかし，`a` と `b` が行列のとき，$a^{\top}b$ にはなりません． 本来の内積の定義は，「内側の積和」であり，$\sum_{i=1}^{N} \pmb{a_i} \pmb{b_i}$ という演算です（$N$ は $R-1$ 階の次数．$R$ は階数）
 
@@ -450,6 +450,7 @@ URL = "https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&
 # URL = "stats_nagasaki.html"
 df_List = pd.read_html(URL, header=0)
 df = df_List[0]
+df
 ```
 
 「年の値」の列は，その年の平均気温です．今回は使わないので消します．
