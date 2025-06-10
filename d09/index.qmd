@@ -455,35 +455,39 @@ df
 
 「年の値」の列は，その年の平均気温です．今回は使わないので消します．
 
-各月の値は，すべて同じ尺度・分布になっていて，いわゆるwide形式なので，メルトでlong形式に直します．
-年の列と，年の値の列を固定して，その他の列について，その列名を変数に，値を変数の値に整形します．
+*各月の値は，すべて同じ尺度・分布になっていて，いわゆるwide形式* なので，メルトでlong形式に直します．
+列「年」を固定して，その他の列について，その列名を変数に，値を変数の値に整形します．
+- `id_vars = ["年"]`
+- `var_name = '月' # 元の列名を 列「月」の値にする．
+- `value_name = '気温' # 元の列の値を 列「気温」の値にする．
+
 ```{python}
 df = df.drop(columns='年の値')
 df2 = df.melt(id_vars=["年"], var_name='月', value_name='気温')  # pd.melt() : 先週やった pivotの逆操作
 df2
 ```
 
-年の列の値と月の列を値を合成すると，年月にまとめられます．
+列「年」の値（例えば「1920」）と 列「月」を値（例えば「4月」）を合成すると，1つの列「年月」の値としてまとめることができます．
 
 ```{python}
 df2["年月"] = df2["年"].astype(str) + "年" + df2["月"].astype(str)
 df2
 ```
 
-年月の列は，時刻データとして扱うようにします．すべて1日となります．
+列「年月」は，時刻データとして扱うようにします．
 ```{python}
 df2['Date'] = [datetime.strptime(s,'%Y年%m月') for s in df2['年月']]
 df2
 ```
 
-整形前の列は消します．
+整形前の列は，もう不要なので消します．
 
 ```{python}
 df3 = df2.drop(columns=['年','月','年月'])
 df3
 ```
 
-「気温」は間隔尺度なので，floatにしたいのですが，
+列「気温」の値は間隔尺度なので，floatにしたいのですが，
 数字以外の記号が含まれているので，まずその記号部分を消します．
 
 ```{python}
@@ -562,11 +566,16 @@ fig
         ```
 
 ```{python}
+# 2024年の全ての月を抽出 `df[]` の中は，target_yearの1月1日以上，かつ，
+# target_yearの翌年1月1日より小さい を満たすような日付を
+# df5の列["Date"]から探したときの，その行番号のリストとなります．
 target_year = 2024
 df6 = df5[
     (datetime(target_year, 1, 1) <= df5["Date"])
     & (df5["Date"] < datetime(target_year + 1, 1, 1))
 ]
+# 内包表記．
+# df6の列["Date"]の値の全てをリストとして，その要素をfor文でいちいち抽出するという操作でリストを作る．
 month = [dt.month for dt in df6["Date"]]
 ax1.plot(month, df6["気温"])
 fig
@@ -663,7 +672,7 @@ fig
 
 ## 課題 k03
 
-上記で紹介した[リンク](https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&block_no=47817&year=&month=&day=&view=a1) https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&block_no=47817&year=&month=&day=&view=a1 のページには，「日平均気温」の表が見えていますが，
+上記で紹介した[リンク](https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php?prec_no=84&block_no=47817&year=&month=&day=&view=a1) のページには，「日平均気温」の表が見えていますが，
 「日平均気温」以外にも同様の形式のデータを選ぶことができます.
 
 「降水量」の表をスクレイピングし，適切に表を整形し，指定した年の月別降水量の変化をグラフ表示する `main()` 関数を記述せよ．引数 `years` で対象の年を任意個並べた2次元 `ndarray` を受け取り，その配置通りにグラフ表示すること．また，以下の指示，および表示例に従って体裁も整えること．
@@ -700,7 +709,7 @@ k03
 - `k03/src/k03/precipi_plot.py` : プログラム本体
 - `k03/tests/test_precipi_plot.py` : 以下のような動作確認用コード
 
-    ```
+    ```{.python}
     import numpy as np
     from k03 import precipi_plot as my
 
@@ -714,17 +723,19 @@ k03
 `poetry sync` を行なってからでないとテストできない．`module not found: k03` となるであろう．
 
 python では，あるファイル A から利用できる（参照できる）フォルダやファイルの場所が，
+
 - ファイル A と同じ階層
 - 利用している python 環境（今回では，`.venv` にまとめられている）の `site_packages` フォルダの中
 
 の2箇所に限定されている．
+
 つまり， `k03/src/k03/precipi_plot.py` は `tests/test_precipi_plot.py` からは参照できない場所にある．
 
 `poetry sync` を行うと，`k03/src/k03`フォルダ）を `k03`というパッケージ名で `.venv` の `site_packages` フォルダにリンクすることとなる．すなわち，そのpython環境であれば，どこからでも参照可能となる．
 
 提出物は，いつものように whl ファイルであり，
 
-```
+```{.sh}
 > poetry version patch
 > poetry build
 ```
