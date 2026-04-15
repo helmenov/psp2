@@ -1,0 +1,162 @@
+[
+  {
+    "objectID": "warning_as_error.html",
+    "href": "warning_as_error.html",
+    "title": "1 warning を error として扱う",
+    "section": "",
+    "text": "1 warning を error として扱う\npython -X dev foo.py\n(python -Wd foo.pyでもよいが，それより検出が強化される)",
+    "crumbs": [
+      "warning を error として扱う"
+    ]
+  },
+  {
+    "objectID": "pylance.vscode.html",
+    "href": "pylance.vscode.html",
+    "title": "1 pylance の vscode でのセッティング",
+    "section": "",
+    "text": "1 pylance の vscode でのセッティング\n\"python.languageServer\": \"Pylance\",\n\"python.analysis.typeCheckingMode\": \"strict\",\n\nサードパッケージの場所を登録する．\n\n\"python.autoComplete.extraPaths\": [\n        \"./.venv/lib/python3.10/site-packages/\"\n    ],",
+    "crumbs": [
+      "pylance の vscode でのセッティング"
+    ]
+  },
+  {
+    "objectID": "FAQ.html",
+    "href": "FAQ.html",
+    "title": "1 1. valid git …",
+    "section": "",
+    "text": "1 1. valid git …\n\ngit.exeがあるディレクトリの祖先のディレクトリでは、poetry new がvalid git not foundとなる。\nよくあるのは、gitが/User/hoge/AppData/Local/Programs/以下にあったとき、/User/hogeでpoetry newはできない。\n\n/User/hoge/の下にディレクトリを作り、その下であればpoetry newできる。\n\n\n\n\n2 2. (macOS) HTTPS通信エラー\n\nPythonをインストールすると、Applicationsの下にPythonフォルダができるが、そこにある　Install Certificates.commandというファイル（スクリプト）をダブルクリック実行しておくとHTTPS通信できるようになる。\n\n\n\n3 poetry shell が windows だと(.venv)prefix を付けない\nコマンドプロンプトのプロパティで 文字数のリミットを長くすればよい？",
+    "crumbs": [
+      "1. valid git ..."
+    ]
+  },
+  {
+    "objectID": "about_venv.html",
+    "href": "about_venv.html",
+    "title": "Python環境",
+    "section": "",
+    "text": "「Python環境」とは，\nの組み合わせです．\nでわかります．",
+    "crumbs": [
+      "Python環境"
+    ]
+  },
+  {
+    "objectID": "about_venv.html#仮想環境",
+    "href": "about_venv.html#仮想環境",
+    "title": "Python環境",
+    "section": "1 仮想環境",
+    "text": "1 仮想環境\nあらかじめ Python環境 を一つにしてもらいました．\n上のソースコードを実行すると，そのPython環境が表示されます．\nこれから，新たにpythonのアプリケーションを作っていきます．\n\n仮に， app1 を作っていくとします． app1 は，外部パッケージ pkg1 を必要としているとします．\nまた，別の app2 を作るとき，こちらは外部パッケージ pkg2 を必要としているとします．\n\n\nつまり，\n\napp1 を動かすPython環境の site-packages には pkg1 が入っている\napp2 を動かすPython環境の site-packages には pkg2 が入っている\n\nという状況です．どちらも満たすには， site-packages に pkg1 と pkg2 の両方がはいっていないといけませんが，app1 には pkg2 は必要ないので冗長です．\n\nそこで，Python環境を app1 用とapp2 用で独立に用意します．つまり site-packages の場所をそれぞれについて新たに用意します．それが「仮想環境」です．\n仮想環境は，\n\nインタプリタは，システムPythonのショートカット（もしくはコピー）\n外部パッケージ置き場は，新たに指定（システムPythonの site-packages とは別）\n\n\n\n1.1 作り方\n\n\n\n\n\n\nNote準備\n\n\n\nあらかじめpoetryとpoetry-kernelをインストールしておきます．\npython -m pip install poetry\npoetry config virtualenvs.in-project true\n\n\n新たなPython環境 app1 を作ります．\npoetry new app1\njupyterやvscodeのためのkernelを作ります．\ncd app1\npoetry env use python\npoetry add --group=dev ipykernel\npoetry run ipython kernel install --user --name=app1\n\nこの結果，ディレクトリ構造は以下のようになる．\napp1\n├── .venv\n│   ├── .gitignore\n│   ├── bin\n│   │   ├── activate\n│   │   ├── activate.csh\n│   │   ├── activate.fish\n│   │   ├── activate.nu\n│   │   ├── activate.ps1\n│   │   ├── activate_this.py\n│   │   ├── ipython\n│   │   ├── ipython3\n│   │   ├── jupyter\n│   │   ├── jupyter-kernel\n│   │   ├── jupyter-kernelspec\n│   │   ├── jupyter-migrate\n│   │   ├── jupyter-run\n│   │   ├── jupyter-troubleshoot\n│   │   ├── pygmentize\n│   │   ├── python -&gt; /opt/homebrew/opt/python@3.12/bin/python3.12\n│   │   ├── python3 -&gt; python\n│   │   └── python3.12 -&gt; python\n│   ├── lib\n│   │   └── python3.12\n│   ├── pyvenv.cfg\n│   └── share\n│       ├── jupyter\n│       └── man\n├── README.md\n├── app1\n│   └── __init__.py\n├── poetry.lock\n├── pyproject.toml\n└── tests\n    └── __init__.py\n\n\n\n1.2 使い方\n.venvを含むディレクトリをvscodeで開き，terminalを開くと\n(app1-py3.12) &gt;\nのように仮想環境に入る（丸括弧が仮想環境の名前）．\n(app1-py3.12) &gt; python\nでpython端末に入り，\n(app1-py3.12) &gt; python\nPython 3.12.3 (main, Apr 11 2024, 11:40:17) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n&gt;&gt;&gt;\n\n\nここでsys.executableでインタプリタのパスを確認すると，\n\n&gt;&gt;&gt; import sys\n&gt;&gt;&gt; print(sys.executable)\n/Users/kotaro/MyRepository/MyLecture/psp2/2024psp2/about_venv/app1/.venv/bin/python\nで，.venv/bin/pythonとなっている．\n\n仮想環境に入る前は\n&gt;&gt;&gt; print(sys.executable)\n/Users/kotaro/.local/share/mise/installs/python/latest/bin/python\n\nこの.venv/bin/pythonは仮想環境に入る前のpythonへのショートカット（コピー）である．\n\n\nsys.pathで外部パッケージ置き場を確認すると\n\n&gt;&gt;&gt; print(sys.path)\n['', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python312.zip', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12', '/opt/homebrew/Cellar/python@3.12/3.12.3/Frameworks/Python.framework/Versions/3.12/lib/python3.12/lib-dynload', '/Users/kotaro/MyRepository/MyLecture/psp2/2024psp2/about_venv/app1/.venv/lib/python3.12/site-packages']\nで，site-packagesという名前は， .venv/lib/python3.12/site-packagesにある．\n\n仮想環境に入る前は，\n&gt;&gt;&gt; print(sys.path)\n['', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python312.zip', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12/lib-dynload', '/Users/kotaro/.local/share/mise/installs/python/latest/lib/python3.12/site-packages']",
+    "crumbs": [
+      "Python環境"
+    ]
+  },
+  {
+    "objectID": "reference_import.html",
+    "href": "reference_import.html",
+    "title": "1 import について",
+    "section": "",
+    "text": "main.pyでMODULE.py内の関数FUNC()や変数VARを使いたい時，以下のように宣言する．\nfrom PATH_OF_PACKAGE import MODULE\n\nRES1 = MODULE.FUNC()\nRES2 = MODULE.VAR\nもしくは，\nfrom PATH_OF_MODULE import FUNC, VAR\n\nRES1 = FUNC()\nRES2 = VAR\nPATH_OF_PACKAGEは，MODULE.pyがあるディレクトリの「パス」であり，PATH_OF_MODULEは，MODULE.pyのパスである．\n\n\n\n一般的に「パス」の表し方は，\n\n絶対パス\n相対パス\nシステムパス の 3 つがあります．\n\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\pee.py のパスを上記 3 つのそれぞれで表現してみましょう．\n\n\n絶対パスは，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\pee.py\nです．\n最も根源となっているディレクトリ（root,ルート）からどうディレクトリを移動して辿りつくかが書かれている完全な表現です．\n\n\n\n相対パスは，呼び出し元の絶対パスとの相対関係で表現するものです．\n\n例えば，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\main.py\nから呼び出すのであれば，同じ階層に pee.pyを呼び出すので，相対パスは\n.\\pee.py\nとなります．.\\は現在地(pwd)を表します．\n例えば，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\main.py\nから呼び出すのであれば，同じ階層の bar の下の pee.pyを呼び出すので，現在地.\\を使って，\n.\\bar\\pee.py\nとなります．\n例えば，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\don\\main.py\nから呼び出すのであれば，1 つ上の階層にある pee.pyを呼び出すので，\n..\\pee.py\nとなります．..\\は 1 つ上の階層を表します．\n\n\n\n\nシステムパスは，環境変数が設定されていたときに表現できます．例えば環境変数PATHにC:\\Users\\kotaro\\Documents\\psp2が含まれていれば，それを絶対パスから削った\nfoo\\bar\nがシステムパスです．\nちなみに現在地.\\も環境変数に含まれることが多いので，先の「相対パス」に記した例にある.\\が含まれているものは.\\を省略して構わないことが多いです．（常にそうではないので注意）\n\n\n\n\n\nWindows では，\\をつけてディレクトリの中のファイルを表します．つけてないものは，ディレクトリかファイルそのものです．\nMac，*NIX では，\\ではなく/です．\n\n\n\n\n基本的に，\nfrom PATH import FOO\nと書きますが，FOOの部分には階層を書かず，PATHに階層を書きます．\npython では階層を\\や/ではなく，.と表現します．\n\n現在地や 1 つ上の階層を表す表現はありません．つまり.\\や../などはなく，「相対パス表現」はありません\n\nまた，「絶対パス表現」も使えません．したがって，PATH部分には，.を必要に応じて使った「システムパス」のみでパスを表現します．\npython のシステムパスの環境変数には，次が定義されている．\n\n「実行場所」\n\nimportが書かれた呼び出し元の.py ファイルの階層\n\n「サイトパッケージ」\n\n.venv/lib/pythonX.YY/site-packages/．.venvが無ければ，システムの site-packages\n\n「PYTHONPATH」\n\nWindows の環境変数や，mac/linux の.bashrc などで設定\n\n「サイトパッケージ/.pth」\n\n追加したい環境変数を書く\n\n\n最終的に上記のすべてをまとめた python のシステムパス(環境変数)は，次の 2 行を書いた python コードを動かすことで知ることができる．\nimport sys\nprint(sys.path)\nちなみに，このリストの順にモジュールを探索するため，このリストにあるパスの下に同じ名前のファイルがある場合，先に見つけられたファイルやディレクトリが import や from の対象になる．\n\n\nたとえば\npsp2\n├── extention\n│   └── ext1.py\n├── myapp\n│   └── main.py\nという状況で，psp2/myapp/main.py から psp2/extention/ext1.py をインポートしたいとする．\nそのためには，main.py において sys.path の直下に extention や ext1.py がなければならない．\nimport ext2\nとしたいなら，sys.path に〜/psp2/extentionが必要\nfrom extention import ext2\nとしたいなら，sys.path に〜/psp2が必要\nでは，実際に調べてみよう．\n\nmyapp/main.py\n\nimport sys\nprint(sys.path)\nこれを動かしてみよう．\nvscode のコード編集タブの実行ボタンから実行した場合，表示されるパスにextentionの 1 つ上までの絶対パスは入っているだろうか？？おそらく入っておらず，myapp/main.pyからはどうやってもext1.pyはインポートできない．\nまた，仮想環境の外，つまり，vscode の編集タブの実行ボタンからではなく，コマンドプロンプトでpy myapp/main.pyとしてみよう．この場合でもsys.pathに，今必要なパスは入っていない．\nよって「無理」である．どうしてもextention/ext1.pyをインポートしたいなら，sys.pathで示されたパスの直下にextention/ext1.pyを置く(つまりextentionフォルダを移動する)しか方法がない．手っ取り早いのは，\npsp2\n├── Readme.md\n├── myapp\n│   ├── main.py\n│   └── extention\n│       └── ext1.py\n├── poetry.lock\n└── pyproject.toml\nのようにmain.pyと同じ階層にextentionを移動すれば，from extention import ext1とできる．\n\n\n\nsys.pathに手動で module のパスを追加する．\nimport sys               # &lt;- 追加\nsys.path.append('..')    # &lt;- main.pyに対するextentionの1つ上の階層の相対パス\nfrom extention import ext1\n\n\n\nそれは「サイトパッケージ」に，ext1.pyのあるディレクトリextensionの 1 つ上の階層を加えることである．\n（別の言い方をすれば，「extentionをインストールした形に見せかける」といってもよい）\n通常の環境では，サイトパッケージは変えられないので無理だが，仮想環境なら好きなように変えられる．\npoetry の作る仮想環境のサイトパッケージを変えるには， pyproject.tomlのtool.poetryに設定を加える．\npsp2\n├── .venv\n├── extention\n│   └── ext1.py\n├── myapp\n│   └── main.py\n├── poetry.lock\n└── pyproject.toml\nという状況のとき，pyproject.tomlのtool.poetryに\npackages = [{include = \"extention\" }]\nという行を追加し，psp2 の直下にReadme.mdがあることを確認してから，poetry installしてください．\nそうすると，vscode のコード編集タブの実行ボタンから実行した場合（仮想環境の中），表示されるパスにextentionの 1 つ上までの絶対パスである〜\\psp2が追加されていることが確認される．\nちなみに，仮想環境の外ではsys.pathに所望のパスは追加されていない．\n\n\n\n\nfrom X.Y import a as bしたあとにこのbのインポートをやめたいときは，\ndel b\nすればよい．",
+    "crumbs": [
+      "import について"
+    ]
+  },
+  {
+    "objectID": "reference_import.html#module.pyの-import-の仕方",
+    "href": "reference_import.html#module.pyの-import-の仕方",
+    "title": "1 import について",
+    "section": "",
+    "text": "main.pyでMODULE.py内の関数FUNC()や変数VARを使いたい時，以下のように宣言する．\nfrom PATH_OF_PACKAGE import MODULE\n\nRES1 = MODULE.FUNC()\nRES2 = MODULE.VAR\nもしくは，\nfrom PATH_OF_MODULE import FUNC, VAR\n\nRES1 = FUNC()\nRES2 = VAR\nPATH_OF_PACKAGEは，MODULE.pyがあるディレクトリの「パス」であり，PATH_OF_MODULEは，MODULE.pyのパスである．",
+    "crumbs": [
+      "import について"
+    ]
+  },
+  {
+    "objectID": "reference_import.html#path-について",
+    "href": "reference_import.html#path-について",
+    "title": "1 import について",
+    "section": "",
+    "text": "一般的に「パス」の表し方は，\n\n絶対パス\n相対パス\nシステムパス の 3 つがあります．\n\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\pee.py のパスを上記 3 つのそれぞれで表現してみましょう．\n\n\n絶対パスは，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\pee.py\nです．\n最も根源となっているディレクトリ（root,ルート）からどうディレクトリを移動して辿りつくかが書かれている完全な表現です．\n\n\n\n相対パスは，呼び出し元の絶対パスとの相対関係で表現するものです．\n\n例えば，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\main.py\nから呼び出すのであれば，同じ階層に pee.pyを呼び出すので，相対パスは\n.\\pee.py\nとなります．.\\は現在地(pwd)を表します．\n例えば，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\main.py\nから呼び出すのであれば，同じ階層の bar の下の pee.pyを呼び出すので，現在地.\\を使って，\n.\\bar\\pee.py\nとなります．\n例えば，\nC:\\Users\\kotaro\\Documents\\psp2\\foo\\bar\\don\\main.py\nから呼び出すのであれば，1 つ上の階層にある pee.pyを呼び出すので，\n..\\pee.py\nとなります．..\\は 1 つ上の階層を表します．\n\n\n\n\nシステムパスは，環境変数が設定されていたときに表現できます．例えば環境変数PATHにC:\\Users\\kotaro\\Documents\\psp2が含まれていれば，それを絶対パスから削った\nfoo\\bar\nがシステムパスです．\nちなみに現在地.\\も環境変数に含まれることが多いので，先の「相対パス」に記した例にある.\\が含まれているものは.\\を省略して構わないことが多いです．（常にそうではないので注意）",
+    "crumbs": [
+      "import について"
+    ]
+  },
+  {
+    "objectID": "reference_import.html#ディレクトリとファイル",
+    "href": "reference_import.html#ディレクトリとファイル",
+    "title": "1 import について",
+    "section": "",
+    "text": "Windows では，\\をつけてディレクトリの中のファイルを表します．つけてないものは，ディレクトリかファイルそのものです．\nMac，*NIX では，\\ではなく/です．",
+    "crumbs": [
+      "import について"
+    ]
+  },
+  {
+    "objectID": "reference_import.html#include-文に現れるパス",
+    "href": "reference_import.html#include-文に現れるパス",
+    "title": "1 import について",
+    "section": "",
+    "text": "基本的に，\nfrom PATH import FOO\nと書きますが，FOOの部分には階層を書かず，PATHに階層を書きます．\npython では階層を\\や/ではなく，.と表現します．\n\n現在地や 1 つ上の階層を表す表現はありません．つまり.\\や../などはなく，「相対パス表現」はありません\n\nまた，「絶対パス表現」も使えません．したがって，PATH部分には，.を必要に応じて使った「システムパス」のみでパスを表現します．\npython のシステムパスの環境変数には，次が定義されている．\n\n「実行場所」\n\nimportが書かれた呼び出し元の.py ファイルの階層\n\n「サイトパッケージ」\n\n.venv/lib/pythonX.YY/site-packages/．.venvが無ければ，システムの site-packages\n\n「PYTHONPATH」\n\nWindows の環境変数や，mac/linux の.bashrc などで設定\n\n「サイトパッケージ/.pth」\n\n追加したい環境変数を書く\n\n\n最終的に上記のすべてをまとめた python のシステムパス(環境変数)は，次の 2 行を書いた python コードを動かすことで知ることができる．\nimport sys\nprint(sys.path)\nちなみに，このリストの順にモジュールを探索するため，このリストにあるパスの下に同じ名前のファイルがある場合，先に見つけられたファイルやディレクトリが import や from の対象になる．\n\n\nたとえば\npsp2\n├── extention\n│   └── ext1.py\n├── myapp\n│   └── main.py\nという状況で，psp2/myapp/main.py から psp2/extention/ext1.py をインポートしたいとする．\nそのためには，main.py において sys.path の直下に extention や ext1.py がなければならない．\nimport ext2\nとしたいなら，sys.path に〜/psp2/extentionが必要\nfrom extention import ext2\nとしたいなら，sys.path に〜/psp2が必要\nでは，実際に調べてみよう．\n\nmyapp/main.py\n\nimport sys\nprint(sys.path)\nこれを動かしてみよう．\nvscode のコード編集タブの実行ボタンから実行した場合，表示されるパスにextentionの 1 つ上までの絶対パスは入っているだろうか？？おそらく入っておらず，myapp/main.pyからはどうやってもext1.pyはインポートできない．\nまた，仮想環境の外，つまり，vscode の編集タブの実行ボタンからではなく，コマンドプロンプトでpy myapp/main.pyとしてみよう．この場合でもsys.pathに，今必要なパスは入っていない．\nよって「無理」である．どうしてもextention/ext1.pyをインポートしたいなら，sys.pathで示されたパスの直下にextention/ext1.pyを置く(つまりextentionフォルダを移動する)しか方法がない．手っ取り早いのは，\npsp2\n├── Readme.md\n├── myapp\n│   ├── main.py\n│   └── extention\n│       └── ext1.py\n├── poetry.lock\n└── pyproject.toml\nのようにmain.pyと同じ階層にextentionを移動すれば，from extention import ext1とできる．\n\n\n\nsys.pathに手動で module のパスを追加する．\nimport sys               # &lt;- 追加\nsys.path.append('..')    # &lt;- main.pyに対するextentionの1つ上の階層の相対パス\nfrom extention import ext1\n\n\n\nそれは「サイトパッケージ」に，ext1.pyのあるディレクトリextensionの 1 つ上の階層を加えることである．\n（別の言い方をすれば，「extentionをインストールした形に見せかける」といってもよい）\n通常の環境では，サイトパッケージは変えられないので無理だが，仮想環境なら好きなように変えられる．\npoetry の作る仮想環境のサイトパッケージを変えるには， pyproject.tomlのtool.poetryに設定を加える．\npsp2\n├── .venv\n├── extention\n│   └── ext1.py\n├── myapp\n│   └── main.py\n├── poetry.lock\n└── pyproject.toml\nという状況のとき，pyproject.tomlのtool.poetryに\npackages = [{include = \"extention\" }]\nという行を追加し，psp2 の直下にReadme.mdがあることを確認してから，poetry installしてください．\nそうすると，vscode のコード編集タブの実行ボタンから実行した場合（仮想環境の中），表示されるパスにextentionの 1 つ上までの絶対パスである〜\\psp2が追加されていることが確認される．\nちなみに，仮想環境の外ではsys.pathに所望のパスは追加されていない．",
+    "crumbs": [
+      "import について"
+    ]
+  },
+  {
+    "objectID": "reference_import.html#import-をやめる",
+    "href": "reference_import.html#import-をやめる",
+    "title": "1 import について",
+    "section": "",
+    "text": "from X.Y import a as bしたあとにこのbのインポートをやめたいときは，\ndel b\nすればよい．",
+    "crumbs": [
+      "import について"
+    ]
+  },
+  {
+    "objectID": "pydantic_pandera.html",
+    "href": "pydantic_pandera.html",
+    "title": "pydantic　パイダンティック",
+    "section": "",
+    "text": "#　型ヒント\n\nfrom typing import Dict, Union, Optional, Any\n\n# Dict,Listなどの要素型\nuser_and_age: Dict[str, int] = {'パイソン太郎':20}\n\n# 複数の型\nstr_or_int: Union[str, int] = 0 # or \"パイソン太郎\"\n\n# オプション型\noptional_int: Optional[int] = None # or 0\n\n# 任意型\nany: Any = 0 # or \"パイソン太郎\", {\"パイソン太郎\":20} ,...\n\n# 自作のクラス\nclass SampleClass:\n    pass\n\nsample_class: SampleClass = SampleClass()\n\ndef return_input(sample_class: SampleClass) -&gt; SampleClass:\n    return sample_class",
+    "crumbs": [
+      "pydantic　パイダンティック"
+    ]
+  },
+  {
+    "objectID": "pydantic_pandera.html#user.model_validateuser-user",
+    "href": "pydantic_pandera.html#user.model_validateuser-user",
+    "title": "pydantic　パイダンティック",
+    "section": "2.1 User.model_validate(user: User)",
+    "text": "2.1 User.model_validate(user: User)\n\nuser1 = User.model_validate(external_data1) # 定義を満たすインスタンスの生成\n\n\n# user2 = User.model_validate(external_data2) # 定義を満たすインスタンスの生成",
+    "crumbs": [
+      "pydantic　パイダンティック"
+    ]
+  },
+  {
+    "objectID": "pydantic_pandera.html#user-userを引数とする関数-validate_call",
+    "href": "pydantic_pandera.html#user-userを引数とする関数-validate_call",
+    "title": "pydantic　パイダンティック",
+    "section": "2.2 (user: User)を引数とする関数　@validate_call",
+    "text": "2.2 (user: User)を引数とする関数　@validate_call\n\nfrom pydantic import validate_call\n\n@validate_call\ndef input_user(user: User) -&gt; None:\n    pass\n\n\ninput_user(external_data1)\n\n\n#input_user(external_data2)",
+    "crumbs": [
+      "pydantic　パイダンティック"
+    ]
+  },
+  {
+    "objectID": "pydantic_pandera.html#user-userを返り値とする関数",
+    "href": "pydantic_pandera.html#user-userを返り値とする関数",
+    "title": "pydantic　パイダンティック",
+    "section": "2.3 (user: User)を返り値とする関数",
+    "text": "2.3 (user: User)を返り値とする関数\n\ndef output_user(age:int) -&gt; User:\n    external_data = {\n        'name': 'パイソン太郎',\n        'age' : age\n    }\n    return User.model_validate(external_data)\n\n\noutput_user(20)\n\nUser(name='パイソン太郎', age=20)",
+    "crumbs": [
+      "pydantic　パイダンティック"
+    ]
+  },
+  {
+    "objectID": "pydantic_pandera.html#詳細なvalidation",
+    "href": "pydantic_pandera.html#詳細なvalidation",
+    "title": "pydantic　パイダンティック",
+    "section": "2.4 詳細なvalidation",
+    "text": "2.4 詳細なvalidation\n半角空白が入っていないとだめなname\n\nfrom pydantic import BaseModel, Field, field_validator\nimport unicodedata\n\nclass User(BaseModel):\n    name: str\n    age: int = Field(ge=20)\n\n    @field_validator('name')\n    def check_contain_space(cls, v):\n        if \" \"not in v.strip():\n            raise ValueError(\"ensure this value contain spaces\")\n        return v.strip()\n\n\nexternal_data3 = {\n    'name': \"薗田 光太郎\",\n    'age': 47\n}\nuser3 = User.model_validate(external_data3)\n\nprint(user3)\n\nname='薗田 光太郎' age=47",
+    "crumbs": [
+      "pydantic　パイダンティック"
+    ]
+  }
+]

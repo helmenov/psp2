@@ -1,0 +1,14 @@
+# 1. valid git ...
+
+- git.exeがあるディレクトリの祖先のディレクトリでは、poetry new が`valid git not found`となる。
+- よくあるのは、gitが/User/hoge/AppData/Local/Programs/以下にあったとき、/User/hogeで`poetry new`はできない。
+  - /User/hoge/の下にディレクトリを作り、その下であれば`poetry new`できる。
+
+# 2. (macOS) HTTPS通信エラー
+
+- Pythonをインストールすると、Applicationsの下にPythonフォルダができるが、そこにある　`Install Certificates.command`というファイル（スクリプト）をダブルクリック実行しておくとHTTPS通信できるようになる。
+
+# poetry shell が windows だと(.venv)prefix を付けない
+
+コマンドプロンプトのプロパティで
+文字数のリミットを長くすればよい？

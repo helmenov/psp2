@@ -30,7 +30,12 @@ build-backend = "hatchling.build"
 
 [tool.uv]
 managed = true
-dev-dependencies = []
+dev-dependencies = [
+    "nbclient>=0.10.2",
+    "nbformat>=5.10.4",
+    "python-localvenv-kernel>=0.1.7",
+    "pyyaml>=6.0.2",
+]
 
 [tool.hatch.metadata]
 allow-direct-references = true

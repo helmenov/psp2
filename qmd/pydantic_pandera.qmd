@@ -1,0 +1,236 @@
+# pydantic　パイダンティック
+
+## ソースコードの部品
+
+Python 言語で，ソースファイルに利用できる部品は，以下の3種類に大別できる．
+
+1. リテラル（いきなり書ける）
+    - 数値: `0`, `1`, `-1`, `3.14`, ...
+    - 文字列: `"パイソン太郎"`, `'パイソン太郎'`, ...
+2. ネーム（定義されたあとに利用できる）
+    - 変数: `x`, `y`, `user_name`, ...
+    - 自作関数: `hoge()`, `fuga()`, ...
+    - 自作クラス: `User`, `Product`, ...
+3. 組み込みネーム（あらかじめ定義されているのでいきなり利用できるネーム）
+    - 組み込み定数: `True`, `False`, `None`, ...
+    - 組み込み関数: `print()`, `len()`, ...
+    - 組み込みクラス: `int`, `str`, `list`, `dict`, ...
+    - 演算子: `+`, `-`, `*`, `/`, `==`, `and`, `or`, ... (実は組み込み関数の一種)
+    - 構文キーワード: `from`, `import`, `if`, `else`, `for`, `while`, `def`, `class`, `lambda`, ...
+
+### Quotationの有無に注意
+
+1. 数字
+    - `15` は数値リテラルで，整数として扱われる
+    - `'15'` は文字列リテラル，2文字の文字列として扱われる
+2. 文字列
+    - `"パイソン太郎"` は文字列リテラル，5文字の文字列として扱われる
+    - `パイソン太郎` はネーム，定義されたあとであれば定義された値と同等に扱われる
+
+## ネームの定義の仕方
+
+ネームは，定義されたあとであれば定義された値と同等に扱われる．
+
+- 変数 `x` の定義
+    1. `=` : ネーミング
+        - 右辺の「値」に左辺の「ネーム」（あだ名）をつける．
+            ```{python}
+            x = 15 # 「15」という値に「x」というあだ名をつける
+            P = (x == 15) # 「`x`と`15`は同値か」という計算の答えに「`P`」というあだ名をつける
+            print(f"P = {P}")
+            ```
+        - `=`は「代入」とも呼ばれる．(ex. `x = 15`は「`x`に`15`を代入する」とも言える)
+        - `x = 3 + 7` のように、右辺に演算式を書くこともできる．
+            - `3 = x - 7` のように，左辺にリテラルを書くことはできない．
+            - `x + 7 = 3` のように，左辺に演算式を書くこともできない．
+
+
+定義:「`x` は整数とする」
+
+
+```.c
+int x;
+```
+
+
+
+```{python}
+from typing import Dict, Union, Optional, Any
+
+# Dict,Listなどの要素型
+user_and_age: Dict[str, int] = {'パイソン太郎':20}
+
+# 複数の型
+str_or_int: Union[str, int] = 0 # or "パイソン太郎"
+
+# オプション型
+optional_int: Optional[int] = None # or 0
+
+# 任意型
+any: Any = 0 # or "パイソン太郎", {"パイソン太郎":20} ,...
+
+# 自作のクラス（自作の型）
+class SampleClass:
+    pass
+
+sample_class: SampleClass = SampleClass()
+
+def return_input(sample_class: SampleClass) -> SampleClass:
+    return sample_class
+```
+
+# pydantic
+
+```{python}
+from pydantic import BaseModel, Field
+
+class User(BaseModel):
+    """
+    .nameは文字列
+    .ageは20以上の整数
+    """
+    name: str
+    age: int = Field(ge=20)
+
+# 満たす例
+external_data1 = {
+    'name' : 'パイソン太郎',
+    'age' : 20
+}
+
+# 満たさない例
+external_data2 = {
+    'name' : 'パイソン次郎',
+    'age' : 19
+}
+
+```
+
+## User.model_validate(user: User)
+
+```{python}
+user1 = User.model_validate(external_data1) # 定義を満たすインスタンスの生成
+```
+```{python}
+# user2 = User.model_validate(external_data2) # 定義を満たすインスタンスの生成
+```
+
+## (user: User)を引数とする関数　`@validate_call`
+```{python}
+from pydantic import validate_call
+
+@validate_call
+def input_user(user: User) -> None:
+    pass
+```
+
+```{python}
+input_user(external_data1)
+```
+
+```{python}
+#input_user(external_data2)
+```
+
+## (user: User)を返り値とする関数
+
+```{python}
+def output_user(age:int) -> User:
+    external_data = {
+        'name': 'パイソン太郎',
+        'age' : age
+    }
+    return User.model_validate(external_data)
+```
+
+```{python}
+output_user(20)
+```
+
+## 詳細なvalidation
+
+半角空白が入っていないとだめなname
+
+```{python}
+from pydantic import BaseModel, Field, field_validator
+import unicodedata
+
+class User(BaseModel):
+    name: str
+    age: int = Field(ge=20)
+
+    @field_validator('name')
+    def check_contain_space(cls, v):
+        if " "not in v.strip():
+            raise ValueError("ensure this value contain spaces")
+        return v.strip()
+```
+
+```{python}
+external_data3 = {
+    'name': "薗田 光太郎",
+    'age': 47
+}
+user3 = User.model_validate(external_data3)
+
+print(user3)
+```
+
+# pandera
+
+```{python}
+import pandas as pd
+from sklearn import datasets as skdata
+
+data = skdata.load_iris()
+iris = pd.DataFrame(data.data, columns=data.feature_names)
+iris['target'] = data.target
+iris = iris.rename(
+    columns = {
+        "sepal length (cm)": "sepal_length",
+        "sepal width (cm)": "sepal_width",
+        "petal length (cm)":
+        "petal_length",
+        "petal width (cm)":
+        "petal_width"
+    }
+)
+display(iris.head())
+display(iris.describe())
+```
+
+スキーマ定義
+```{python}
+import pandera as pa
+from pandera.typing import Series
+from pandera import Field, DataFrameModel
+
+class IrisSchema(DataFrameModel):
+    sepal_length: Series[float] = Field(gt=0, le=8)
+    sepal_width: Series[float] = Field(gt=0, le=5)
+    petal_length: Series[float] = Field(gt=0, le=7)
+    petal_width: Series[float] = Field(gt=0, le=3)
+    target: Series[int] = Field(isin=[0,1,2])
+```
+
+```{python}
+iris = IrisSchema.validate(iris)
+iris.head()
+```
+
+```{python}
+invalid_record = {
+    'sepal_length': 5.8,
+    'sepal_width': 3.0,
+    'petal_length': 4.35,
+    'petal_width': 1.3,
+    'target': 3
+}
+invalid_iris = pd.DataFrame([invalid_record])
+invalid_iris['target'] = invalid_iris['target'].astype(int)
+display(invalid_iris)
+# invalid_iris = IrisSchema.validate(invalid_iris)
+```
+
+# pydantic and pandera
+
